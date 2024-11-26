@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
+import PropTypes from "prop-types"; // PropTypes'i import edin
 import sliderData from "./SliderData.js";
 
 const Slider = ({ slides }) => {
@@ -75,5 +76,15 @@ const InfoSection = () => (
         </div>
     </section>
 );
+
+Slider.propTypes = {
+    slides: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+            imageUrl: PropTypes.string.isRequired,
+            altText: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+}
 
 export default InfoSection;
