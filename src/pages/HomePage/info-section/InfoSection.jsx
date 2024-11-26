@@ -1,5 +1,5 @@
 import  { useState, useEffect } from "react";
-import PropTypes from "prop-types"; // PropTypes'i import edin
+import PropTypes from "prop-types";
 import sliderData from "./SliderData.js";
 
 const Slider = ({ slides }) => {
