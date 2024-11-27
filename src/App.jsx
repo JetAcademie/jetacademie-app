@@ -3,8 +3,8 @@ import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Homepage from "./pages/HomePage/Homepage.jsx";
 import Contact from "./pages/Contact/contact.jsx";
-import DigitalLibrary from "./DigitalLibraryPage/DigitalLibrary.jsx";
-import Mentoring from "./MentoringPage/MentoringPage.jsx";
+import DigitalLibrary from "./pages/DigitalLibraryPage/DigitalLibrary.jsx";
+import Mentoring from "./pages/MentoringPage/MentoringPage.jsx";
 
 function App() {
     return (

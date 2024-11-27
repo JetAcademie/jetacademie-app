@@ -1,8 +1,8 @@
 import React from "react";
-import { libraryCategories } from "../data/data";
-import Card from "../components/Card";
-import Navbar from "../pages/HomePage/Navbar/Navbar.jsx";
-import Footer from "../pages/HomePage/footer/footer.jsx";
+import { libraryCategories } from "../../data/data.js";
+import Card from "../../components/Card.jsx";
+import Navbar from "../HomePage/Navbar/Navbar.jsx";
+import Footer from "../HomePage/footer/footer.jsx";
 
 const DigitalLibrary = () => {
     return (
