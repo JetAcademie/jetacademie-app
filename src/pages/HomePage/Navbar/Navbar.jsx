@@ -3,10 +3,10 @@ import { HomeIcon, BookOpenIcon, ChatBubbleLeftRightIcon, EnvelopeIcon } from "@
 import { Link } from "react-router-dom";
 
 function Navbar() {
-  const [openDropdown, setOpenDropdown] = useState(null); // Dropdown kontrolü
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   return (
-      <nav className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-lg fixed top-0 w-full z-50">
+      <nav className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-lg fixed top-0 w-full z-50 mb-16">
         <div className="container mx-auto px-4 flex items-center justify-between py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center">
@@ -32,7 +32,9 @@ function Navbar() {
                   className="flex items-center space-x-2 hover:text-blue-300 transition duration-300 focus:outline-none"
               >
                 <BookOpenIcon className="h-5 w-5 text-white" />
-                <span>Digital Library</span>
+                <Link to="/library" className="hover:text-blue-300 transition duration-300">
+                  Digital Library
+                </Link>
               </button>
               {openDropdown === "library" && (
                   <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50 transform transition-all duration-300 scale-100 opacity-100">
@@ -60,7 +62,9 @@ function Navbar() {
                   className="flex items-center space-x-2 hover:text-blue-300 transition duration-300 focus:outline-none"
               >
                 <ChatBubbleLeftRightIcon className="h-5 w-5 text-white" />
-                <span>Mentoring</span>
+                <Link to="/mentoring" className="hover:text-blue-300 transition duration-300">
+                  Mentoring
+                </Link>
               </button>
               {openDropdown === "mentoring" && (
                   <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50 transform transition-all duration-300 scale-100 opacity-100">
@@ -99,7 +103,6 @@ function Navbar() {
             </li>
           </ul>
 
-          {/* Mobile Menu Button */}
           <button
               onClick={() => setOpenDropdown(openDropdown === "mobile" ? null : "mobile")}
               className="block md:hidden text-gray-300 hover:text-white focus:outline-none"
@@ -121,7 +124,6 @@ function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {openDropdown === "mobile" && (
             <div className="fixed inset-0 bg-gray-900 bg-opacity-95 flex flex-col items-center justify-center space-y-4 text-lg">
               <Link to="/" className="hover:text-blue-400">
