@@ -1,6 +1,6 @@
 function MissionSection() {
     return (
-        <section className="py-10 bg-gray-100">
+        <section id="mission-section" className="py-10 bg-gray-100">
             <div className="container mx-auto px-4">
                 <div className="flex flex-wrap">
                     {/* Left Side: Video */}

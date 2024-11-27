@@ -15,7 +15,7 @@ const Slider = ({ slides }) => {
     };
 
     return (
-        <div className="relative overflow-hidden">
+        <div className=" mt-16 relative overflow-hidden rounded-lg">
             <div
                 className="flex transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -64,7 +64,7 @@ const InfoSection = () => (
                     young people through mentoring or buddy systems and various activities.
                 </p>
                 <a
-                    href="#youtube-info"
+                    href="#mission-section"
                     className="mt-6 inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
                 >
                     About Us
