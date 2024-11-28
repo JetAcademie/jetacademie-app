@@ -1,6 +1,6 @@
 import React from "react";
 import { mentoringGrades } from "../../data/data.js";
-import Card from "../../components/Card.jsx";
+import TopicCard from "../../components/TopicCard.jsx";
 import Navbar from "../HomePage/Navbar/Navbar.jsx";
 import Footer from "../HomePage/footer/footer.jsx";
 
@@ -21,7 +21,7 @@ const Mentoring = () => {
                 <p className="text-center text-gray-600 mb-10">
                     Discover mentoring resources tailored for different academic levels.
                 </p>
-                <Card data={mentoringGrades} />
+                <TopicCard data={mentoringGrades} />
             </section>
 
             <Footer />

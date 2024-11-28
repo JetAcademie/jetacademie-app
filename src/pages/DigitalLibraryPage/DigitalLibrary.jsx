@@ -1,6 +1,6 @@
 import React from "react";
 import { libraryCategories } from "../../data/data.js";
-import Card from "../../components/Card.jsx";
+import TopicCard from "../../components/TopicCard.jsx";
 import Navbar from "../HomePage/Navbar/Navbar.jsx";
 import Footer from "../HomePage/footer/footer.jsx";
 
@@ -21,7 +21,7 @@ const DigitalLibrary = () => {
                 <p className="text-center text-gray-600 mb-10">
                     Browse through our curated collection of books and resources across multiple disciplines.
                 </p>
-                <Card data={libraryCategories} />
+                <TopicCard data={libraryCategories} />
             </section>
 
             <Footer />
