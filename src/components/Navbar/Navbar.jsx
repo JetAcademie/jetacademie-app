@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { HomeIcon, BookOpenIcon, ChatBubbleLeftRightIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import logo from "../../assets/jet logo.jpg";
+
 
 function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
+
+
 
   return (
       <nav className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-lg fixed top-0 w-full z-50 mb-16">
@@ -11,7 +15,7 @@ function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img
-                src="src/assets/jet%20logo.jpg"
+                src={logo}
                 alt="Logo"
                 className="w-12 h-12 rounded-full border-2 border-white"
             />
