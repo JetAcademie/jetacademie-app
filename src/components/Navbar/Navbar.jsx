@@ -1,13 +1,24 @@
 import { useState } from "react";
 import { HomeIcon, BookOpenIcon, ChatBubbleLeftRightIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/jet logo.jpg";
-
+import { libraryCategories, mentoringGrades } from "../../data/data";
+import ListItem from "../../components/ListItem";
 
 function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const location = useLocation(); // Mevcut sayfa URL'ini almak için
 
-
+  // Dropdown'u açma mantığı
+  const handleDropdownClick = (dropdownName, link) => {
+    if (location.pathname !== link) {
+      // Eğer kullanıcı şu an sayfada değilse, sayfaya yönlendirme yap
+      setOpenDropdown(null); // Tüm dropdownları kapat
+    } else {
+      // Eğer kullanıcı şu an sayfadaysa, dropdown menüyü aç/kapat
+      setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
+    }
+  };
 
   return (
       <nav className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-lg fixed top-0 w-full z-50 mb-16">
@@ -30,126 +41,57 @@ function Navbar() {
                 Ana Sayfa
               </Link>
             </li>
+
+            {/* Digital Library Dropdown */}
             <li className="relative">
-              <button
-                  onClick={() => setOpenDropdown(openDropdown === "library" ? null : "library")}
+              <Link
+                  to="/library"
+                  onClick={() => handleDropdownClick("library", "/library")}
                   className="flex items-center space-x-2 hover:text-blue-300 transition duration-300 focus:outline-none"
               >
                 <BookOpenIcon className="h-5 w-5 text-white" />
-                <Link to="/library" className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300">
-                  Digital Kütüphane
-                </Link>
-              </button>
-              {openDropdown === "library" && (
-                  <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50 transform transition-all duration-300 scale-100 opacity-100">
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category1">Eğitici Kitaplar</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category2">Tarihi Kitaplar</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category3">Sanat Kitaplari</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category4">Arastirma Kitaplari</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category5">Biyografi Kitaplari</Link>
-                    </li>
+                <span className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300">
+                Digital Kütüphane
+              </span>
+              </Link>
+              {openDropdown === "library" && location.pathname === "/library" && (
+                  <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50">
+                    {libraryCategories.map((category, index) => (
+                        <ListItem key={index} to={category.link} label={category.title} />
+                    ))}
                   </ul>
               )}
             </li>
+
+            {/* Mentoring Dropdown */}
             <li className="relative">
-              <button
-                  onClick={() => setOpenDropdown(openDropdown === "mentoring" ? null : "mentoring")}
+              <Link
+                  to="/mentoring"
+                  onClick={() => handleDropdownClick("mentoring", "/mentoring")}
                   className="flex items-center space-x-2 hover:text-blue-300 transition duration-300 focus:outline-none"
               >
                 <ChatBubbleLeftRightIcon className="h-5 w-5 text-white" />
-                <Link to="/mentoring" className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300">
-                  Mentorluk
-                </Link>
-              </button>
-              {openDropdown === "mentoring" && (
-                  <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50 transform transition-all duration-300 scale-100 opacity-100">
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session1">Sinif 6</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session2">Sinif 7</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session3">Sinif 8</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session4">Sinif 9</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session5">Sinif 10</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session6">Sinif 11</Link>
-                    </li>
-                    <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session7">Sinif 12</Link>
-                    </li>
+                <span className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300">
+                Mentorluk
+              </span>
+              </Link>
+              {openDropdown === "mentoring" && location.pathname === "/mentoring" && (
+                  <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50">
+                    {mentoringGrades.map((grade, index) => (
+                        <ListItem key={index} to={grade.link} label={grade.title} />
+                    ))}
                   </ul>
               )}
             </li>
+
             <li className="flex items-center space-x-2">
               <EnvelopeIcon className="h-5 w-5 text-white" />
-              <Link
-                  to="/contact"
-                  className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300"
-              >
-                Irtibat
+              <Link to="/contact" className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300">
+                İrtibat
               </Link>
             </li>
           </ul>
-
-          <button
-              onClick={() => setOpenDropdown(openDropdown === "mobile" ? null : "mobile")}
-              className="block md:hidden text-gray-300 hover:text-white focus:outline-none"
-          >
-            <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-              ></path>
-            </svg>
-          </button>
         </div>
-
-        {openDropdown === "mobile" && (
-            <div className="fixed inset-0 bg-gray-900 bg-opacity-95 flex flex-col items-center justify-center space-y-4 text-lg">
-              <Link to="/" className="hover:text-blue-400">
-                Ana Sayfa
-              </Link>
-              <Link to="/library" className="hover:text-blue-400">
-                Digital Kutuphane
-              </Link>
-              <Link to="/mentoring" className="hover:text-blue-400">
-                Mentorluk
-              </Link>
-              <Link to="/contact" className="hover:text-blue-400">
-                Irtibat
-              </Link>
-              <button
-                  onClick={() => setOpenDropdown(null)}
-                  className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              >
-                Kapat
-              </button>
-            </div>
-        )}
       </nav>
   );
 }
