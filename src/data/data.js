@@ -145,4 +145,4 @@ export const quotesData = [
     { text: "Her şeyde bir hayır vardır, sabret.", author: "Hz. Muhammed (s.a.v.)" },
 ];
 
-export default quotesData;
+

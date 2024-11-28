@@ -1,5 +1,5 @@
 import Navbar from "../HomePage/Navbar/Navbar";
-import Footer from "../HomePage/footer/Footer";
+import Footer from "../HomePage/Footer/Footer";
 
 function Contact() {
     return (
