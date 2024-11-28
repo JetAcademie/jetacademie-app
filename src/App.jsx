@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Homepage from "./pages/HomePage/Homepage.jsx";
-import Contact from "./pages/Contact/contact.jsx";
+import Contact from "./pages/Contact/Contact.jsx";
 import DigitalLibrary from "./pages/DigitalLibraryPage/DigitalLibrary.jsx";
 import Mentoring from "./pages/MentoringPage/MentoringPage.jsx";
 import Layout from "./components/Layout.jsx";
