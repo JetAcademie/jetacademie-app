@@ -22,7 +22,7 @@ function Navbar() {
           <ul className="hidden md:flex space-x-6 relative">
             <li className="flex items-center space-x-2">
               <HomeIcon className="h-5 w-5 text-white" />
-              <Link to="/" className="hover:text-blue-300 transition duration-300">
+              <Link to="/" className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300">
                 Ana Sayfa
               </Link>
             </li>
@@ -32,7 +32,7 @@ function Navbar() {
                   className="flex items-center space-x-2 hover:text-blue-300 transition duration-300 focus:outline-none"
               >
                 <BookOpenIcon className="h-5 w-5 text-white" />
-                <Link to="/library" className="hover:text-blue-300 transition duration-300">
+                <Link to="/library" className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300">
                   Digital Kütüphane
                 </Link>
               </button>
@@ -62,7 +62,7 @@ function Navbar() {
                   className="flex items-center space-x-2 hover:text-blue-300 transition duration-300 focus:outline-none"
               >
                 <ChatBubbleLeftRightIcon className="h-5 w-5 text-white" />
-                <Link to="/mentoring" className="hover:text-blue-300 transition duration-300">
+                <Link to="/mentoring" className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300">
                   Mentorluk
                 </Link>
               </button>
@@ -96,7 +96,7 @@ function Navbar() {
               <EnvelopeIcon className="h-5 w-5 text-white" />
               <Link
                   to="/contact"
-                  className="hover:text-blue-300 transition duration-300"
+                  className="text-white hover:bg-purple-600 px-2 py-1 rounded transition duration-300"
               >
                 Irtibat
               </Link>
