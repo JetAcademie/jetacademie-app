@@ -1,24 +1,16 @@
 import Navbar from "../HomePage/Navbar/Navbar";
 import Footer from "../HomePage/Footer/Footer";
+import SectionHeader from "../../components/SectionHeader.jsx";
 
 function Contact() {
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
-            {/* Navbar */}
             <Navbar />
-
-            {/* Main Content */}
-            <main className="flex-grow pt-[5rem]"> {/* Navbar'ın yüksekliğine göre padding-top */}
-                {/* Header */}
-                <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 shadow-md">
-                    <h1 className="text-center text-4xl font-extrabold tracking-wide">
-                        Bize Ulaşın
-                    </h1>
-                    <p className="text-center mt-2 text-lg">
-                        Sizi dinlemekten mutluluk duyarız! Aşağıdaki formu kullanarak bizimle
-                        iletişime geçebilir veya bir şubemizi ziyaret edebilirsiniz.
-                    </p>
-                </header>
+            <main className="flex-grow pt-[3rem]">
+                <SectionHeader
+                    title="Bize Ulaşın"
+                    description="Sizi dinlemekten mutluluk duyarız! Aşağıdaki formu kullanarak bizimle iletişime geçebilir veya bir şubemizi ziyaret edebilirsiniz."
+                />
 
                 {/* Locations Section */}
                 <section className="container mx-auto mt-12 px-4">
@@ -90,7 +82,7 @@ function Contact() {
                         </div>
 
                         {/* Contact Form */}
-                        <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+                        <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-200 mb-16 ">
                             <h4 className="text-2xl font-extrabold mb-6 text-gray-800">
                                 Mesaj Bırakın
                             </h4>

@@ -3,17 +3,17 @@ import { libraryCategories } from "../../data/data.js";
 import TopicCard from "../../components/TopicCard.jsx";
 import Navbar from "../HomePage/Navbar/Navbar.jsx";
 import Footer from "../HomePage/Footer/footer.jsx";
+import SectionHeader from "../../components/SectionHeader.jsx";
 
 const DigitalLibrary = () => {
     return (
         <div>
             <Navbar />
-
-            <div className="mt-[80px] text-center py-10 py-6 bg-[#002147] text-white rounded-lg shadow-lg">
-                <h1 className="text-5xl font-extrabold mb-4">Digital Kutuphane</h1>
-                <p className="text-xl font-medium max-w-2xl mx-auto">
-                    Bilginizi zenginleştirmek için çeşitli kitap ve kaynak kategorilerini keşfedin.
-                </p>
+            <div className="flex-grow pt-[3rem]">
+            <SectionHeader
+                title="Digital Kutuphane"
+                description="Bilginizi zenginleştirmek için çeşitli kitap ve kaynak kategorilerini keşfedin."
+            />
             </div>
 
             <section className="container mx-auto py-10 px-6">
