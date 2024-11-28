@@ -1,8 +1,6 @@
-import React from "react";
 import { mentoringGrades } from "../../data/data.js";
 import TopicCard from "../../components/TopicCard.jsx";
-import Navbar from "../HomePage/Navbar/Navbar.jsx";
-import Footer from "../HomePage/Footer/footer.jsx";
+
 import SectionHeader from "../../components/SectionHeader.jsx";
 
 const Mentoring = () => {

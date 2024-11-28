@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import NavigationButton from "./NavigationButton";
 
 const Slider = ({ slides }) => {
@@ -36,6 +37,16 @@ const Slider = ({ slides }) => {
             <NavigationButton direction="next" onClick={() => updateIndex(currentIndex + 1)} />
         </div>
     );
+};
+
+Slider.propTypes = {
+    slides: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            imageUrl: PropTypes.string.isRequired,
+            altText: PropTypes.string.isRequired,
+        })
+    ).isRequired,
 };
 
 export default Slider;
