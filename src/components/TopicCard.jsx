@@ -1,4 +1,5 @@
-import React from "react";
+import PropTypes from "prop-types";
+
 
 const TopicCard = ({ data }) => {
     return (
@@ -45,4 +46,14 @@ const TopicCard = ({ data }) => {
     );
 };
 
+TopicCard.propTypes = {
+    data: PropTypes.arrayOf(
+        PropTypes.shape({
+            imageUrl: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            link: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+};
 export default TopicCard;

@@ -1,4 +1,5 @@
-import React from "react";
+import PropTypes from "prop-types";
+
 
 const NavigationButton = ({ direction, onClick }) => {
     return (
@@ -24,6 +25,11 @@ const NavigationButton = ({ direction, onClick }) => {
             </svg>
         </button>
     );
+};
+
+NavigationButton.propTypes = {
+    direction: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default NavigationButton;

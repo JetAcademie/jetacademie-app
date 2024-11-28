@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import { quotesData } from "../../../data/data.js";
+import {useEffect, useState} from "react";
 
 const MotivationSection = () => {
     const [currentQuote, setCurrentQuote] = useState(quotesData[0]);

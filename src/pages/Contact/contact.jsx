@@ -1,5 +1,3 @@
-import Navbar from "../HomePage/Navbar/Navbar";
-import Footer from "../HomePage/Footer/Footer";
 import SectionHeader from "../../components/SectionHeader.jsx";
 
 function Contact() {
