@@ -12,39 +12,39 @@ function Contact() {
                 {/* Header */}
                 <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 shadow-md">
                     <h1 className="text-center text-4xl font-extrabold tracking-wide">
-                        Contact Us
+                        Bize Ulaşın
                     </h1>
                     <p className="text-center mt-2 text-lg">
-                        We’d love to hear from you! Feel free to reach out using the form
-                        below or visit one of our locations.
+                        Sizi dinlemekten mutluluk duyarız! Aşağıdaki formu kullanarak bizimle
+                        iletişime geçebilir veya bir şubemizi ziyaret edebilirsiniz.
                     </p>
                 </header>
 
                 {/* Locations Section */}
                 <section className="container mx-auto mt-12 px-4">
                     <h2 className="text-center text-3xl font-semibold mb-10">
-                        Our Locations
+                        Şubelerimiz
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
                             {
                                 icon: "fas fa-envelope",
-                                title: "General Email Address",
+                                title: "Genel E-posta Adresi",
                                 email: "info@vzwjet.be",
                             },
                             {
                                 icon: "fas fa-city",
-                                title: "Brussels",
+                                title: "Brüksel",
                                 email: "brussels@vzwjet.be",
                             },
                             {
                                 icon: "fas fa-landmark",
-                                title: "Antwerp",
+                                title: "Anvers",
                                 email: "antwerp@vzwjet.be",
                             },
                             {
                                 icon: "fas fa-university",
-                                title: "Flemish Brabant",
+                                title: "Flaman Brabantı",
                                 email: "leuven@vzwjet.be",
                             },
                             {
@@ -54,7 +54,7 @@ function Contact() {
                             },
                             {
                                 icon: "fas fa-church",
-                                title: "Ghent",
+                                title: "Gent",
                                 email: "ghent@vzwjet.be",
                             },
                         ].map((location, index) => (
@@ -66,7 +66,7 @@ function Contact() {
                                     <i className={`${location.icon} text-blue-500 mr-3`}></i>
                                     {location.title}
                                 </h5>
-                                <p className="text-gray-600">Email: {location.email}</p>
+                                <p className="text-gray-600">E-posta: {location.email}</p>
                             </div>
                         ))}
                     </div>
@@ -92,7 +92,7 @@ function Contact() {
                         {/* Contact Form */}
                         <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
                             <h4 className="text-2xl font-extrabold mb-6 text-gray-800">
-                                Leave a Message
+                                Mesaj Bırakın
                             </h4>
                             <form>
                                 <div className="mb-4">
@@ -100,13 +100,13 @@ function Contact() {
                                         htmlFor="name"
                                         className="block text-gray-700 font-medium mb-2"
                                     >
-                                        Name
+                                        Adınız
                                     </label>
                                     <div className="relative">
                                         <input
                                             type="text"
                                             id="name"
-                                            placeholder="Your Name"
+                                            placeholder="Adınızı Girin"
                                             required
                                             className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         />
@@ -118,13 +118,13 @@ function Contact() {
                                         htmlFor="email"
                                         className="block text-gray-700 font-medium mb-2"
                                     >
-                                        Email Address
+                                        E-posta Adresiniz
                                     </label>
                                     <div className="relative">
                                         <input
                                             type="email"
                                             id="email"
-                                            placeholder="Your Email Address"
+                                            placeholder="E-posta Adresinizi Girin"
                                             required
                                             className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         />
@@ -136,11 +136,11 @@ function Contact() {
                                         htmlFor="message"
                                         className="block text-gray-700 font-medium mb-2"
                                     >
-                                        Your Message
+                                        Mesajınız
                                     </label>
                                     <textarea
                                         id="message"
-                                        placeholder="Write your message here"
+                                        placeholder="Mesajınızı buraya yazın"
                                         required
                                         rows="5"
                                         className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -150,7 +150,7 @@ function Contact() {
                                     type="submit"
                                     className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-lg font-medium hover:opacity-90 transition duration-300"
                                 >
-                                    Submit
+                                    Gönder
                                 </button>
                             </form>
                         </div>

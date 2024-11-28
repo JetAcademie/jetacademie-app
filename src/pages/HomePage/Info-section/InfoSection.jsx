@@ -10,19 +10,21 @@ const InfoSection = () => (
                 <h2 className="text-3xl font-bold text-blue-600 mb-4">VZW JET</h2>
                 <h3 className="text-xl font-semibold text-gray-700 mb-4">Jeugd en Toekomst</h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                    VZW JET is a youth organization focused on the personal development of young people through mentoring or buddy systems and various activities.
+                    VZW JET, gençlerin kişisel gelişimine odaklanan, mentorluk veya arkadaşlık sistemleri ve çeşitli
+                    aktiviteler aracılığıyla bu amacı gerçekleştiren bir gençlik organizasyonudur.
                 </p>
                 <a
-                    href="#mission-section"
+                    href="https://vzwjet.be/"
+                    target="_blank"
                     className="inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition"
                 >
-                    About Us
+                    Daha Fazla
                 </a>
             </div>
 
             {/* Slider */}
             <div className="w-full md:w-1/2">
-                <Slider slides={sliderData} />
+                <Slider slides={sliderData}/>
             </div>
         </div>
     </section>

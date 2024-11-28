@@ -17,20 +17,18 @@ function MissionSection() {
 
                     {/* Right Side: Mission & Vision */}
                     <div className="w-full md:w-1/2 px-4 bg-white p-6 rounded-lg shadow">
-                        <h3 className="text-xl font-semibold mb-4">Our Mission:</h3>
+                        <h3 className="text-xl font-semibold mb-4">Misyonumuz:</h3>
                         <p className="text-gray-700 mb-6">
-                            Our mission is to create a safe and supportive environment where
-                            young people feel comfortable and can reach their full potential.
-                            We aim to provide them with the tools and guidance they need to
-                            develop into responsible and confident individuals.
+                            Misyonumuz, gençlerin kendilerini rahat hissedebileceği, güvenli ve destekleyici bir
+                            ortam oluşturarak onların potansiyellerini tam anlamıyla ortaya koymalarını sağlamaktır.
+                            Sorumlu ve kendine güvenen bireyler olarak gelişmeleri için gerekli olan araçları ve
+                            rehberliği sunmayı amaçlıyoruz.
                         </p>
-                        <h3 className="text-xl font-semibold mb-4">Our Vision:</h3>
+                        <h3 className="text-xl font-semibold mb-4">Vizyonumuz</h3>
                         <p className="text-gray-700">
-                            Our vision is a world where every young person has the chance to
-                            grow, learn, and discover in an environment that inspires and
-                            supports them. We believe young people are the future, and it is
-                            our responsibility to equip them with the tools and confidence to
-                            actively shape that future.
+                            Vizyonumuz, her gencin öğrenip büyüyebileceği ve ilham alarak desteklendiği bir dünya yaratmaktır.
+                            Gençlerin geleceğin yapı taşları olduğuna inanıyoruz ve onlara bu geleceği aktif bir şekilde şekillendirebilmeleri için gerekli araçları
+                            ve özgüveni kazandırmanın bizim sorumluluğumuz olduğunu düşünüyoruz.
                         </p>
                     </div>
                 </div>

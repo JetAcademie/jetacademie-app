@@ -16,7 +16,7 @@ const Footer = () => {
 
                     <div>
                         <h5 className="text-lg font-bold mb-4 border-b-2 border-gray-300 pb-2">
-                            Contact
+                            Irtibat
                         </h5>
                         <p className="text-gray-300">
                             info@vzwjet.be
@@ -27,7 +27,7 @@ const Footer = () => {
 
                     <div>
                         <h5 className="text-lg font-bold mb-4 border-b-2 border-gray-300 pb-2">
-                            Regio-mailadressen:
+                            Bolge mailleri:
                         </h5>
                         <ul className="text-gray-300 space-y-2">
                             <li>antwerpen@vzwjet.be</li>

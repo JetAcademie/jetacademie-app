@@ -23,7 +23,7 @@ function Navbar() {
             <li className="flex items-center space-x-2">
               <HomeIcon className="h-5 w-5 text-white" />
               <Link to="/" className="hover:text-blue-300 transition duration-300">
-                Home
+                Ana Sayfa
               </Link>
             </li>
             <li className="relative">
@@ -33,25 +33,25 @@ function Navbar() {
               >
                 <BookOpenIcon className="h-5 w-5 text-white" />
                 <Link to="/library" className="hover:text-blue-300 transition duration-300">
-                  Digital Library
+                  Digital Kütüphane
                 </Link>
               </button>
               {openDropdown === "library" && (
                   <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50 transform transition-all duration-300 scale-100 opacity-100">
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category1">Educational Books</Link>
+                      <Link to="/library/category1">Eğitici Kitaplar</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category2">Historical Works</Link>
+                      <Link to="/library/category2">Tarihi Kitaplar</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category3">Art Works</Link>
+                      <Link to="/library/category3">Sanat Kitaplari</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category4">Knowledge Books</Link>
+                      <Link to="/library/category4">Arastirma Kitaplari</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/library/category5">Biography Books</Link>
+                      <Link to="/library/category5">Biyografi Kitaplari</Link>
                     </li>
                   </ul>
               )}
@@ -63,31 +63,31 @@ function Navbar() {
               >
                 <ChatBubbleLeftRightIcon className="h-5 w-5 text-white" />
                 <Link to="/mentoring" className="hover:text-blue-300 transition duration-300">
-                  Mentoring
+                  Mentorluk
                 </Link>
               </button>
               {openDropdown === "mentoring" && (
                   <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50 transform transition-all duration-300 scale-100 opacity-100">
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session1">Grade 6</Link>
+                      <Link to="/mentoring/session1">Sinif 6</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session2">Grade 7</Link>
+                      <Link to="/mentoring/session2">Sinif 7</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session3">Grade 8</Link>
+                      <Link to="/mentoring/session3">Sinif 8</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session4">Grade 9</Link>
+                      <Link to="/mentoring/session4">Sinif 9</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session5">Grade 10</Link>
+                      <Link to="/mentoring/session5">Sinif 10</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session6">Grade 11</Link>
+                      <Link to="/mentoring/session6">Sinif 11</Link>
                     </li>
                     <li className="hover:bg-gray-100 px-4 py-2">
-                      <Link to="/mentoring/session7">Grade 12</Link>
+                      <Link to="/mentoring/session7">Sinif 12</Link>
                     </li>
                   </ul>
               )}
@@ -98,7 +98,7 @@ function Navbar() {
                   to="/contact"
                   className="hover:text-blue-300 transition duration-300"
               >
-                Contact
+                Irtibat
               </Link>
             </li>
           </ul>
@@ -127,22 +127,22 @@ function Navbar() {
         {openDropdown === "mobile" && (
             <div className="fixed inset-0 bg-gray-900 bg-opacity-95 flex flex-col items-center justify-center space-y-4 text-lg">
               <Link to="/" className="hover:text-blue-400">
-                Home
+                Ana Sayfa
               </Link>
               <Link to="/library" className="hover:text-blue-400">
-                Digital Library
+                Digital Kutuphane
               </Link>
               <Link to="/mentoring" className="hover:text-blue-400">
-                Mentoring
+                Mentorluk
               </Link>
               <Link to="/contact" className="hover:text-blue-400">
-                Contact
+                Irtibat
               </Link>
               <button
                   onClick={() => setOpenDropdown(null)}
                   className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
               >
-                Close
+                Kapat
               </button>
             </div>
         )}

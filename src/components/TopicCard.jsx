@@ -34,7 +34,7 @@ const TopicCard = ({ data }) => {
                                     href={item.link}
                                     className="inline-block px-6 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition"
                                 >
-                                    Explore
+                                    Kesfet
                                 </a>
                             </div>
                         </div>
