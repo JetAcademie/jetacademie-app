@@ -147,4 +147,13 @@ export const quotesData = [
     { text: "Her şeyde bir hayır vardır, sabret.", author: "Hz. Muhammed (s.a.v.)" },
 ];
 
+export const locations = [
+    { icon: "fas fa-envelope", title: "Genel E-posta Adresi", email: "info@vzwjet.be" },
+    { icon: "fas fa-city", title: "Brüksel", email: "brussels@vzwjet.be" },
+    { icon: "fas fa-landmark", title: "Anvers", email: "antwerp@vzwjet.be" },
+    { icon: "fas fa-university", title: "Flaman Brabantı", email: "leuven@vzwjet.be" },
+    { icon: "fas fa-map-marked-alt", title: "Limburg", email: "limburg@vzwjet.be" },
+    { icon: "fas fa-church", title: "Gent", email: "ghent@vzwjet.be" },
+];
+
 
