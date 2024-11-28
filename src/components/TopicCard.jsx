@@ -7,8 +7,9 @@ const TopicCard = ({ data }) => {
                 {data.map((item, index) => (
                     <div
                         key={index}
-                        className="bg-gradient-to-br from-blue-200 via-blue-300 to-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300"
+                        className="bg-gradient-to-br from-blue-200 via-blue-300 to-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300 flex flex-col"
                     >
+                        {/* Image Section */}
                         <div className="relative overflow-hidden">
                             <img
                                 src={item.imageUrl}
@@ -22,17 +23,20 @@ const TopicCard = ({ data }) => {
                             </div>
                         </div>
 
-                        <div className="p-6">
+                        {/* Text and Button Section */}
+                        <div className="p-6 flex flex-col flex-grow">
                             <h5 className="text-lg font-bold mb-3 text-gray-800 group-hover:text-blue-500 transition">
                                 {item.title}
                             </h5>
-                            <p className="text-gray-600 mb-4 line-clamp-3">{item.description}</p>
-                            <a
-                                href={item.link}
-                                className="inline-block px-6 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition"
-                            >
-                                Explore
-                            </a>
+                            <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">{item.description}</p>
+                            <div className="mt-auto">
+                                <a
+                                    href={item.link}
+                                    className="inline-block px-6 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition"
+                                >
+                                    Explore
+                                </a>
+                            </div>
                         </div>
                     </div>
                 ))}
