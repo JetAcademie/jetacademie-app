@@ -5,15 +5,18 @@ import Homepage from "./pages/HomePage/Homepage.jsx";
 import Contact from "./pages/Contact/contact.jsx";
 import DigitalLibrary from "./pages/DigitalLibraryPage/DigitalLibrary.jsx";
 import Mentoring from "./pages/MentoringPage/MentoringPage.jsx";
+import Layout from "./components/Layout.jsx";
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Homepage />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/library" element={<DigitalLibrary />} />
-                <Route path="/mentoring" element={<Mentoring />} />
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Homepage />} />
+                    <Route path="contact" element={<Contact />} />
+                    <Route path="library" element={<DigitalLibrary />} />
+                    <Route path="mentoring" element={<Mentoring />} />
+                </Route>
             </Routes>
         </Router>
     );

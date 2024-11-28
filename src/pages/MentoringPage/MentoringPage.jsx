@@ -8,7 +8,7 @@ import SectionHeader from "../../components/SectionHeader.jsx";
 const Mentoring = () => {
     return (
         <div>
-            <Navbar />
+
             <div className="flex-grow pt-[3rem]">
             <SectionHeader
                 title="Mentorluk"
@@ -22,8 +22,6 @@ const Mentoring = () => {
                 </p>
                 <TopicCard data={mentoringGrades} />
             </section>
-
-            <Footer />
         </div>
     );
 };

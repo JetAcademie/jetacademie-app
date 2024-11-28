@@ -7,11 +7,9 @@ import MotivationSection from "./MotivationSection/MotivationSection.jsx";
 const Homepage = () => {
     return (
         <div>
-            <Navbar />
             <InfoSection />
             <MotivationSection/>
             <MissionSection />
-            <Footer />
         </div>
     );
 };

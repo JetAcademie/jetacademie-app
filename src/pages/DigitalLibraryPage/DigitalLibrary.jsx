@@ -8,7 +8,7 @@ import SectionHeader from "../../components/SectionHeader.jsx";
 const DigitalLibrary = () => {
     return (
         <div>
-            <Navbar />
+
             <div className="flex-grow pt-[3rem]">
             <SectionHeader
                 title="Digital Kutuphane"
@@ -24,7 +24,6 @@ const DigitalLibrary = () => {
                 <TopicCard data={libraryCategories} />
             </section>
 
-            <Footer />
         </div>
     );
 };

@@ -5,7 +5,6 @@ import SectionHeader from "../../components/SectionHeader.jsx";
 function Contact() {
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
-            <Navbar />
             <main className="flex-grow pt-[3rem]">
                 <SectionHeader
                     title="Bize Ulaşın"
@@ -150,8 +149,6 @@ function Contact() {
                 </section>
             </main>
 
-            {/* Footer */}
-            <Footer />
         </div>
     );
 }
