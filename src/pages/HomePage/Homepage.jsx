@@ -4,11 +4,11 @@ import MotivationSection from "./MotivationSection/MotivationSection.jsx";
 
 const Homepage = () => {
     return (
-        <div>
+        <>
             <InfoSection />
             <MotivationSection/>
             <MissionSection />
-        </div>
+        </>
     );
 };
 
