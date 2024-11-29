@@ -10,7 +10,7 @@ const Mentoring = () => {
             <div className="flex-grow pt-[3rem]">
             <SectionHeader
                 title="Mentorluk"
-                description="Başarılı olmanıza yardımcı olmak için tasarlanmış mentorluk programlarını ve kaynaklarını keşfedin."
+                description="Başarıya yardımcı olmak için tasarlanmış mentorluk kaynaklarını keşfedin."
             />
             </div>
             <section className="container mx-auto py-10 px-6">
