@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import Homepage from "./pages/HomePage/Homepage.jsx";
-import Contact from "./pages/Contact/Contact.jsx";
-import DigitalLibrary from "./pages/DigitalLibraryPage/DigitalLibrary.jsx";
-import Mentoring from "./pages/MentoringPage/MentoringPage.jsx";
-import Layout from "./components/Layout.jsx";
+import Homepage from "./pages/HomePage/Homepage";
+import Contact from "./pages/Contact/Contact";
+import DigitalLibrary from "./pages/DigitalLibraryPage/DigitalLibrary";
+import Mentoring from "./pages/MentoringPage/MentoringPage";
+import EducationalBooks from "./pages/DigitalLibraryPage/EducationalBooks";
+import Layout from "./components/Layout";
+import HistoricalBooks from "./pages/DigitalLibraryPage/HistoricalBooks.jsx";
 
 function App() {
     return (
@@ -15,6 +16,8 @@ function App() {
                     <Route index element={<Homepage />} />
                     <Route path="contact" element={<Contact />} />
                     <Route path="library" element={<DigitalLibrary />} />
+                    <Route path="library/educational-books" element={<EducationalBooks />} />
+                    <Route path="library/historical-books" element={<HistoricalBooks />} />
                     <Route path="mentoring" element={<Mentoring />} />
                 </Route>
             </Routes>
