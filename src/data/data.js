@@ -4,14 +4,13 @@ export const libraryCategories = [
         description: "Geniş bir eğitim kaynağı yelpazesine erişin.",
         imageUrl:
             "https://www.timeshighereducation.com/sites/default/files/styles/the_breaking_news_image_style/public/Pictures/web/q/e/a/pile-old-books-closed-open.jpg?itok=YWxW7JoX",
-        link: "/educational-books",
+        link: "/library/educational-books",
     },
     {
         title: "Tarihsel Eserler",
         description: "Tarihsel belgeleri ve araştırmaları keşfedin.",
-        imageUrl:
-            "https://www.invaluable.com/blog/wp-content/uploads/sites/77/2018/11/03-renaissance-raphael-1.jpg",
-        link: "#",
+        imageUrl: "https://www.invaluable.com/blog/wp-content/uploads/sites/77/2018/11/03-renaissance-raphael-1.jpg",
+        link: "/library/historical-books",
     },
     {
         title: "Sanat Eserleri",
@@ -39,7 +38,7 @@ export const libraryCategories = [
         description: "Dini metinler ve kaynakları inceleyin.",
         imageUrl:
             "https://kgeb.net/wp-content/uploads/2016/10/book-1659717_1920-810x464.jpg",
-        link: "/religious-books",
+        link: "/library/religious-books",
     },
 ];
 
@@ -155,5 +154,93 @@ export const locations = [
     { icon: "fas fa-map-marked-alt", title: "Limburg", email: "limburg@vzwjet.be" },
     { icon: "fas fa-church", title: "Gent", email: "ghent@vzwjet.be" },
 ];
+
+export const educationalBooks = [
+    {
+        title: "Ku'ran-ı Kerimler",
+        description: "Matematik temellerini öğrenmek için ideal bir kaynak.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Tecvid",
+        description: "Fizik dünyasına giriş yapın.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Kimya ve Yaşam",
+        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Kimya ve Yaşam",
+        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Kimya ve Yaşam",
+        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Kimya ve Yaşam",
+        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Kimya ve Yaşam",
+        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
+        imageUrl: "https://www.ihvan.com.tr/arapca-turkce-okunuslu-ve-mealli-kurani-kerim-uclu-kuran-rahle-boy-yesil-merve-yayinlari-hvan-69820-31-B.jpg",
+        link: "#",
+    }
+];
+
+export const historicalBooks = [
+    {
+        title: "Osmanlı İmparatorluğu",
+        description: "Osmanlı tarihi hakkında detaylı bilgiler edinin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Kurtuluş Savaşı",
+        description: "Türkiye Cumhuriyeti'nin bağımsızlık mücadelesini öğrenin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Rönesans",
+        description: "Avrupa'da sanat ve bilimde büyük dönüşümün hikayesi.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Osmanlı İmparatorluğu",
+        description: "Osmanlı tarihi hakkında detaylı bilgiler edinin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Kurtuluş Savaşı",
+        description: "Türkiye Cumhuriyeti'nin bağımsızlık mücadelesini öğrenin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+    {
+        title: "Rönesans",
+        description: "Avrupa'da sanat ve bilimde büyük dönüşümün hikayesi.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
+        link: "#",
+    },
+];
+
+
+
+
 
 
