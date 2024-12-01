@@ -1,43 +1,37 @@
 import PropTypes from "prop-types";
+import { getRandomColors } from "./utils";
 
 const BookCard = ({ title, imageUrl }) => {
-    // Varsayılan renk paleti
-    const colorPalettes = [
-        ["#FFC107", "#FFD54F"], // Sarı tonları
-        ["#2196F3", "#64B5F6"], // Mavi tonları
-        ["#4CAF50", "#81C784"], // Yeşil tonları
-        ["#FF5722", "#FF8A65"], // Turuncu tonları
-        ["#9C27B0", "#BA68C8"], // Mor tonları
-    ];
 
-    // Rastgele bir renk seç
-    const colors = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+    const colors = getRandomColors();
 
     return (
-        <div className="flex flex-col items-center bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="flex flex-col items-center bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105">
             {/* Dinamik Üst Çizgi */}
             <div
-                className={`w-full h-1`}
+                className="w-full h-2"
                 style={{
                     background: `linear-gradient(to right, ${colors[0]}, ${colors[1]})`,
                 }}
             ></div>
 
             {/* Resim */}
-            <img
-                src={imageUrl}
-                alt={title}
-                className="w-32 h-32 object-cover mt-4"
-            />
+            <div className="p-4">
+                <img
+                    src={imageUrl}
+                    alt={title}
+                    className="w-32 h-32 object-cover rounded-md"
+                />
+            </div>
 
             {/* Başlık */}
-            <h3 className="mt-4 text-center text-gray-800 text-lg font-semibold">
-                {title}
-            </h3>
+            <div className="px-4 pb-4 text-center">
+                <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+            </div>
 
             {/* Dinamik Alt Çizgi */}
             <div
-                className={`w-full h-1 mt-4`}
+                className="w-full h-2"
                 style={{
                     background: `linear-gradient(to right, ${colors[0]}, ${colors[1]})`,
                 }}
