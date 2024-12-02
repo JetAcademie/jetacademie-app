@@ -244,13 +244,13 @@ export const quranBooks = [
         title: "Kur'an-ı Kerim 1",
         description: "Kur'an-ı Kerim'in ilk cildi.",
         imageUrl: "https://www.hayrat.com.tr/orta-boy-kuran-i-kerim-lacivert-muhurlu-orta-boy-16x24-cm-hayrat-nesriyat-79171-79-B.jpg",
-        pdfLink: "/pdf/Kuran-i_Kerim.pdf",
+        pdfLink: "#",
     },
     {
         title: "Kur'an-ı Kerim 2",
         description: "Kur'an-ı Kerim'in ikinci cildi.",
         imageUrl: "https://www.hayrat.com.tr/orta-boy-kuran-i-kerim-lacivert-muhurlu-orta-boy-16x24-cm-hayrat-nesriyat-79171-79-B.jpg",
-        pdfLink: "/pdf/Kuran-cuezlue.pdf",
+        pdfLink: "#",
     },
 ];
 
