@@ -160,13 +160,13 @@ export const educationalBooks = [
         title: "Ku'ran-ı Kerimler",
         description: "Matematik temellerini öğrenmek için ideal bir kaynak.",
         imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
+        link: "/library/educational-books/quran",
     },
     {
         title: "Tecvid",
         description: "Fizik dünyasına giriş yapın.",
         imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
+        link: "/library/educational-books/math",
     },
     {
         title: "Kimya ve Yaşam",
@@ -238,6 +238,22 @@ export const historicalBooks = [
         link: "#",
     },
 ];
+
+export const quranBooks = [
+    {
+        title: "Kur'an-ı Kerim 1",
+        description: "Kur'an-ı Kerim'in ilk cildi.",
+        imageUrl: "https://www.hayrat.com.tr/orta-boy-kuran-i-kerim-lacivert-muhurlu-orta-boy-16x24-cm-hayrat-nesriyat-79171-79-B.jpg",
+        pdfLink: "#",
+    },
+    {
+        title: "Kur'an-ı Kerim 2",
+        description: "Kur'an-ı Kerim'in ikinci cildi.",
+        imageUrl: "https://www.hayrat.com.tr/orta-boy-kuran-i-kerim-lacivert-muhurlu-orta-boy-16x24-cm-hayrat-nesriyat-79171-79-B.jpg",
+        pdfLink: "#",
+    },
+];
+
 
 
 
