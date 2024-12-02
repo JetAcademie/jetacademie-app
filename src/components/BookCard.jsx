@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import { getRandomColors } from "./utils";
+import { Link } from "react-router-dom"; // React Router için import
 
-const BookCard = ({ title, imageUrl }) => {
-
+const BookCard = ({ title, imageUrl, link }) => {
     const colors = getRandomColors();
 
     return (
-        <div className="flex flex-col items-center bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105">
+        <Link to={link} className="flex flex-col items-center bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105">
             {/* Dinamik Üst Çizgi */}
             <div
                 className="w-full h-2"
@@ -36,13 +36,14 @@ const BookCard = ({ title, imageUrl }) => {
                     background: `linear-gradient(to right, ${colors[0]}, ${colors[1]})`,
                 }}
             ></div>
-        </div>
+        </Link>
     );
 };
 
 BookCard.propTypes = {
     title: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
 };
 
 export default BookCard;

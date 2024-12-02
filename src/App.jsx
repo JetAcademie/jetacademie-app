@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
+import Layout from "./components/Layout";
 import Homepage from "./pages/HomePage/Homepage";
 import Contact from "./pages/Contact/Contact";
 import DigitalLibrary from "./pages/DigitalLibraryPage/DigitalLibrary";
-import Mentoring from "./pages/MentoringPage/MentoringPage";
 import EducationalBooks from "./pages/DigitalLibraryPage/EducationalBooks";
-import Layout from "./components/Layout";
+import QuranBooks from "./pages/DigitalLibraryPage/QuranBooks";
+import Mentoring from "./pages/MentoringPage/MentoringPage";
 import HistoricalBooks from "./pages/DigitalLibraryPage/HistoricalBooks.jsx";
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
                     <Route path="library" element={<DigitalLibrary />} />
                     <Route path="library/educational-books" element={<EducationalBooks />} />
                     <Route path="library/historical-books" element={<HistoricalBooks />} />
+                    <Route path="library/educational-books/quran" element={<QuranBooks />} />
                     <Route path="mentoring" element={<Mentoring />} />
                 </Route>
             </Routes>
