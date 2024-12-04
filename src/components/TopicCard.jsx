@@ -1,5 +1,7 @@
+
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import {slugify} from "./utils.js";
 
 const TopicCard = ({ data }) => {
     return (
@@ -26,7 +28,7 @@ const TopicCard = ({ data }) => {
                         <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">{item.description}</p>
                         <div className="mt-auto">
                             <Link
-                                to={item.link}
+                                to={`/mentoring/${slugify(item.title)}`}
                                 className="inline-block px-6 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition"
                             >
                                 Keşfet
@@ -38,6 +40,7 @@ const TopicCard = ({ data }) => {
         </div>
     );
 };
+
 
 TopicCard.propTypes = {
     data: PropTypes.arrayOf(
@@ -51,3 +54,6 @@ TopicCard.propTypes = {
 };
 
 export default TopicCard;
+
+
+

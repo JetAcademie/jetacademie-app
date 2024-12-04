@@ -255,6 +255,27 @@ export const quranBooks = [
 ];
 
 
+export const classData = {
+    "6-sinif": {
+        title: "6. Sınıf",
+        description: "6. sınıfa ait geniş bir kaynak yelpazesine erişin.",
+        months: {
+            January: [
+                { name: "Matematik Notları", url: "/pdfs/6th-grade/january/math-notes.pdf" },
+                { name: "Fen Bilimleri Çalışma Kitabı", url: "/pdfs/6th-grade/january/science-workbook.pdf" },
+            ],
+        },
+    },
+    "7-sinif": {
+        title: "7. Sınıf",
+        description: "7. sınıfa ait geniş bir kaynak yelpazesine erişin.",
+        months: {
+            January: [
+                { name: "Matematik Notları", url: "/pdfs/7th-grade/january/math-notes.pdf" },
+            ],
+        },
+    },
+};
 
 
 
