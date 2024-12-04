@@ -32,8 +32,9 @@ function App() {
                             element={<ClassPage grade={grade} />}
                         />
                     ))}
+
                     {Object.entries(classData).map(([key, grade]) =>
-                        Object.keys(grade.months).map((month) => (
+                        Object.entries(grade.months).map(([month, monthData]) => (
                             <Route
                                 key={`${key}-${month}`}
                                 path={`mentoring/${slugify(key)}/${slugify(month)}`}
@@ -41,7 +42,9 @@ function App() {
                                     <MonthPage
                                         gradeTitle={grade.title}
                                         month={month}
-                                        documents={grade.months[month]}
+                                        documents={monthData.documents || []}
+                                        videos={monthData.videos || []}
+                                        additionalLinks={monthData.additionalLinks || []}
                                     />
                                 }
                             />

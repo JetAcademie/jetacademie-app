@@ -1,9 +1,8 @@
-
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import {slugify} from "./utils.js";
+import { slugify } from "./utils.js";
 
-const TopicCard = ({ data }) => {
+const TopicCard = ({ data, basePath }) => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {data.map((item, index) => (
@@ -28,7 +27,7 @@ const TopicCard = ({ data }) => {
                         <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">{item.description}</p>
                         <div className="mt-auto">
                             <Link
-                                to={`/mentoring/${slugify(item.title)}`}
+                                to={`${basePath}/${slugify(item.title)}`}
                                 className="inline-block px-6 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition"
                             >
                                 Keşfet
@@ -41,19 +40,15 @@ const TopicCard = ({ data }) => {
     );
 };
 
-
 TopicCard.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.shape({
             imageUrl: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
             description: PropTypes.string.isRequired,
-            link: PropTypes.string.isRequired,
         })
     ).isRequired,
+    basePath: PropTypes.string.isRequired, // Dinamik yönlendirme için taban yol
 };
 
 export default TopicCard;
-
-
-
