@@ -1,46 +1,75 @@
 export const libraryCategories = [
     {
         title: "Eğitim Kitapları",
-        description: "Geniş bir eğitim kaynağı yelpazesine erişin.",
-        imageUrl:
-            "https://www.timeshighereducation.com/sites/default/files/styles/the_breaking_news_image_style/public/Pictures/web/q/e/a/pile-old-books-closed-open.jpg?itok=YWxW7JoX",
-        link: "/library/educational-books",
+        description: "Eğitim materyalleri ve kaynaklarını keşfedin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
+        slug: "egitim-kitaplari",
+        categories: [
+            {
+                title: "Kur'an-ı Kerimler",
+                description: "Farklı türde Kur'an-ı Kerimler.",
+                slug: "kuran-kerimler",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
+                books: [
+                    {
+                        title: "Kur'an-ı Kerim 1",
+                        description: "Kur'an-ı Kerim'in ilk cildi.",
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
+                        pdfLink: "/pdf/kuran1.pdf",
+                        slug: "kuran-kerim-1",
+                    },
+                    {
+                        title: "Kur'an-ı Kerim 2",
+                        description: "Kur'an-ı Kerim'in ikinci cildi.",
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
+                        pdfLink: "/pdf/kuran2.pdf",
+                        slug: "kuran-kerim-2",
+                    },
+                ],
+            },
+            {
+                title: "Tecvid",
+                description: "Tecvid kuralları hakkında kitaplar.",
+                slug: "tecvid",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
+                books: [
+                    {
+                        title: "Tecvid 1",
+                        description: "Temel tecvid kuralları.",
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
+                        pdfLink: "/pdf/tecvid1.pdf",
+                        slug: "tecvid-1",
+                    },
+                ],
+            },
+        ],
     },
     {
         title: "Tarihsel Eserler",
-        description: "Tarihsel belgeleri ve araştırmaları keşfedin.",
-        imageUrl: "https://www.invaluable.com/blog/wp-content/uploads/sites/77/2018/11/03-renaissance-raphael-1.jpg",
-        link: "/library/historical-books",
-    },
-    {
-        title: "Sanat Eserleri",
-        description: "Sanat belgelerini ve araştırmalarını keşfedin.",
-        imageUrl:
-            "https://d7hftxdivxxvm.cloudfront.net/?height=580&quality=80&resize_to=fill&src=https%3A%2F%2Fartsy-media-uploads.s3.amazonaws.com%2FHUmVtbTxwdHYD_K0JudisA%252Fcustom-Custom_Size___diego-velazquez-las-meninas-1656.jpg&width=869",
-        link: "#",
-    },
-    {
-        title: "Bilgi Kitapları",
-        description: "Bilgi belgelerini ve araştırmalarını keşfedin.",
-        imageUrl:
-            "https://edgroom-blogs.s3.ap-south-1.amazonaws.com/202310071218367175709_knowledge_classification_and_book_classification.jpg",
-        link: "#",
-    },
-    {
-        title: "Biyografi Kitapları",
-        description: "Biyografi belgelerini ve araştırmalarını keşfedin.",
-        imageUrl:
-            "https://img.freepik.com/premium-photo/many-stacks-educational-books-study-university-library-background_488220-17552.jpg",
-        link: "#",
-    },
-    {
-        title: "Dini Metinler",
-        description: "Dini metinler ve kaynakları inceleyin.",
-        imageUrl:
-            "https://kgeb.net/wp-content/uploads/2016/10/book-1659717_1920-810x464.jpg",
-        link: "/library/religious-books",
+        description: "Tarihe ışık tutan eserleri keşfedin.",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
+        slug: "tarihsel-eserler",
+        categories: [
+            {
+                title: "Osmanlı Dönemi",
+                description: "Osmanlı tarihi hakkında kitaplar.",
+                slug: "osmanli-donemi",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
+                books: [
+                    {
+                        title: "Osmanlı İmparatorluğu",
+                        description: "Osmanlı tarihinin detayları.",
+                        imageUrl: "https://example.com/osmanli.jpg",
+                        pdfLink: "/pdf/osmanli.pdf",
+                        slug: "osmanli-imparatorlugu",
+                    },
+                ],
+            },
+        ],
     },
 ];
+
+
 
 
 export const mentoringGrades = [
@@ -155,104 +184,6 @@ export const locations = [
     { icon: "fas fa-church", title: "Gent", email: "ghent@vzwjet.be" },
 ];
 
-export const educationalBooks = [
-    {
-        title: "Ku'ran-ı Kerimler",
-        description: "Matematik temellerini öğrenmek için ideal bir kaynak.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "/library/educational-books/quran",
-    },
-    {
-        title: "Tecvid",
-        description: "Fizik dünyasına giriş yapın.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "/library/educational-books/math",
-    },
-    {
-        title: "Kimya ve Yaşam",
-        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Kimya ve Yaşam",
-        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Kimya ve Yaşam",
-        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Kimya ve Yaşam",
-        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Kimya ve Yaşam",
-        description: "Kimya bilimini eğlenceli bir şekilde öğrenin.",
-        imageUrl: "https://www.ihvan.com.tr/arapca-turkce-okunuslu-ve-mealli-kurani-kerim-uclu-kuran-rahle-boy-yesil-merve-yayinlari-hvan-69820-31-B.jpg",
-        link: "#",
-    }
-];
-
-export const historicalBooks = [
-    {
-        title: "Osmanlı İmparatorluğu",
-        description: "Osmanlı tarihi hakkında detaylı bilgiler edinin.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Kurtuluş Savaşı",
-        description: "Türkiye Cumhuriyeti'nin bağımsızlık mücadelesini öğrenin.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Rönesans",
-        description: "Avrupa'da sanat ve bilimde büyük dönüşümün hikayesi.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Osmanlı İmparatorluğu",
-        description: "Osmanlı tarihi hakkında detaylı bilgiler edinin.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Kurtuluş Savaşı",
-        description: "Türkiye Cumhuriyeti'nin bağımsızlık mücadelesini öğrenin.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-    {
-        title: "Rönesans",
-        description: "Avrupa'da sanat ve bilimde büyük dönüşümün hikayesi.",
-        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRERYv2zkddtA49gxNxq3R8K6m_1Z8vhi3u9w&s",
-        link: "#",
-    },
-];
-
-export const quranBooks = [
-    {
-        title: "Kur'an-ı Kerim 1",
-        description: "Kur'an-ı Kerim'in ilk cildi.",
-        imageUrl: "https://www.hayrat.com.tr/orta-boy-kuran-i-kerim-lacivert-muhurlu-orta-boy-16x24-cm-hayrat-nesriyat-79171-79-B.jpg",
-        pdfLink: "#",
-    },
-    {
-        title: "Kur'an-ı Kerim 2",
-        description: "Kur'an-ı Kerim'in ikinci cildi.",
-        imageUrl: "https://www.hayrat.com.tr/orta-boy-kuran-i-kerim-lacivert-muhurlu-orta-boy-16x24-cm-hayrat-nesriyat-79171-79-B.jpg",
-        pdfLink: "#",
-    },
-];
 
 export const classData = {
     "6-sinif": {
