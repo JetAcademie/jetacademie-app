@@ -77,44 +77,44 @@ export const mentoringGrades = [
         title: "6. Sınıf",
         description: "6. sınıfa ait geniş bir kaynak yelpazesine erişin.",
         imageUrl: "https://wcedeportal.co.za/sites/eresources/files/Grade%206_0.png",
-        link: "#",
+        link: "6-sinif",
     },
     {
         title: "7. Sınıf",
         description: "7. sınıfa ait geniş bir kaynak yelpazesine erişin.",
         imageUrl:
             "https://summariessa.co.za/wp-content/uploads/2024/09/summariessa-grade-7-summaries-and-testpapers-with-answers-1.jpg",
-        link: "#",
+        link: "7-sinif",
     },
     {
         title: "8. Sınıf",
         description: "8. sınıfa ait geniş bir kaynak yelpazesine erişin.",
         imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-8.jpg",
-        link: "#",
+        link: "8-sinif",
     },
     {
         title: "9. Sınıf",
         description: "9. sınıfa ait geniş bir kaynak yelpazesine erişin.",
         imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-9.jpg",
-        link: "#",
+        link: "9-sinif",
     },
     {
         title: "10. Sınıf",
         description: "10. sınıfa ait geniş bir kaynak yelpazesine erişin.",
         imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-10.jpg",
-        link: "#",
+        link: "10-sinif",
     },
     {
         title: "11. Sınıf",
         description: "11. sınıfa ait geniş bir kaynak yelpazesine erişin.",
         imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-11.jpg",
-        link: "#",
+        link: "11-sinif",
     },
     {
         title: "12. Sınıf",
         description: "12. sınıfa ait geniş bir kaynak yelpazesine erişin.",
         imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-12.jpg",
-        link: "#",
+        link: "12-sinif",
     },
 ];
 

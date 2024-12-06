@@ -29,7 +29,7 @@ Dropdown.propTypes = {
             title: PropTypes.string.isRequired,
         })
     ).isRequired,
-    baseLink: PropTypes.string.isRequired, // Temel yol
+    baseLink: PropTypes.string.isRequired,
 };
 
 export default Dropdown;
