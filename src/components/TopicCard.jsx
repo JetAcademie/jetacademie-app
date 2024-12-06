@@ -11,13 +11,13 @@ const TopicCard = ({ data, basePath }) => {
                     className="bg-gradient-to-br from-blue-200 via-blue-300 to-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300 flex flex-col"
                 >
                     {/* Görsel */}
-                    <div className="relative overflow-hidden">
+                    <Link to={`${basePath}/${slugify(item.title)}`} className="relative overflow-hidden">
                         <img
                             src={item.imageUrl}
                             alt={item.title}
                             className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-                    </div>
+                    </Link>
 
                     {/* Başlık ve Açıklama */}
                     <div className="p-6 flex flex-col flex-grow">
