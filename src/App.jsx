@@ -3,14 +3,13 @@ import Layout from "./components/Layout";
 import Homepage from "./pages/HomePage/Homepage";
 import Contact from "./pages/Contact/Contact";
 import DigitalLibrary from "./pages/DigitalLibraryPage/DigitalLibrary";
-import EducationalBooks from "./pages/DigitalLibraryPage/EducationalBooks";
-import QuranBooks from "./pages/DigitalLibraryPage/QuranBooks";
 import Mentoring from "./pages/MentoringPage/MentoringPage";
-import HistoricalBooks from "./pages/DigitalLibraryPage/HistoricalBooks.jsx";
 import ClassPage from "./pages/MentoringPage/ClassPage.jsx";
-import {classData, mentoringGrades} from "./data/data.js";
+import {classData,} from "./data/data.js";
 import MonthPage from "./pages/MentoringPage/MonthPage.jsx";
 import { slugify } from "./components/utils.js";
+import CategoryPage from "./pages/DigitalLibraryPage/CategoryPage.jsx";
+import SubcategoryPage from "./pages/DigitalLibraryPage/SubCategory.jsx";
 
 function App() {
     return (
@@ -20,9 +19,9 @@ function App() {
                     <Route index element={<Homepage />} />
                     <Route path="contact" element={<Contact />} />
                     <Route path="library" element={<DigitalLibrary />} />
-                    <Route path="library/educational-books" element={<EducationalBooks />} />
-                    <Route path="library/historical-books" element={<HistoricalBooks />} />
-                    <Route path="library/educational-books/quran" element={<QuranBooks />} />
+                    <Route path="library/:categorySlug" element={<CategoryPage />} />
+                    <Route path="library/:categorySlug/:subcategorySlug" element={<SubcategoryPage />} />
+
                     <Route path="mentoring" element={<Mentoring />} />
 
                     {Object.entries(classData).map(([key, grade]) => (
@@ -42,7 +41,7 @@ function App() {
                                     <MonthPage
                                         gradeTitle={grade.title}
                                         month={month}
-                                        documents={monthData.documents || []}
+                                  zz      documents={monthData.documents || []}
                                         videos={monthData.videos || []}
                                         additionalLinks={monthData.additionalLinks || []}
                                     />
