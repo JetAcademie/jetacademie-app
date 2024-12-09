@@ -17,7 +17,7 @@ function MissionSection() {
 
                     {/* Right Side: Mission & Vision */}
                     <div className="w-full md:w-1/2 px-4 bg-white p-6 rounded-lg shadow">
-                        <h3 className="text-xl font-semibold mb-4">Misyonumuz:</h3>
+                        <h3 className="text-xl font-semibold mb-4">Misyonumuz</h3>
                         <p className="text-gray-700 mb-6">
                             Misyonumuz, gençlerin kendilerini rahat hissedebileceği, güvenli ve destekleyici bir
                             ortam oluşturarak onların potansiyellerini tam anlamıyla ortaya koymalarını sağlamaktır.
