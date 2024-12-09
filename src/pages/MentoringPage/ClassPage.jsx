@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import SectionHeader from "../../components/SectionHeader";
 import { slugify } from "../../components/utils.js";
@@ -39,21 +38,6 @@ const ClassPage = () => {
       </div>
     </div>
   );
-};
-
-ClassPage.propTypes = {
-  grade: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    months: PropTypes.objectOf(
-      PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          url: PropTypes.string.isRequired,
-        }),
-      ),
-    ).isRequired,
-  }).isRequired,
 };
 
 export default ClassPage;
