@@ -19,7 +19,7 @@ const DigitalLibrary = () => {
                 </p>
 
                 {/* TopicCard bileşeni */}
-                <TopicCard data={libraryCategories}/>
+                <TopicCard data={libraryCategories}  basePath="/library"/>
             </section>
         </div>
     );

@@ -18,7 +18,7 @@ const Mentoring = () => {
                 <p className="text-center text-gray-600 mb-10">
                     Farklı akademik seviyelere özel hazırlanmış mentorluk kaynaklarını keşfedin.
                 </p>
-                <TopicCard data={mentoringGrades} />
+                <TopicCard data={mentoringGrades} basePath="/mentoring"  />
             </section>
         </div>
     );
