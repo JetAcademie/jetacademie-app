@@ -1,16 +1,46 @@
+import { useRef } from "react";
+import emailjs from "emailjs-com";
+
 const ContactForm = () => {
+    const formRef = useRef();
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs
+            .sendForm(
+                "service_9odzo94",
+                "template_bf7p4zf",
+                e.target,
+                "5P-JLa6PGxb4j_sEj"
+            )
+            .then(
+                (result) => {
+                    console.log("Email gönderildi:", result.text);
+                    alert("Mesajınız başarıyla gönderildi!");
+                },
+                (error) => {
+                    console.error("Email gönderme hatası:", error.text);
+                    alert("Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.");
+                }
+            );
+
+        e.target.reset();
+    };
+
     return (
         <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-200 mb-16">
             <h4 className="text-2xl font-extrabold mb-6 text-gray-800">Mesaj Bırakın</h4>
-            <form>
+            <form ref={formRef} onSubmit={sendEmail}>
                 <div className="mb-4">
-                    <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+                    <label htmlFor="from_name" className="block text-gray-700 font-medium mb-2">
                         Adınız
                     </label>
                     <div className="relative">
                         <input
                             type="text"
-                            id="name"
+                            id="from_name"
+                            name="from_name"
                             placeholder="Adınızı Girin"
                             required
                             className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -26,6 +56,7 @@ const ContactForm = () => {
                         <input
                             type="email"
                             id="email"
+                            name="email"
                             placeholder="E-posta Adresinizi Girin"
                             required
                             className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -39,6 +70,7 @@ const ContactForm = () => {
                     </label>
                     <textarea
                         id="message"
+                        name="message"
                         placeholder="Mesajınızı buraya yazın"
                         required
                         rows="5"
