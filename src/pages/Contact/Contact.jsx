@@ -2,10 +2,9 @@ import SectionHeader from "../../components/SectionHeader.jsx";
 import ContactForm from "../../components/ContactForm.jsx";
 import Map from "../../components/Map.jsx";
 import LocationCard from "../../components/LocationCard.jsx";
-import {locations} from "../../data/data.js";
+import { locations } from "../../data/data.js";
 
 function Contact() {
-
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
             <main className="flex-grow pt-[3rem]">
@@ -32,8 +31,12 @@ function Contact() {
                 {/* Map and Form */}
                 <section className="container mx-auto mt-12 px-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-                        <Map />
-                        <ContactForm />
+                        <div className="flex flex-col h-full">
+                            <Map />
+                        </div>
+                        <div className="flex flex-col h-full">
+                            <ContactForm />
+                        </div>
                     </div>
                 </section>
             </main>
