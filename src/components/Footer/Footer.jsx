@@ -44,7 +44,7 @@ const Footer = () => {
                         </h5>
                         <div className="flex justify-center space-x-6">
                             <a
-                                href="https://www.instagram.com"
+                                href="https://www.instagram.com/vzwjet/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-gray-300 hover:text-gray-100 transition duration-300"
@@ -52,7 +52,7 @@ const Footer = () => {
                                 <i className="fab fa-instagram fa-2x"></i>
                             </a>
                             <a
-                                href="https://www.youtube.com"
+                                href="https://www.youtube.com/@JeugdenToekomst"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-gray-300 hover:text-gray-100 transition duration-300"
@@ -60,7 +60,7 @@ const Footer = () => {
                                 <i className="fab fa-youtube fa-2x"></i>
                             </a>
                             <a
-                                href="https://www.facebook.com"
+                                href="https://www.facebook.com/vzwjet"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-gray-300 hover:text-gray-100 transition duration-300"
