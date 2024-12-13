@@ -1,0 +1,197 @@
+Library API Endpoint Mapping 
+ 
+1. GET_ALL_CATEGORIES
+•	Role: Viewer,Admin
+•	Method: GET
+•	Variables: None
+•	Expected JSON:
+[
+  {
+    "categoryId": "string",
+    "categoryName": "string",
+    "thumbnail_url":"string"
+  }
+]
+
+// Ornek kategoriler : Kuran,Risale,Pirlanta
+ 
+2. CREATE_CATEGORY
+•	Role:Admin
+•	Method: POST
+•	Variables:
+{
+  "categoryName": "string",
+  "thumbnail_url":"string"
+}
+•	HTTP Code: 201 Created
+ 
+3. DELETE_CATEGORY
+•	Role:Admin
+•	Method: DELETE
+•	Variables:
+{
+  "categoryId": "string"
+}
+•	HTTP Code: 204 No Content
+
+4. GET_ALL_SUBCATEGORIES
+•	Role: Viewer,Admin
+•	Method: GET
+•	Variables:
+{
+  "categoryId": "string"
+}
+•	Expected JSON:
+[
+  {
+    "subcategoryId": "string",
+    "subcategoryName": "string",
+    "thumbnail_url":"string"
+  }
+]
+
+// ornek alt kategoriler mesela risale kategorisi icin, ["Kucuk Risaleler", "Sadelestirilmis Risaleler"]
+ 
+5. CREATE_SUBCATEGORY
+•	Role:Admin
+•	Method: POST
+•	Variables:
+{
+  "categoryId": "string",
+  "subcategoryName": "string",
+  "thumbnail_url":"string"
+}
+•	HTTP Code: 201 Created
+ 
+6. DELETE_SUBCATEGORY
+•	Role:Admin
+•	Method: DELETE
+•	Variables:
+{
+  "categoryId": "string", // gerekli mi emin degilim.Subcategory islemlerinde category id gerekirse tum islemlere eklenebilir
+  "subcategoryId": "string"
+}
+•	HTTP Code: 204 No Content
+ 
+7. GET_ALL_ITEMS_IN_SUBCATEGORY
+•	Role: Viewer,Admin
+•	Method: GET
+•	Variables:
+{
+  "subcategoryId": "string"
+}
+•	Expected JSON:
+[
+  {
+    "itemId": "string",
+    "itemName": "string",
+    "thumbnail_url":"string"
+  }
+]
+
+
+// ornek item kategoriler mesela risale kategorisi icin, ['Lemalar', "Mektubat"]
+ 
+8. CREATE_ITEM_IN_SUBCATEGORY
+•	Role:Admin
+•	Method: POST
+•	Variables:
+
+{
+  "subcategoryId": "string",
+  "itemName": "string",
+  "thumbnail_url":"string",
+  "file": "MultipartFile" // pdf formati
+}
+•	HTTP Code: 201 Created
+ 
+9. DELETE_ITEM_IN_SUBCATEGORY
+•	Role:Admin
+•	Method: DELETE
+•	Variables:
+{
+  // ayni sekilde subcategory id gerekliyse eklenebilir
+  "itemId": "string"
+}
+•	HTTP Code: 204 No Content
+
+
+
+
+
+
+Mentoring API Endpoint Mapping 
+ 
+ 
+7. GET_ALL_MATERIALS_FOR_MONTH
+•	Role: Viewer,Admin
+•	Method: GET
+•	Variables:
+
+{
+  "grageId":"string",
+  "monthId": "string"
+}
+•	Expected JSON:
+
+{
+  "documents": [
+    {
+      "documentId": "string",
+      "documentName": "string",
+      "documentUrl": "string"
+    }
+  ],
+  "videos": [
+    {
+      "videoId": "string",
+      "videoTitle": "string",
+      "videoUrl": "string"
+    }
+  ],
+  "links": [
+    {
+      "linkId": "string",
+      "linkTitle": "string",
+      "linkUrl": "string"
+    }
+  ]
+}
+ 
+8. CREATE_MATERIAL_FOR_MONTH
+•	Role:Admin
+•	Method: POST
+•	Variables:
+
+
+{
+  "monthId": "string",
+  "materialType": "string", // "document", "video", or "link"
+  "material": {
+    "name": "string",
+    "url": "string"
+  }
+}
+•	HTTP Code: 201 Created
+ 
+9. DELETE_MATERIAL_FOR_MONTH
+•	Role:Admin
+•	Method: DELETE
+•	Variables:
+
+
+{
+  "materialId": "string"
+}
+•	HTTP Code: 204 No Content
+
+
+Login ADMIN
+• Role: Admin
+• Method: POST
+• Variables:
+{
+  "username": "string",
+  "password": "string"
+}
+• HTTP Code: 201 Created
