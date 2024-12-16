@@ -1,10 +1,10 @@
 export const libraryCategories = [
   {
-    title: "Eğitim Kitapları",
-    description: "Eğitim materyalleri ve kaynaklarını keşfedin.",
+    title: "Kuran",
+    description: "Kuran-i Kerimler ve kaynaklarını keşfedin.",
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-    slug: "egitim-kitaplari",
+    slug: "kuran",
     categories: [
       {
         title: "Kur'an-ı Kerimler",

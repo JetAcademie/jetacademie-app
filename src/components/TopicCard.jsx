@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { slugify } from "./utils.js";
 
 const TopicCard = ({ data, basePath }) => {
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {data.map((item, index) => (
@@ -24,7 +25,10 @@ const TopicCard = ({ data, basePath }) => {
                         <h5 className="text-lg font-bold mb-3 text-gray-800 group-hover:text-blue-500 transition">
                             {item.title}
                         </h5>
-                        <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">{item.description}</p>
+                        {/* Eğer description varsa göster */}
+                        {item.description && (
+                            <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">{item.description}</p>
+                        )}
                         <div className="mt-auto">
                             <Link
                                 to={`${basePath}/${slugify(item.title)}`}
@@ -40,12 +44,13 @@ const TopicCard = ({ data, basePath }) => {
     );
 };
 
+// PropTypes Güncellemesi
 TopicCard.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.shape({
-            imageUrl: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
+            imageUrl: PropTypes.string.isRequired, // Zorunlu
+            title: PropTypes.string.isRequired, // Zorunlu
+            description: PropTypes.string, // Opsiyonel
         })
     ).isRequired,
     basePath: PropTypes.string.isRequired, // Dinamik yönlendirme için taban yol

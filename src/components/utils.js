@@ -14,6 +14,9 @@ export const getRandomColors = () => {
 
 
 export const slugify = (str) => {
+    if (!str) {
+        return ""; // Eğer str undefined, null veya boş string ise, boş bir slug döndür
+    }
     return str
         .toLowerCase()
         .replace(/ç/g, "c")
