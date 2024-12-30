@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import TopicCard from "../../components/TopicCard.jsx";
 import SectionHeader from "../../components/SectionHeader.jsx";
+import { slugify } from "../../components/utils.js";
 
 const DigitalLibrary = () => {
     const [categories, setCategories] = useState([]);
@@ -16,10 +17,9 @@ const DigitalLibrary = () => {
                 const mainCategories = response.data
                     .filter(category => category.parentCategoryId === null)
                     .map(category => ({
-                        id: category.categoryId, // ID'yi link oluşturmak için ekledik
                         title: category.categoryName || "Bilinmeyen Kategori",
                         imageUrl: category.thumbnailUrl || "https://via.placeholder.com/150",
-                        link: `/library/${category.categoryId}`, // Doğrudan id kullanarak link oluştur
+                        link: `/library/${slugify(category.categoryName)}`, // URL için slugify edilmiş kategori adı
                     }));
 
                 setCategories(mainCategories); // Dönüştürülmüş veriyi state'e kaydet
@@ -52,7 +52,6 @@ const DigitalLibrary = () => {
                 <p className="text-center text-gray-600 mb-10">
                     Birçok disipline yayılan özenle seçilmiş kitap ve kaynak koleksiyonumuzu inceleyin.
                 </p>
-                {/* TopicCard'a kategorilerin verilerini aktar */}
                 <TopicCard data={categories} />
             </section>
         </div>

@@ -23,10 +23,6 @@ const TopicCard = ({ data }) => {
                         <h5 className="text-lg font-bold mb-3 text-gray-800 group-hover:text-blue-500 transition">
                             {item.title}
                         </h5>
-                        {/* Eğer description varsa göster */}
-                        {item.description && (
-                            <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">{item.description}</p>
-                        )}
                         <div className="mt-auto">
                             <Link
                                 to={item.link}
@@ -49,7 +45,6 @@ TopicCard.propTypes = {
             imageUrl: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
             link: PropTypes.string.isRequired, // Link zorunlu hale getirildi
-            description: PropTypes.string, // Opsiyonel
         })
     ).isRequired,
 };
