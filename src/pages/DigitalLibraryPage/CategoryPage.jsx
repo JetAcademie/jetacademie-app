@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import SectionHeader from "../../components/SectionHeader.jsx";
 import BookCard from "../../components/BookCard.jsx";
-import {slugify} from "../../components/utils.js";
+import { slugify } from "../../components/utils.js";
 
 const CategoryPage = () => {
     const { categorySlug } = useParams();
@@ -14,7 +14,10 @@ const CategoryPage = () => {
     useEffect(() => {
         const fetchSubcategories = async () => {
             try {
+                // Tüm kategorileri getir
                 const response = await axios.get("http://localhost:8080/api/categories");
+
+                // categorySlug ile kategoriyi bul
                 const currentCategory = response.data.find(
                     category => slugify(category.categoryName) === categorySlug
                 );
@@ -23,6 +26,7 @@ const CategoryPage = () => {
                     throw new Error("Kategori bulunamadı.");
                 }
 
+                // Bu kategorinin alt kategorilerini filtrele
                 const childCategories = response.data.filter(
                     category => category.parentCategoryId === currentCategory.categoryId
                 );
@@ -58,7 +62,7 @@ const CategoryPage = () => {
                         key={subCategory.categoryId}
                         title={subCategory.categoryName}
                         imageUrl={subCategory.thumbnailUrl}
-                        link={`/library/${slugify(subCategory.categoryName)}`}
+                        link={`/library/${slugify(categorySlug)}/${slugify(subCategory.categoryName)}`}
                     />
                 ))}
             </div>
