@@ -12,12 +12,17 @@ const DigitalLibrary = () => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/api/categories");
-                // Gelen veriyi dönüştür
-                const transformedData = response.data.map(category => ({
-                    title: category.categoryName || "Bilinmeyen Kategori", // Varsayılan başlık
-                    imageUrl: category.thumbnailUrl || "https://via.placeholder.com/150", // Placeholder resim
-                }));
-                setCategories(transformedData); // Dönüştürülmüş veriyi state'e kaydet
+                // Sadece parentCategoryId === null olanları filtrele
+                const mainCategories = response.data
+                    .filter(category => category.parentCategoryId === null)
+                    .map(category => ({
+                        id: category.categoryId, // ID'yi link oluşturmak için ekledik
+                        title: category.categoryName || "Bilinmeyen Kategori",
+                        imageUrl: category.thumbnailUrl || "https://via.placeholder.com/150",
+                        link: `/library/${category.categoryId}`, // Doğrudan id kullanarak link oluştur
+                    }));
+
+                setCategories(mainCategories); // Dönüştürülmüş veriyi state'e kaydet
                 setLoading(false);
             } catch (err) {
                 setError("Veriler alınırken bir hata oluştu.");
@@ -47,7 +52,8 @@ const DigitalLibrary = () => {
                 <p className="text-center text-gray-600 mb-10">
                     Birçok disipline yayılan özenle seçilmiş kitap ve kaynak koleksiyonumuzu inceleyin.
                 </p>
-                <TopicCard data={categories} basePath="/library" />
+                {/* TopicCard'a kategorilerin verilerini aktar */}
+                <TopicCard data={categories} />
             </section>
         </div>
     );

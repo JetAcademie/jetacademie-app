@@ -17,7 +17,7 @@ function App() {
           <Route index element={<Homepage />} />
           <Route path="contact" element={<Contact />} />
           <Route path="library" element={<DigitalLibrary />} />
-          <Route path="library/:categorySlug" element={<CategoryPage />} />
+          <Route path="/library/:categoryId" element={<CategoryPage />} />
           <Route path="library/:categorySlug/:subcategorySlug" element={<SubcategoryPage />} />
           <Route path="mentoring/:gradeSlug" element={<ClassPage />} />
           <Route path="mentoring/:gradeSlug/:monthSlug" element={<MonthPage />} />
