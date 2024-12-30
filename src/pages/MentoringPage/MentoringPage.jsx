@@ -5,7 +5,7 @@ import SectionHeader from "../../components/SectionHeader.jsx";
 
 const Mentoring = () => {
     return (
-        <div>
+        <div className="bg-white">
 
             <div className="flex-grow pt-[3rem]">
             <SectionHeader

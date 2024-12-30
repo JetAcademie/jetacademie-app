@@ -4,7 +4,7 @@ import SectionHeader from "../../components/SectionHeader.jsx";
 
 const DigitalLibrary = () => {
     return (
-        <div className="flex-grow pt-[3rem]">
+        <div className="flex-grow pt-[3rem] bg-white">
             {/* Sayfa Başlığı */}
             <SectionHeader
                 title="Digital Kütüphane"
