@@ -129,7 +129,7 @@ Mentoring API Endpoint Mapping
 •	Variables:
 
 {
-  "grageId":"string",
+  "gradeId":"string",
   "monthId": "string"
 }
 •	Expected JSON:
