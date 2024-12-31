@@ -1,43 +1,69 @@
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 import SectionHeader from "../../components/SectionHeader";
 import { slugify } from "../../components/utils.js";
-import { classData } from "../../data/data.js";
 
 const ClassPage = () => {
-  const { gradeSlug } = useParams();
+    const { gradeSlug } = useParams();
+    const [months, setMonths] = useState([]);
+    const [gradeTitle, setGradeTitle] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const grade = Object.values(classData).find((grade) => slugify(grade.title) === gradeSlug);
+    useEffect(() => {
+        const fetchMonths = async () => {
+            try {
+                const gradesResponse = await axios.get("http://localhost:8080/api/grades");
+                const grade = gradesResponse.data.find((g) => slugify(g.gradeName) === gradeSlug);
 
-  if (!grade || !grade.months) {
+                if (!grade) {
+                    throw new Error("Sınıf bulunamadı.");
+                }
+
+                setGradeTitle(grade.gradeName);
+
+                const monthsResponse = await axios.get(`http://localhost:8080/api/months?gradeId=${grade.gradeId}`);
+                setMonths(monthsResponse.data);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setError("Ay bilgileri yüklenirken bir hata oluştu.");
+                setLoading(false);
+            }
+        };
+
+        fetchMonths();
+    }, [gradeSlug]);
+
+    if (loading) {
+        return <div className="text-center mt-10">Yükleniyor...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center mt-10 text-red-500">{error}</div>;
+    }
+
     return (
-      <div className="container mx-auto py-10 px-6">
-        <h1 className="text-4xl font-bold text-center mb-6 text-red-500">
-          Sınıf bilgileri yüklenemedi.
-        </h1>
-        <p className="text-center text-gray-600">Lütfen daha sonra tekrar deneyin.</p>
-      </div>
-    );
-  }
+        <div>
+            <SectionHeader title={gradeTitle} description={`${gradeTitle} için tüm ayları görüntüleyin.`} />
+            <div className="container mx-auto py-10 px-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {months.map((month) => (
+                        <Link
+                            key={month.monthId}
+                            to={`/mentoring/${slugify(gradeTitle)}/${slugify(month.monthName)}`}
+                            className="bg-blue-100 text-center p-6 rounded-lg shadow hover:shadow-lg hover:bg-blue-200 transition"
+                        >
+                            <h3 className="text-lg font-bold text-gray-800">{month.monthName}</h3>
+                        </Link>
 
-  return (
-    <div>
-      <SectionHeader title={grade.title} description={grade.description} />
-      <div className="container mx-auto py-10 px-6">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Tüm Aylar</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {Object.keys(grade.months).map((month) => (
-            <Link
-              key={month}
-              to={`/mentoring/${gradeSlug}/${month}`}
-              className="bg-blue-100 text-center p-6 rounded-lg shadow hover:shadow-lg hover:bg-blue-200 transition"
-            >
-              <h3 className="text-lg font-bold text-gray-800">{month}</h3>
-            </Link>
-          ))}
+                    ))}
+                </div>
+
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ClassPage;
