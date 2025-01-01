@@ -15,7 +15,7 @@ function Contact() {
 
                 {/* Locations Section */}
                 <section className="container mx-auto mt-12 px-4">
-                    <h2 className="text-center text-3xl font-semibold mb-10">Şubelerimiz</h2>
+                    <h2 className="text-center text-3xl font-semibold mb-10 text-black">Şubelerimiz</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {locations.map((location, index) => (
                             <LocationCard
