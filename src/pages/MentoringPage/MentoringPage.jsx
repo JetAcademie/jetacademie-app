@@ -38,8 +38,8 @@ const Mentoring = () => {
     }
 
     return (
-        <div>
-            <div className="flex-grow pt-[3rem]">
+        <div className="bg-white">
+            <div className="flex-grow pt-[3rem] ">
                 <SectionHeader
                     title="Mentorluk"
                     description="Başarıya yardımcı olmak için tasarlanmış mentorluk kaynaklarını keşfedin."

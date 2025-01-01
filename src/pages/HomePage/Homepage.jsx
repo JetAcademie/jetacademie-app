@@ -4,7 +4,7 @@ import MotivationSection from "./MotivationSection/MotivationSection.jsx";
 
 const Homepage = () => {
   return (
-    <div className="mt-24">
+    <div className="mt-24 bg-gray-100">
       <InfoSection />
       <MotivationSection />
       <MissionSection />
