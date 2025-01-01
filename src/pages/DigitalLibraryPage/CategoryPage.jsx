@@ -51,7 +51,7 @@ const CategoryPage = () => {
     }
 
     return (
-        <div className="container mx-auto py-10 px-6">
+        <div className="container mx-auto py-10 px-6 ">
             <SectionHeader
                 title="Alt Kategoriler"
                 description="Bu kategorideki alt kategorilere göz atın."

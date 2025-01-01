@@ -43,7 +43,7 @@ const ContactForm = () => {
                             name="from_name"
                             placeholder="Adınızı Girin"
                             required
-                            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                         />
                         <i className="fas fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     </div>
@@ -59,7 +59,7 @@ const ContactForm = () => {
                             name="email"
                             placeholder="E-posta Adresinizi Girin"
                             required
-                            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                         />
                         <i className="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     </div>
@@ -74,7 +74,7 @@ const ContactForm = () => {
                         placeholder="Mesajınızı buraya yazın"
                         required
                         rows="5"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                     ></textarea>
                 </div>
                 <button
