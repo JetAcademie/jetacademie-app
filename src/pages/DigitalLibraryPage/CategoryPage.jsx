@@ -12,7 +12,7 @@ const CategoryPage = () => {
     }
 
     return (
-        <div className="container mx-auto py-10 px-6">
+        <div className="container mx-auto py-10 px-6 ">
             <SectionHeader
                 title={category.title}
                 description={category.description}
