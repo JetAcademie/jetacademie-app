@@ -42,7 +42,7 @@ const DigitalLibrary = () => {
     }
 
     return (
-        <div className="flex-grow pt-[3rem]">
+        <div className="flex-grow pt-[3rem] bg-white">
             <SectionHeader
                 title="Dijital Kütüphane"
                 description="Bilginizi zenginleştirmek için çeşitli kitap ve kaynak kategorilerini keşfedin."
