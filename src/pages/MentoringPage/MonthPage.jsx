@@ -1,140 +1,180 @@
-import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import SectionHeader from "../../components/SectionHeader";
-
-const month = {
-  documents: [
-    { name: "Matematik Notları", url: "/pdfs/6th-grade/january/math-notes.pdf" },
-    {
-      name: "Fen Bilimleri Çalışma Kitabı",
-      url: "/pdfs/6th-grade/january/science-workbook.pdf",
-    },
-  ],
-  videos: [
-    { title: "Matematik Ders Videosu", url: "https://www.youtube.com/embed/example1" },
-    { title: "Fen Deneyi Videosu", url: "https://www.youtube.com/qCTCCL46TpE?t=4" },
-  ],
-  additionalLinks: [
-    { title: "Faydalı Çalışma Yöntemleri", url: "https://example.com/study-methods" },
-    { title: "Eğitici Oyunlar", url: "https://example.com/educational-games" },
-  ],
-};
+import { slugify } from "../../components/utils";
 
 const MonthPage = () => {
   const { gradeSlug, monthSlug } = useParams();
-  const { documents, videos, additionalLinks } = month;
-  return (
-    <div className="container mx-auto py-10 px-6">
-      {/* Başlık */}
-      <SectionHeader
-        title={gradeSlug}
-        description={`Bu sayfa ${monthSlug} ayına ait tüm materyalleri içermektedir.`}
-      />
 
-      {/* İçerik Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-        {/* PDF Dokümanları */}
-        <div className="md:col-span-2">
-          <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-green-500 pb-2">
-            PDF Dokümanları
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {documents.map((doc, index) => (
-              <div
-                key={index}
-                className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
-              >
-                <div className="bg-gray-100 h-40 flex items-center justify-center">
-                  <div className="text-center">
-                    <h3 className="text-lg font-bold text-gray-700 px-4">{doc.name}</h3>
-                  </div>
-                </div>
-                <div className="p-4 text-center">
-                  <a
-                    href={doc.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+  const monthMapping = {
+    eylul: 1,
+    ekim: 2,
+    kasim: 3,
+    aralik: 4,
+    "kis-kampi": 5,
+    ocak: 6,
+    subat: 7,
+    mart: 8,
+    nisan: 9,
+    mayis: 10,
+    haziran: 11,
+    "yaz-kampi": 12,
+  };
+
+  const [materials, setMaterials] = useState({ documents: [], videos: [], links: [] });
+  const [gradeTitle, setGradeTitle] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchMaterials = async () => {
+      try {
+        console.log("gradeSlug:", gradeSlug);
+        console.log("monthSlug:", monthSlug);
+        console.log("monthId:", monthMapping[monthSlug]);
+
+        if (!monthMapping[monthSlug]) {
+          throw new Error(`Geçersiz ay slug: ${monthSlug}`);
+        }
+
+        const gradesResponse = await axios.get("http://localhost:8080/api/grades");
+        const grade = gradesResponse.data.find((g) => slugify(g.gradeName) === gradeSlug);
+
+        if (!grade) {
+          throw new Error("Sınıf bulunamadı.");
+        }
+
+        setGradeTitle(grade.gradeName);
+
+        const materialsResponse = await axios.get(
+            `http://localhost:8080/api/materials?gradeId=${grade.gradeId}&monthId=${monthMapping[monthSlug]}`
+        );
+
+        const groupedMaterials = { documents: [], videos: [], links: [] };
+        materialsResponse.data.forEach((material) => {
+          if (material.type === "documents") groupedMaterials.documents.push(material);
+          else if (material.type === "videos") groupedMaterials.videos.push(material);
+          else if (material.type === "links") groupedMaterials.links.push(material);
+        });
+
+        setMaterials(groupedMaterials);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError("Materyaller yüklenirken bir hata oluştu.");
+        setLoading(false);
+      }
+    };
+
+    fetchMaterials();
+  }, [gradeSlug, monthSlug]);
+
+  if (loading) {
+    return <div className="text-center mt-10">Yükleniyor...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center mt-10 text-red-500">{error}</div>;
+  }
+
+  const { documents, videos, links } = materials;
+
+  return (
+      <div className="container mx-auto py-10 px-6">
+        {/* Başlık */}
+        <SectionHeader
+            title={gradeTitle}
+            description={`Bu sayfa ${monthSlug} ayına ait tüm materyalleri içermektedir.`}
+        />
+
+        {/* İçerik Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+          {/* PDF Dokümanları */}
+          <div className="md:col-span-2">
+            <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-green-500 pb-2">
+              PDF Dokümanları
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {documents.map((doc, index) => (
+                  <div
+                      key={index}
+                      className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
                   >
-                    Görüntüle / İndir
-                  </a>
-                </div>
-              </div>
-            ))}
+                    {/* PDF Preview */}
+                    <div className="bg-gray-100 h-48 flex items-center justify-center">
+                      <embed
+                          src={doc.url}
+                          type="application/pdf"
+                          className="w-full h-full"
+                          title={doc.name}
+                      />
+                    </div>
+                    <div className="p-4 text-center">
+                      <h3 className="text-lg font-bold text-gray-700 px-4">{doc.name}</h3>
+                      <a
+                          href={doc.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                      >
+                        Görüntüle / İndir
+                      </a>
+                    </div>
+                  </div>
+              ))}
+            </div>
+
+          </div>
+
+            {/* Ek Linkler */}
+          <div className="md:col-span-1">
+            <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-yellow-500 pb-2">
+              Ek Linkler
+            </h2>
+            <ul className="space-y-3">
+              {links.map((link, index) => (
+                  <li
+                      key={index}
+                      className="bg-gray-50 p-4 rounded-lg shadow-md border hover:shadow-lg transition"
+                  >
+                    <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-600 hover:underline font-medium"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Ek Linkler */}
-        <div className="md:col-span-1">
-          <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-yellow-500 pb-2">
-            Ek Linkler
+        {/* Videolar */}
+        <div className="mt-12">
+          <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-blue-500 pb-2">
+            Videolar
           </h2>
-          <ul className="space-y-3">
-            {additionalLinks.map((link, index) => (
-              <li
-                key={index}
-                className="bg-gray-50 p-4 rounded-lg shadow-md border hover:shadow-lg transition"
-              >
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-blue-600 hover:underline font-medium"
-                >
-                  {link.title}
-                </a>
-              </li>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {videos.map((video, index) => (
+                <div key={index} className="rounded-lg shadow-md overflow-hidden">
+                  <iframe
+                      src={`https://www.youtube.com/embed/${new URL(video.url).searchParams.get("v")}`}
+                      title={video.title}
+                      frameBorder="0"
+                      allow="autoplay; encrypted-media"
+                      allowFullScreen
+                      className="w-full h-48 md:h-56 rounded-md"
+                  ></iframe>
+                  <h3 className="text-md font-bold text-gray-800 mt-2 text-center">{video.title}</h3>
+                </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
-
-      {/* Videolar */}
-      <div className="mt-12">
-        <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-blue-500 pb-2">
-          Videolar
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map((video, index) => (
-            <div key={index} className="rounded-lg shadow-md overflow-hidden">
-              <iframe
-                src={video.url}
-                title={video.title}
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                className="w-full h-48 md:h-56 rounded-md"
-              ></iframe>
-              <h3 className="text-md font-bold text-gray-800 mt-2 text-center">{video.title}</h3>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
   );
-};
-
-MonthPage.propTypes = {
-  gradeTitle: PropTypes.string.isRequired,
-  month: PropTypes.string.isRequired,
-  documents: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  videos: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  additionalLinks: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
 };
 
 export default MonthPage;
