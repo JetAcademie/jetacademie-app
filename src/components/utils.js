@@ -13,15 +13,11 @@ export const getRandomColors = () => {
 };
 
 
-export const slugify = (str) => {
-    return str
+export const slugify = (text) =>
+    text
+        .toString()
         .toLowerCase()
-        .replace(/ç/g, "c")
-        .replace(/ğ/g, "g")
-        .replace(/ı/g, "i")
-        .replace(/ö/g, "o")
-        .replace(/ş/g, "s")
-        .replace(/ü/g, "u")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-};
+        .trim()
+        .replace(/\s+/g, "-") // Boşlukları tire ile değiştir
+        .replace(/[^\w-]+/g, ""); // Özel karakterleri kaldır
+

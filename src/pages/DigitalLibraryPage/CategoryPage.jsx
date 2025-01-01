@@ -1,29 +1,68 @@
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { libraryCategories } from "../../data/data";
+import axios from "axios";
 import SectionHeader from "../../components/SectionHeader.jsx";
 import BookCard from "../../components/BookCard.jsx";
+import { slugify } from "../../components/utils.js";
 
 const CategoryPage = () => {
     const { categorySlug } = useParams();
-    const category = libraryCategories.find((cat) => cat.slug === categorySlug);
+    const [subcategories, setSubcategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    if (!category) {
-        return <p>Kategori bulunamadı.</p>;
+    useEffect(() => {
+        const fetchSubcategories = async () => {
+            try {
+                // Tüm kategorileri getir
+                const response = await axios.get("http://localhost:8080/api/categories");
+
+                // categorySlug ile kategoriyi bul
+                const currentCategory = response.data.find(
+                    category => slugify(category.categoryName) === categorySlug
+                );
+
+                if (!currentCategory) {
+                    throw new Error("Kategori bulunamadı.");
+                }
+
+                // Bu kategorinin alt kategorilerini filtrele
+                const childCategories = response.data.filter(
+                    category => category.parentCategoryId === currentCategory.categoryId
+                );
+
+                setSubcategories(childCategories);
+                setLoading(false);
+            } catch (err) {
+                setError("Veriler alınırken bir hata oluştu.");
+                setLoading(false);
+            }
+        };
+
+        fetchSubcategories();
+    }, [categorySlug]);
+
+    if (loading) {
+        return <div className="text-center mt-10">Yükleniyor...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center mt-10 text-red-500">{error}</div>;
     }
 
     return (
         <div className="container mx-auto py-10 px-6 ">
             <SectionHeader
-                title={category.title}
-                description={category.description}
+                title="Alt Kategoriler"
+                description="Bu kategorideki alt kategorilere göz atın."
             />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-                {category.categories.map((subCategory) => (
+                {subcategories.map((subCategory) => (
                     <BookCard
-                        key={subCategory.slug}
-                        title={subCategory.title}
-                        imageUrl={subCategory.imageUrl}
-                        link={`/library/${categorySlug}/${subCategory.slug}`}
+                        key={subCategory.categoryId}
+                        title={subCategory.categoryName}
+                        imageUrl={subCategory.thumbnailUrl}
+                        link={`/library/${slugify(categorySlug)}/${slugify(subCategory.categoryName)}`}
                     />
                 ))}
             </div>

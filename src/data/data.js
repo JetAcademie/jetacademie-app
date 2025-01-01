@@ -1,10 +1,10 @@
 export const libraryCategories = [
   {
-    title: "Eğitim Kitapları",
-    description: "Eğitim materyalleri ve kaynaklarını keşfedin.",
+    title: "Kuran",
+    description: "Kuran-i Kerimler ve kaynaklarını keşfedin.",
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-    slug: "egitim-kitaplari",
+    slug: "kuran",
     categories: [
       {
         title: "Kur'an-ı Kerimler",
@@ -243,58 +243,3 @@ export const locations = [
   { icon: "fas fa-church", title: "Gent", email: "ghent@vzwjet.be" },
 ];
 
-export const classData = {
-  "6-sinif": {
-    title: "6. Sınıf",
-    description: "6. sınıfa ait geniş bir kaynak yelpazesine erişin.",
-    months: {
-      January: {
-        documents: [
-          { name: "Matematik Notları", url: "/pdfs/6th-grade/january/math-notes.pdf" },
-          {
-            name: "Fen Bilimleri Çalışma Kitabı",
-            url: "/pdfs/6th-grade/january/science-workbook.pdf",
-          },
-        ],
-        videos: [
-          { title: "Matematik Ders Videosu", url: "https://www.youtube.com/embed/example1" },
-          { title: "Fen Deneyi Videosu", url: "https://www.youtube.com/qCTCCL46TpE?t=4" },
-        ],
-        additionalLinks: [
-          { title: "Faydalı Çalışma Yöntemleri", url: "https://example.com/study-methods" },
-          { title: "Eğitici Oyunlar", url: "https://example.com/educational-games" },
-        ],
-      },
-      February: {
-        documents: [
-          { name: "Matematik Notları", url: "/pdfs/6th-grade/january/math-notes.pdf" },
-          {
-            name: "Fen Bilimleri Çalışma Kitabı",
-            url: "/pdfs/6th-grade/january/science-workbook.pdf",
-          },
-        ],
-        videos: [
-          { title: "Matematik Ders Videosu", url: "https://www.youtube.com/embed/example1" },
-          { title: "Fen Deneyi Videosu", url: "https://www.youtube.com/embed/example2" },
-        ],
-        additionalLinks: [
-          { title: "Faydalı Çalışma Yöntemleri", url: "https://example.com/study-methods" },
-          { title: "Eğitici Oyunlar", url: "https://example.com/educational-games" },
-        ],
-      },
-    },
-  },
-  "7-sinif": {
-    title: "7. Sınıf",
-    description: "7. sınıfa ait geniş bir kaynak yelpazesine erişin.",
-    months: {
-      January: {
-        documents: [
-          { name: "Türkçe Çalışma Kitabı", url: "/pdfs/7th-grade/january/turkish-workbook.pdf" },
-        ],
-        videos: [{ title: "Türkçe Konu Anlatımı", url: "https://www.youtube.com/embed/example3" }],
-        additionalLinks: [{ title: "Koordinasyon Oyunları", url: "https://example.com/games" }],
-      },
-    },
-  },
-};
