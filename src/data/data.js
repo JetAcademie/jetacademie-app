@@ -1,134 +1,91 @@
 export const libraryCategories = [
   {
     title: "Kuran",
-    description: "Kuran-i Kerimler ve kaynaklarını keşfedin.",
-    imageUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
     slug: "kuran",
-    categories: [
-      {
-        title: "Kur'an-ı Kerimler",
-        description: "Farklı türde Kur'an-ı Kerimler.",
-        slug: "kuran-kerimler",
-        imageUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-        books: [
-          {
-            title: "Kur'an-ı Kerim 1",
-            description: "Kur'an-ı Kerim'in ilk cildi.",
-            imageUrl:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-            pdfLink: "/pdf/kuran1.pdf",
-            slug: "kuran-kerim-1",
-          },
-          {
-            title: "Kur'an-ı Kerim 2",
-            description: "Kur'an-ı Kerim'in ikinci cildi.",
-            imageUrl:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-            pdfLink: "/pdf/kuran2.pdf",
-            slug: "kuran-kerim-2",
-          },
-        ],
-      },
-      {
-        title: "Tecvid",
-        description: "Tecvid kuralları hakkında kitaplar.",
-        slug: "tecvid",
-        imageUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-        books: [
-          {
-            title: "Tecvid 1",
-            description: "Temel tecvid kuralları.",
-            imageUrl:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-            pdfLink: "/pdf/tecvid1.pdf",
-            slug: "tecvid-1",
-          },
-        ],
-      },
-    ],
   },
   {
-    title: "Tarihsel Eserler",
-    description: "Tarihe ışık tutan eserleri keşfedin.",
-    imageUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-    slug: "tarihsel-eserler",
-    categories: [
-      {
-        title: "Osmanlı Dönemi",
-        description: "Osmanlı tarihi hakkında kitaplar.",
-        slug: "osmanli-donemi",
-        imageUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwDQzd_bggPE0dGR0GHbcKD9lQoVTLOHUbWw&s",
-        books: [
-          {
-            title: "Osmanlı İmparatorluğu",
-            description: "Osmanlı tarihinin detayları.",
-            imageUrl: "https://example.com/osmanli.jpg",
-            pdfLink: "/pdf/osmanli.pdf",
-            slug: "osmanli-imparatorlugu",
-          },
-        ],
-      },
-    ],
+    title: "Evrad-u Ezkar",
+    slug: "evrad-u-ezkar-dua",
   },
+  {
+    title: "Risale",
+    slug: "risale",
+  },
+  {
+    title: "Pırlanta",
+    slug: "prlanta",
+  },
+  {
+    title: "Efendimiz",
+    slug: "efendimiz",
+  },
+  {
+    title: "Kütüphane",
+    slug: "kutuphane",
+  },
+  {
+    title: "Fıkıh-İlmihal",
+    slug: "ilmihal-ve-fikih",
+  },
+  {
+    title: "Rehberlik Kitapları",
+    slug: "rehberlik-kitaplar",
+  },
+  {
+    title: "Yabancı  Diller",
+    slug: "yabanci-diller",
+  },
+
+
 ];
 
 export const mentoringGrades = [
-  {
-    id: 6,
-    title: "6. Sınıf",
-    description: "6. sınıfa ait geniş bir kaynak yelpazesine erişin.",
-    imageUrl: "https://wcedeportal.co.za/sites/eresources/files/Grade%206_0.png",
-    link: "6-sinif",
-  },
   {
     id: 7,
     title: "7. Sınıf",
     description: "7. sınıfa ait geniş bir kaynak yelpazesine erişin.",
     imageUrl:
-      "https://summariessa.co.za/wp-content/uploads/2024/09/summariessa-grade-7-summaries-and-testpapers-with-answers-1.jpg",
-    link: "7-sinif",
+        "https://summariessa.co.za/wp-content/uploads/2024/09/summariessa-grade-7-summaries-and-testpapers-with-answers-1.jpg",
+    link: "7-snf",
   },
   {
     id: 8,
     title: "8. Sınıf",
     description: "8. sınıfa ait geniş bir kaynak yelpazesine erişin.",
     imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-8.jpg",
-    link: "8-sinif",
+    link: "8-snf",
   },
   {
     id: 9,
     title: "9. Sınıf",
     description: "9. sınıfa ait geniş bir kaynak yelpazesine erişin.",
     imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-9.jpg",
-    link: "9-sinif",
+    link: "9-snf",
   },
   {
     id: 10,
     title: "10. Sınıf",
     description: "10. sınıfa ait geniş bir kaynak yelpazesine erişin.",
     imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-10.jpg",
-    link: "10-sinif",
+    link: "10-snf",
   },
   {
     id: 11,
     title: "11. Sınıf",
     description: "11. sınıfa ait geniş bir kaynak yelpazesine erişin.",
     imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-11.jpg",
-    link: "11-sinif",
+    link: "11-snf",
   },
   {
     id: 12,
     title: "12. Sınıf",
     description: "12. sınıfa ait geniş bir kaynak yelpazesine erişin.",
     imageUrl: "https://blikbrein.tv/wp-content/uploads/Grade-12.jpg",
-    link: "12-sinif",
+    link: "12-snf",
   },
 ];
+
+
 
 export const quotesData = [
   { text: "Allah sabredenlerle beraberdir.", author: "Kur'an-ı Kerim" },
