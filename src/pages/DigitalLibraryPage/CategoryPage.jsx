@@ -1,39 +1,48 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BookCard from "../../components/BookCard.jsx";
 import SectionHeader from "../../components/SectionHeader.jsx";
-import { slugify } from "../../components/utils.js";
 import { useCategories } from "../../hooks/useCategories.js";
 
 const CategoryPage = () => {
-  const { categorySlug } = useParams();
-  const { data: categories, isLoading, error } = useCategories();
-  const [subcategories, setSubcategories] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const category = location.state?.category;
+  const { data: allCategories, isLoading, error } = useCategories();
 
-  useEffect(() => {
-    if (categories) {
-      // categorySlug ile kategoriyi bul
-      const currentCategory = categories.find(
-        (category) => slugify(category.categoryName) === categorySlug,
-      );
-
-      if (currentCategory) {
-        // Bu kategorinin alt kategorilerini filtrele
-        const childCategories = categories.filter(
-          (category) => category.parentCategoryId === currentCategory.categoryId,
-        );
-        setSubcategories(childCategories);
-      }
-    }
-  }, [categories, categorySlug]);
+  // Eğer state yoksa ana sayfaya yönlendir
+  if (!category) {
+    navigate("/library");
+    return null;
+  }
 
   if (isLoading) {
     return <div className="text-center mt-10">Yükleniyor...</div>;
   }
 
   if (error) {
-    return <div className="text-center mt-10 text-red-500">Veriler alınırken bir hata oluştu.</div>;
+    return <div className="text-center mt-10 text-red-500">{error}</div>;
   }
+
+  // Alt kategorileri filtrele
+  const subcategories = allCategories
+    ? allCategories
+        .filter((cat) => cat.parentCategoryId === category.id)
+        .map((subCategory) => ({
+          title: subCategory.categoryName,
+          imageUrl: subCategory.thumbnailUrl,
+          onClick: () =>
+            navigate("/library/subcategory", {
+              state: {
+                category,
+                subcategory: {
+                  id: subCategory.categoryId,
+                  name: subCategory.categoryName,
+                  thumbnailUrl: subCategory.thumbnailUrl,
+                },
+              },
+            }),
+        }))
+    : [];
 
   return (
     <div className="container mx-auto py-10 px-6 ">
@@ -42,12 +51,12 @@ const CategoryPage = () => {
         description="Bu kategorideki alt kategorilere göz atın."
       />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-        {subcategories.map((subCategory) => (
+        {subcategories.map((subCategory, index) => (
           <BookCard
-            key={subCategory.categoryId}
-            title={subCategory.categoryName}
-            imageUrl={subCategory.thumbnailUrl}
-            link={`/library/${slugify(categorySlug)}/${slugify(subCategory.categoryName)}`}
+            key={index}
+            title={subCategory.title}
+            imageUrl={subCategory.imageUrl}
+            onClick={subCategory.onClick}
           />
         ))}
       </div>

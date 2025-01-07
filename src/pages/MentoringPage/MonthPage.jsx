@@ -1,53 +1,23 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SectionHeader from "../../components/SectionHeader";
-import { slugify } from "../../components/utils";
-import { useGrades } from "../../hooks/useGrades";
 import Axios from "../../utils/axios";
 
 const MonthPage = () => {
-  const { gradeSlug, monthSlug } = useParams();
-  const { data: grades, isLoading: gradesLoading, error: gradesError } = useGrades();
-
-  const monthMapping = {
-    eylul: 1,
-    ekim: 2,
-    kasim: 3,
-    aralik: 4,
-    "kis-kampi": 5,
-    ocak: 6,
-    subat: 7,
-    mart: 8,
-    nisan: 9,
-    mayis: 10,
-    haziran: 11,
-    "yaz-kampi": 12,
-  };
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { grade, month } = location.state || {};
   const [materials, setMaterials] = useState({ documents: [], videos: [], links: [] });
-  const [gradeTitle, setGradeTitle] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMaterials = async () => {
+      if (!grade || !month) return;
+
       try {
-        if (!grades) return;
-
-        if (!monthMapping[monthSlug]) {
-          throw new Error(`Geçersiz ay slug: ${monthSlug}`);
-        }
-
-        const grade = grades.find((g) => slugify(g.gradeName) === gradeSlug);
-
-        if (!grade) {
-          throw new Error("Sınıf bulunamadı.");
-        }
-
-        setGradeTitle(grade.gradeName);
-
         const materialsResponse = await Axios.get(
-          `materials?gradeId=${grade.gradeId}&monthId=${monthMapping[monthSlug]}`,
+          `materials?gradeId=${grade.id}&monthId=${month.id}`,
         );
 
         const groupedMaterials = { documents: [], videos: [], links: [] };
@@ -67,18 +37,20 @@ const MonthPage = () => {
     };
 
     fetchMaterials();
-  }, [grades, gradeSlug, monthSlug]);
+  }, [grade, month]);
 
-  if (gradesLoading || loading) {
+  // Eğer state yoksa ana sayfaya yönlendir
+  if (!grade || !month) {
+    navigate("/mentoring");
+    return null;
+  }
+
+  if (loading) {
     return <div className="text-center mt-10">Yükleniyor...</div>;
   }
 
-  if (gradesError || error) {
-    return (
-      <div className="text-center mt-10 text-red-500">
-        {error || "Veriler alınırken bir hata oluştu."}
-      </div>
-    );
+  if (error) {
+    return <div className="text-center mt-10 text-red-500">{error}</div>;
   }
 
   const { documents, videos, links } = materials;
@@ -87,8 +59,8 @@ const MonthPage = () => {
     <div className="container mx-auto py-10 px-6">
       {/* Başlık */}
       <SectionHeader
-        title={gradeTitle}
-        description={`Bu sayfa ${monthSlug} ayına ait tüm materyalleri içermektedir.`}
+        title={grade.name}
+        description={`Bu sayfa ${month.name} ayına ait tüm materyalleri içermektedir.`}
       />
 
       {/* İçerik Grid */}

@@ -1,16 +1,26 @@
+import { useNavigate } from "react-router-dom";
 import SectionHeader from "../../components/SectionHeader.jsx";
 import TopicCard from "../../components/TopicCard.jsx";
-import { slugify } from "../../components/utils.js";
 import { useGrades } from "../../hooks/useGrades.js";
 
 const Mentoring = () => {
+  const navigate = useNavigate();
   const { data: gradesData, isLoading, error } = useGrades();
 
   const grades = gradesData
     ? gradesData.map((grade) => ({
         title: grade.gradeName || "Bilinmeyen Sınıf",
         imageUrl: grade.thumbnailUrl || "https://via.placeholder.com/150",
-        link: `/mentoring/${slugify(grade.gradeName)}`,
+        onClick: () =>
+          navigate("/mentoring/class", {
+            state: {
+              grade: {
+                id: grade.gradeId,
+                name: grade.gradeName,
+                thumbnailUrl: grade.thumbnailUrl,
+              },
+            },
+          }),
       }))
     : [];
 

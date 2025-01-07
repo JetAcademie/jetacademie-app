@@ -1,16 +1,17 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AddButton from "../../components/AddButton.jsx";
 import AddCategoryModal from "../../components/AddCategoryModal.jsx";
 import EditCategoryModal from "../../components/EditCategoryModal.jsx";
 import SectionHeader from "../../components/SectionHeader.jsx";
 import TopicCard from "../../components/TopicCard.jsx";
-import { slugify } from "../../components/utils.js";
 import AdminContext from "../../context/AdminContext.jsx";
 import { useCategories } from "../../hooks/useCategories.js";
 import Axios from "../../utils/axios.js";
 
 const DigitalLibrary = () => {
+  const navigate = useNavigate();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -24,7 +25,16 @@ const DigitalLibrary = () => {
         .map((category) => ({
           title: category.categoryName || "Bilinmeyen Kategori",
           imageUrl: category.thumbnailUrl || "https://via.placeholder.com/150",
-          link: `/library/${slugify(category.categoryName)}`,
+          onClick: () =>
+            navigate("/library/category", {
+              state: {
+                category: {
+                  id: category.categoryId,
+                  name: category.categoryName,
+                  thumbnailUrl: category.thumbnailUrl,
+                },
+              },
+            }),
           id: category.categoryId,
         }))
     : [];
