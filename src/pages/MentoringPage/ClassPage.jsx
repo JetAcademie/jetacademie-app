@@ -1,47 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import SectionHeader from "../../components/SectionHeader";
 import { slugify } from "../../components/utils.js";
-import Axios from "../../utils/axios.js";
+import { useGrades } from "../../hooks/useGrades.js";
+import { useMonths } from "../../hooks/useMonths.js";
 
 const ClassPage = () => {
   const { gradeSlug } = useParams();
-  const [months, setMonths] = useState([]);
+  const { data: grades, isLoading: gradesLoading, error: gradesError } = useGrades();
   const [gradeTitle, setGradeTitle] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchMonths = async () => {
-      try {
-        const gradesResponse = await Axios.get("grades");
-        const grade = gradesResponse.data.find((g) => slugify(g.gradeName) === gradeSlug);
+  // Mevcut sınıfı bul
+  const currentGrade = grades?.find((g) => slugify(g.gradeName) === gradeSlug);
 
-        if (!grade) {
-          throw new Error("Sınıf bulunamadı.");
-        }
+  // Ayları getir
+  const {
+    data: months = [],
+    isLoading: monthsLoading,
+    error: monthsError,
+  } = useMonths(currentGrade?.gradeId);
 
-        setGradeTitle(grade.gradeName);
+  // Sınıf başlığını güncelle
+  if (currentGrade && !gradeTitle) {
+    setGradeTitle(currentGrade.gradeName);
+  }
 
-        const monthsResponse = await Axios.get(`months?gradeId=${grade.gradeId}`);
-        setMonths(monthsResponse.data);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        setError("Ay bilgileri yüklenirken bir hata oluştu.");
-        setLoading(false);
-      }
-    };
-
-    fetchMonths();
-  }, [gradeSlug]);
-
-  if (loading) {
+  if (gradesLoading || monthsLoading) {
     return <div className="text-center mt-10">Yükleniyor...</div>;
   }
 
+  const error = gradesError || monthsError;
   if (error) {
-    return <div className="text-center mt-10 text-red-500">{error}</div>;
+    return <div className="text-center mt-10 text-red-500">Veriler alınırken bir hata oluştu.</div>;
+  }
+
+  if (!currentGrade) {
+    return <div className="text-center mt-10 text-red-500">Sınıf bulunamadı.</div>;
   }
 
   return (

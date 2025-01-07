@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SectionHeader from "../../components/SectionHeader";
 import { slugify } from "../../components/utils";
+import { useGrades } from "../../hooks/useGrades";
 import Axios from "../../utils/axios";
 
 const MonthPage = () => {
   const { gradeSlug, monthSlug } = useParams();
+  const { data: grades, isLoading: gradesLoading, error: gradesError } = useGrades();
 
   const monthMapping = {
     eylul: 1,
@@ -30,16 +32,13 @@ const MonthPage = () => {
   useEffect(() => {
     const fetchMaterials = async () => {
       try {
-        console.log("gradeSlug:", gradeSlug);
-        console.log("monthSlug:", monthSlug);
-        console.log("monthId:", monthMapping[monthSlug]);
+        if (!grades) return;
 
         if (!monthMapping[monthSlug]) {
           throw new Error(`Geçersiz ay slug: ${monthSlug}`);
         }
 
-        const gradesResponse = await Axios.get("grades");
-        const grade = gradesResponse.data.find((g) => slugify(g.gradeName) === gradeSlug);
+        const grade = grades.find((g) => slugify(g.gradeName) === gradeSlug);
 
         if (!grade) {
           throw new Error("Sınıf bulunamadı.");
@@ -68,14 +67,18 @@ const MonthPage = () => {
     };
 
     fetchMaterials();
-  }, [gradeSlug, monthSlug]);
+  }, [grades, gradeSlug, monthSlug]);
 
-  if (loading) {
+  if (gradesLoading || loading) {
     return <div className="text-center mt-10">Yükleniyor...</div>;
   }
 
-  if (error) {
-    return <div className="text-center mt-10 text-red-500">{error}</div>;
+  if (gradesError || error) {
+    return (
+      <div className="text-center mt-10 text-red-500">
+        {error || "Veriler alınırken bir hata oluştu."}
+      </div>
+    );
   }
 
   const { documents, videos, links } = materials;

@@ -1,36 +1,20 @@
-import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader.jsx";
 import TopicCard from "../../components/TopicCard.jsx";
 import { slugify } from "../../components/utils.js";
-import Axios from "../../utils/axios.js";
+import { useGrades } from "../../hooks/useGrades.js";
 
 const Mentoring = () => {
-  const [grades, setGrades] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: gradesData, isLoading, error } = useGrades();
 
-  useEffect(() => {
-    const fetchGrades = async () => {
-      try {
-        const response = await Axios.get("grades");
-        const transformedGrades = response.data.map((grade) => ({
-          title: grade.gradeName || "Bilinmeyen Sınıf",
-          imageUrl: grade.thumbnailUrl || "https://via.placeholder.com/150", // Varsayılan resim
-          link: `/mentoring/${slugify(grade.gradeName)}`,
-        }));
-        setGrades(transformedGrades);
-        setLoading(false);
-      } catch (err) {
-        setError("Veriler alınırken bir hata oluştu.");
-        setLoading(false);
-        console.error(err);
-      }
-    };
+  const grades = gradesData
+    ? gradesData.map((grade) => ({
+        title: grade.gradeName || "Bilinmeyen Sınıf",
+        imageUrl: grade.thumbnailUrl || "https://via.placeholder.com/150",
+        link: `/mentoring/${slugify(grade.gradeName)}`,
+      }))
+    : [];
 
-    fetchGrades();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <div className="text-center mt-10">Yükleniyor...</div>;
   }
 
