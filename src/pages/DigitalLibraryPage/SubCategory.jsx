@@ -3,10 +3,16 @@ import { useParams } from "react-router-dom";
 import BookCard from "../../components/BookCard.jsx";
 import SectionHeader from "../../components/SectionHeader.jsx";
 import { slugify } from "../../components/utils.js";
+import { useCategories } from "../../hooks/useCategories.js";
 import Axios from "../../utils/axios.js";
 
 const SubcategoryPage = () => {
   const { categorySlug, subcategorySlug } = useParams();
+  const {
+    data: categories,
+    isLoading: categoriesLoading,
+    error: categoriesError,
+  } = useCategories();
   const [items, setItems] = useState([]);
   const [subcategoryName, setSubcategoryName] = useState("");
   const [loading, setLoading] = useState(true);
@@ -15,18 +21,17 @@ const SubcategoryPage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        // Tüm kategorileri getir
-        const response = await Axios.get("categories");
+        if (!categories) return;
 
         // categorySlug ile ana kategoriyi bul
-        const category = response.data.find((cat) => slugify(cat.categoryName) === categorySlug);
+        const category = categories.find((cat) => slugify(cat.categoryName) === categorySlug);
 
         if (!category) {
           throw new Error("Ana kategori bulunamadı.");
         }
 
         // subcategorySlug ile alt kategoriyi bul
-        const subcategory = response.data.find(
+        const subcategory = categories.find(
           (sub) =>
             slugify(sub.categoryName) === subcategorySlug &&
             sub.parentCategoryId === category.categoryId,
@@ -50,14 +55,18 @@ const SubcategoryPage = () => {
     };
 
     fetchItems();
-  }, [categorySlug, subcategorySlug]);
+  }, [categories, categorySlug, subcategorySlug]);
 
-  if (loading) {
+  if (categoriesLoading || loading) {
     return <div className="text-center mt-10">Yükleniyor...</div>;
   }
 
-  if (error) {
-    return <div className="text-center mt-10 text-red-500">{error}</div>;
+  if (categoriesError || error) {
+    return (
+      <div className="text-center mt-10 text-red-500">
+        {error || "Veriler alınırken bir hata oluştu."}
+      </div>
+    );
   }
 
   return (
@@ -72,7 +81,7 @@ const SubcategoryPage = () => {
             key={item.itemId}
             title={item.itemName}
             imageUrl={item.thumbnailUrl}
-            link={item.fileUrl} // PDF dosyasına yönlendirme
+            link={item.fileUrl}
           />
         ))}
       </div>

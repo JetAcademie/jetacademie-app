@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useContext, useState } from "react";
 import AddButton from "../../components/AddButton.jsx";
 import AddCategoryModal from "../../components/AddCategoryModal.jsx";
 import EditCategoryModal from "../../components/EditCategoryModal.jsx";
@@ -6,40 +7,27 @@ import SectionHeader from "../../components/SectionHeader.jsx";
 import TopicCard from "../../components/TopicCard.jsx";
 import { slugify } from "../../components/utils.js";
 import AdminContext from "../../context/AdminContext.jsx";
+import { useCategories } from "../../hooks/useCategories.js";
 import Axios from "../../utils/axios.js";
 
 const DigitalLibrary = () => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { isAdmin } = useContext(AdminContext);
+  const { data: allCategories, isLoading, error } = useCategories();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await Axios.get("categories");
-        const mainCategories = response.data
-          .filter((category) => category.parentCategoryId === null)
-          .map((category) => ({
-            title: category.categoryName || "Bilinmeyen Kategori",
-            imageUrl: category.thumbnailUrl || "https://via.placeholder.com/150",
-            link: `/library/${slugify(category.categoryName)}`,
-            id: category.categoryId,
-          }));
-        setCategories(mainCategories);
-        setLoading(false);
-      } catch (err) {
-        setError("Veriler alınırken bir hata oluştu.");
-        setLoading(false);
-        console.error(err);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+  const categories = allCategories
+    ? allCategories
+        .filter((category) => category.parentCategoryId === null)
+        .map((category) => ({
+          title: category.categoryName || "Bilinmeyen Kategori",
+          imageUrl: category.thumbnailUrl || "https://via.placeholder.com/150",
+          link: `/library/${slugify(category.categoryName)}`,
+          id: category.categoryId,
+        }))
+    : [];
 
   // Kategori silme
   const handleDelete = async (category) => {
@@ -49,7 +37,7 @@ const DigitalLibrary = () => {
 
     try {
       await Axios.delete(`categories/${category.id}`);
-      setCategories((prev) => prev.filter((cat) => cat.id !== category.id));
+      queryClient.invalidateQueries(["categories"]);
     } catch (err) {
       console.error("Kategori silinirken hata oluştu:", err);
     }
@@ -58,16 +46,8 @@ const DigitalLibrary = () => {
   // Yeni kategori ekleme
   const handleAddCategory = async (newCategory) => {
     try {
-      const response = await Axios.post("categories", newCategory);
-      setCategories((prevCategories) => [
-        ...prevCategories,
-        {
-          title: response.data.categoryName,
-          imageUrl: response.data.thumbnailUrl,
-          link: `/library/${slugify(response.data.categoryName)}`,
-          id: response.data.categoryId,
-        },
-      ]);
+      await Axios.post("categories", newCategory);
+      queryClient.invalidateQueries(["categories"]);
       setIsAddModalOpen(false);
     } catch (err) {
       console.error("Yeni kategori eklenirken hata oluştu:", err);
@@ -82,26 +62,15 @@ const DigitalLibrary = () => {
 
   const handleEditCategory = async (updatedCategory) => {
     try {
-      const response = await Axios.put(`categories/${updatedCategory.id}`, updatedCategory);
-
-      setCategories((prev) =>
-        prev.map((cat) =>
-          cat.id === response.data.categoryId
-            ? {
-                ...cat,
-                title: response.data.categoryName,
-                imageUrl: response.data.thumbnailUrl,
-              }
-            : cat,
-        ),
-      );
+      await Axios.put(`categories/${updatedCategory.id}`, updatedCategory);
+      queryClient.invalidateQueries(["categories"]);
       setIsEditModalOpen(false);
     } catch (err) {
       console.error("Kategori düzenlenirken hata oluştu:", err);
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return <div className="text-center mt-10">Yükleniyor...</div>;
   }
 

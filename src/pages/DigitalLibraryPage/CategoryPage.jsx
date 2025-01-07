@@ -3,52 +3,36 @@ import { useParams } from "react-router-dom";
 import BookCard from "../../components/BookCard.jsx";
 import SectionHeader from "../../components/SectionHeader.jsx";
 import { slugify } from "../../components/utils.js";
-import Axios from "../../utils/axios.js";
+import { useCategories } from "../../hooks/useCategories.js";
 
 const CategoryPage = () => {
   const { categorySlug } = useParams();
+  const { data: categories, isLoading, error } = useCategories();
   const [subcategories, setSubcategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchSubcategories = async () => {
-      try {
-        // Tüm kategorileri getir
-        const response = await Axios.get("categories");
+    if (categories) {
+      // categorySlug ile kategoriyi bul
+      const currentCategory = categories.find(
+        (category) => slugify(category.categoryName) === categorySlug,
+      );
 
-        // categorySlug ile kategoriyi bul
-        const currentCategory = response.data.find(
-          (category) => slugify(category.categoryName) === categorySlug,
-        );
-
-        if (!currentCategory) {
-          throw new Error("Kategori bulunamadı.");
-        }
-
+      if (currentCategory) {
         // Bu kategorinin alt kategorilerini filtrele
-        const childCategories = response.data.filter(
+        const childCategories = categories.filter(
           (category) => category.parentCategoryId === currentCategory.categoryId,
         );
-
         setSubcategories(childCategories);
-        setLoading(false);
-      } catch (err) {
-        setError("Veriler alınırken bir hata oluştu.");
-        setLoading(false);
-        console.error(err);
       }
-    };
+    }
+  }, [categories, categorySlug]);
 
-    fetchSubcategories();
-  }, [categorySlug]);
-
-  if (loading) {
+  if (isLoading) {
     return <div className="text-center mt-10">Yükleniyor...</div>;
   }
 
   if (error) {
-    return <div className="text-center mt-10 text-red-500">{error}</div>;
+    return <div className="text-center mt-10 text-red-500">Veriler alınırken bir hata oluştu.</div>;
   }
 
   return (
