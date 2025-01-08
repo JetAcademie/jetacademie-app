@@ -10,7 +10,7 @@ const CategoryPage = () => {
   const { data: allCategories, isLoading, error } = useCategories();
 
   // Eğer state yoksa ana sayfaya yönlendir
-  if (!category) {
+  if (!category.id) {
     navigate("/library");
     return null;
   }
