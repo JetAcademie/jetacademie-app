@@ -1,4 +1,7 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
 
-npx lint-staged
+# Lint-staged çalıştır
+npx lint-staged --verbose
+
+# ESLint ile kontrol et
+npm run lint || exit 1

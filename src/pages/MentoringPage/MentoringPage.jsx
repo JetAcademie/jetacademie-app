@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import axios from 'axios';
-import TopicCard from '../../components/TopicCard.jsx';
+import { useEffect, useState } from 'react';
 import SectionHeader from '../../components/SectionHeader.jsx';
+import TopicCard from '../../components/TopicCard.jsx';
 import { slugify } from '../../components/utils.js';
 
 const Mentoring = () => {
@@ -23,6 +23,7 @@ const Mentoring = () => {
       } catch (err) {
         setError('Veriler alınırken bir hata oluştu.');
         setLoading(false);
+        console.log(err);
       }
     };
 

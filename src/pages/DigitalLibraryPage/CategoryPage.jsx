@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import SectionHeader from '../../components/SectionHeader.jsx';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import BookCard from '../../components/BookCard.jsx';
+import SectionHeader from '../../components/SectionHeader.jsx';
 import { slugify } from '../../components/utils.js';
 
 const CategoryPage = () => {
@@ -38,6 +38,7 @@ const CategoryPage = () => {
       } catch (err) {
         setError('Veriler alınırken bir hata oluştu.');
         setLoading(false);
+        console.log(err);
       }
     };
 
