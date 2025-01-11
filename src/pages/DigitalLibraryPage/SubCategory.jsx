@@ -53,30 +53,47 @@ const SubcategoryPage = () => {
         fetchItems();
     }, [categorySlug, subcategorySlug]);
 
-    if (loading) {
-        return <div className="text-center mt-10">Yükleniyor...</div>;
-    }
-
-    if (error) {
-        return <div className="text-center mt-10 text-red-500">{error}</div>;
-    }
-
     return (
         <div className="container mx-auto py-10 px-6">
-            <SectionHeader
-                title={subcategoryName}
-                description="Bu alt kategorideki kitaplara göz atın."
-            />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-                {items.map((item) => (
-                    <BookCard
-                        key={item.itemId}
-                        title={item.itemName}
-                        imageUrl={item.thumbnailUrl}
-                        link={item.fileUrl} // PDF dosyasına yönlendirme
+            {loading ? (
+                <>
+                    <SectionHeader
+                        title="Yükleniyor..."
+                        description="Alt kategori içeriği yükleniyor. Lütfen bekleyin."
                     />
-                ))}
-            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+                        {[...Array(6)].map((_, index) => (
+                            <div
+                                key={index}
+                                className="animate-pulse flex flex-col items-center bg-gray-200 shadow-lg rounded-lg overflow-hidden"
+                            >
+                                <div className="h-48 w-full bg-gray-300 rounded-t-lg"></div>
+                                <div className="w-3/4 h-6 bg-gray-300 mt-4 rounded"></div>
+                                <div className="w-1/2 h-4 bg-gray-300 mt-2 mb-4 rounded"></div>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            ) : error ? (
+                <div className="text-center text-red-500">{error}</div>
+            ) : (
+                <>
+                    <SectionHeader
+                        title={subcategoryName}
+                        description="Bu alt kategorideki kitaplara göz atın."
+                    />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+                        {items.map((item) => (
+                            <BookCard
+                                key={item.itemId}
+                                title={item.itemName}
+                                imageUrl={item.thumbnailUrl}
+                                link={item.fileUrl} // PDF dosyasına yönlendirme
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };

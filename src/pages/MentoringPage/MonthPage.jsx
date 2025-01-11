@@ -30,10 +30,6 @@ const MonthPage = () => {
   useEffect(() => {
     const fetchMaterials = async () => {
       try {
-        console.log("gradeSlug:", gradeSlug);
-        console.log("monthSlug:", monthSlug);
-        console.log("monthId:", monthMapping[monthSlug]);
-
         if (!monthMapping[monthSlug]) {
           throw new Error(`Geçersiz ay slug: ${monthSlug}`);
         }
@@ -71,7 +67,20 @@ const MonthPage = () => {
   }, [gradeSlug, monthSlug]);
 
   if (loading) {
-    return <div className="text-center mt-10">Yükleniyor...</div>;
+    return (
+        <div className="container mx-auto py-10 px-6">
+          <SectionHeader title="Yükleniyor..." description="Materyaller yükleniyor, lütfen bekleyin." />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+            {[...Array(6)].map((_, index) => (
+                <div key={index} className="animate-pulse bg-gray-200 rounded-lg p-4 shadow-lg">
+                  <div className="h-48 bg-gray-300 rounded mb-4"></div>
+                  <div className="h-6 bg-gray-300 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-300 rounded"></div>
+                </div>
+            ))}
+          </div>
+        </div>
+    );
   }
 
   if (error) {
@@ -82,15 +91,13 @@ const MonthPage = () => {
 
   return (
       <div className="container mx-auto py-10 px-6">
-        {/* Başlık */}
         <SectionHeader
             title={gradeTitle}
             description={`Bu sayfa ${monthSlug} ayına ait tüm materyalleri içermektedir.`}
         />
 
-        {/* İçerik Grid */}
+        {/* PDF Dokümanları */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-          {/* PDF Dokümanları */}
           <div className="md:col-span-2">
             <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-green-500 pb-2">
               PDF Dokümanları
@@ -101,14 +108,8 @@ const MonthPage = () => {
                       key={index}
                       className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
                   >
-                    {/* PDF Preview */}
                     <div className="bg-gray-100 h-48 flex items-center justify-center">
-                      <embed
-                          src={doc.url}
-                          type="application/pdf"
-                          className="w-full h-full"
-                          title={doc.name}
-                      />
+                      <embed src={doc.url} type="application/pdf" className="w-full h-full" title={doc.name} />
                     </div>
                     <div className="p-4 text-center">
                       <h3 className="text-lg font-bold text-gray-700 px-4">{doc.name}</h3>
@@ -124,10 +125,9 @@ const MonthPage = () => {
                   </div>
               ))}
             </div>
-
           </div>
 
-            {/* Ek Linkler */}
+          {/* Ek Linkler */}
           <div className="md:col-span-1">
             <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-yellow-500 pb-2">
               Ek Linkler
@@ -154,9 +154,7 @@ const MonthPage = () => {
 
         {/* Videolar */}
         <div className="mt-12">
-          <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-blue-500 pb-2">
-            Videolar
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-blue-500 pb-2">Videolar</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {videos.map((video, index) => (
                 <div key={index} className="rounded-lg shadow-md overflow-hidden">
