@@ -10,11 +10,11 @@
     "preview": "vite preview",
     "prepare": "husky",
     "format": "prettier --write .",
-    "format-and-validate": "lint-staged"
+    "format-and-validate": "lint-staged && eslint ."
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "eslint --fix",
+      "eslint --fix --max-warnings=0",
       "prettier --write"
     ],
     "*.{css,md}": [
