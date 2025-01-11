@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import TopicCard from '../../components/TopicCard.jsx';
-import SectionHeader from '../../components/SectionHeader.jsx';
-import { slugify } from '../../components/utils.js';
-import AdminContext from '../../context/AdminContext.jsx';
+import { useContext, useEffect, useState } from 'react';
 import AddButton from '../../components/AddButton.jsx';
 import AddCategoryModal from '../../components/AddCategoryModal.jsx';
 import EditCategoryModal from '../../components/EditCategoryModal.jsx';
+import SectionHeader from '../../components/SectionHeader.jsx';
+import TopicCard from '../../components/TopicCard.jsx';
+import { slugify } from '../../components/utils.js';
+import AdminContext from '../../context/AdminContext.jsx';
 
 const DigitalLibrary = () => {
   const [categories, setCategories] = useState([]);
@@ -38,6 +38,7 @@ const DigitalLibrary = () => {
       } catch (err) {
         setError('Veriler alınırken bir hata oluştu.');
         setLoading(false);
+        console.log(err);
       }
     };
 
