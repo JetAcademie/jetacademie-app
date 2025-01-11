@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import SectionHeader from '../../components/SectionHeader';
 import { slugify } from '../../components/utils.js';
 
@@ -43,7 +43,27 @@ const ClassPage = () => {
   }, [gradeSlug]);
 
   if (loading) {
-    return <div className="text-center mt-10">Yükleniyor...</div>;
+    return (
+      <div>
+        <SectionHeader
+          title="Yükleniyor..."
+          description="Lütfen bekleyin, ay bilgileri yükleniyor."
+        />
+        <div className="container mx-auto py-10 px-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[...Array(9)].map((_, index) => (
+              <div
+                key={index}
+                className="animate-pulse bg-gray-200 text-center p-6 rounded-lg shadow"
+              >
+                <div className="h-6 bg-gray-300 rounded w-3/4 mx-auto mb-4"></div>
+                <div className="h-6 bg-gray-300 rounded w-1/2 mx-auto"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {

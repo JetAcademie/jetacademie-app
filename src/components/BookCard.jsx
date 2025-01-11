@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { getRandomColors } from './utils';
 import { Link } from 'react-router-dom'; // React Router için import
+import { getRandomColors } from './utils';
 
 const BookCard = ({ title, imageUrl, link }) => {
   const colors = getRandomColors();
@@ -31,8 +31,8 @@ const BookCard = ({ title, imageUrl, link }) => {
       </div>
 
       {/* Başlık */}
-      <div className="px-4 pb-4 text-center">
-        <h3 className="text-lg font-semibold text-gray-800 truncate">
+      <div className="px-4 pb-4 text-center flex flex-col items-center">
+        <h3 className="text-base md:text-lg font-semibold text-gray-800 text-ellipsis overflow-hidden leading-tight max-h-12">
           {title}
         </h3>
       </div>

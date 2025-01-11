@@ -17,7 +17,6 @@ const DigitalLibrary = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { isAdmin } = useContext(AdminContext);
 
-  // Kategorileri getir
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -33,8 +32,11 @@ const DigitalLibrary = () => {
             link: `/library/${slugify(category.categoryName)}`,
             id: category.categoryId,
           }));
-        setCategories(mainCategories);
-        setLoading(false);
+
+        setTimeout(() => {
+          setCategories(mainCategories);
+          setLoading(false);
+        }, 0.1);
       } catch (err) {
         setError('Veriler alınırken bir hata oluştu.');
         setLoading(false);
@@ -45,7 +47,6 @@ const DigitalLibrary = () => {
     fetchCategories();
   }, []);
 
-  // Kategori silme
   const handleDelete = async (category) => {
     if (
       !window.confirm(
@@ -63,7 +64,6 @@ const DigitalLibrary = () => {
     }
   };
 
-  // Yeni kategori ekleme
   const handleAddCategory = async (newCategory) => {
     try {
       const response = await axios.post(
@@ -85,7 +85,6 @@ const DigitalLibrary = () => {
     }
   };
 
-  // Kategori düzenleme
   const handleEdit = (category) => {
     setSelectedCategory(category);
     setIsEditModalOpen(true);
@@ -115,14 +114,6 @@ const DigitalLibrary = () => {
     }
   };
 
-  if (loading) {
-    return <div className="text-center mt-10">Yükleniyor...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center mt-10 text-red-500">{error}</div>;
-  }
-
   return (
     <div className="flex-grow pt-[3rem] bg-white">
       <SectionHeader
@@ -145,15 +136,32 @@ const DigitalLibrary = () => {
             Birçok disipline yayılan özenle seçilmiş kitap ve kaynak
             koleksiyonumuzu inceleyin.
           </p>
-          <TopicCard
-            data={categories}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-          />
+
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {[...Array(8)].map((_, index) => (
+                <div
+                  key={index}
+                  className="animate-pulse flex flex-col items-center bg-gray-200 shadow-lg rounded-lg overflow-hidden"
+                >
+                  <div className="h-48 w-full bg-gray-300 rounded-t-lg"></div>
+                  <div className="w-3/4 h-6 bg-gray-300 mt-4 rounded"></div>
+                  <div className="w-1/2 h-4 bg-gray-300 mt-2 mb-4 rounded"></div>
+                </div>
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center text-red-500">{error}</div>
+          ) : (
+            <TopicCard
+              data={categories}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
+          )}
         </section>
       </div>
 
-      {/* Ekle Modal */}
       {isAdmin && (
         <AddCategoryModal
           isOpen={isAddModalOpen}
@@ -162,7 +170,6 @@ const DigitalLibrary = () => {
         />
       )}
 
-      {/* Düzenle Modal */}
       {isAdmin && selectedCategory && (
         <EditCategoryModal
           isOpen={isEditModalOpen}
