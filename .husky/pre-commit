@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Lint-staged çalıştır
+npx lint-staged --verbose
+
+# ESLint ile kontrol et
+npm run lint || exit 1

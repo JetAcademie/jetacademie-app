@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import SectionHeader from "../../components/SectionHeader";
-import { slugify } from "../../components/utils";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import SectionHeader from '../../components/SectionHeader';
+import { slugify } from '../../components/utils';
 
 const MonthPage = () => {
   const { gradeSlug, monthSlug } = useParams();
@@ -12,18 +12,22 @@ const MonthPage = () => {
     ekim: 2,
     kasim: 3,
     aralik: 4,
-    "kis-kampi": 5,
+    'kis-kampi': 5,
     ocak: 6,
     subat: 7,
     mart: 8,
     nisan: 9,
     mayis: 10,
     haziran: 11,
-    "yaz-kampi": 12,
+    'yaz-kampi': 12,
   };
 
-  const [materials, setMaterials] = useState({ documents: [], videos: [], links: [] });
-  const [gradeTitle, setGradeTitle] = useState("");
+  const [materials, setMaterials] = useState({
+    documents: [],
+    videos: [],
+    links: [],
+  });
+  const [gradeTitle, setGradeTitle] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -34,31 +38,38 @@ const MonthPage = () => {
           throw new Error(`Geçersiz ay slug: ${monthSlug}`);
         }
 
-        const gradesResponse = await axios.get("http://localhost:8080/api/grades");
-        const grade = gradesResponse.data.find((g) => slugify(g.gradeName) === gradeSlug);
+        const gradesResponse = await axios.get(
+          'http://localhost:8080/api/grades'
+        );
+        const grade = gradesResponse.data.find(
+          (g) => slugify(g.gradeName) === gradeSlug
+        );
 
         if (!grade) {
-          throw new Error("Sınıf bulunamadı.");
+          throw new Error('Sınıf bulunamadı.');
         }
 
         setGradeTitle(grade.gradeName);
 
         const materialsResponse = await axios.get(
-            `http://localhost:8080/api/materials?gradeId=${grade.gradeId}&monthId=${monthMapping[monthSlug]}`
+          `http://localhost:8080/api/materials?gradeId=${grade.gradeId}&monthId=${monthMapping[monthSlug]}`
         );
 
         const groupedMaterials = { documents: [], videos: [], links: [] };
         materialsResponse.data.forEach((material) => {
-          if (material.type === "documents") groupedMaterials.documents.push(material);
-          else if (material.type === "videos") groupedMaterials.videos.push(material);
-          else if (material.type === "links") groupedMaterials.links.push(material);
+          if (material.type === 'documents')
+            groupedMaterials.documents.push(material);
+          else if (material.type === 'videos')
+            groupedMaterials.videos.push(material);
+          else if (material.type === 'links')
+            groupedMaterials.links.push(material);
         });
 
         setMaterials(groupedMaterials);
         setLoading(false);
       } catch (err) {
         console.error(err);
-        setError("Materyaller yüklenirken bir hata oluştu.");
+        setError('Materyaller yüklenirken bir hata oluştu.');
         setLoading(false);
       }
     };
@@ -68,18 +79,24 @@ const MonthPage = () => {
 
   if (loading) {
     return (
-        <div className="container mx-auto py-10 px-6">
-          <SectionHeader title="Yükleniyor..." description="Materyaller yükleniyor, lütfen bekleyin." />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-            {[...Array(6)].map((_, index) => (
-                <div key={index} className="animate-pulse bg-gray-200 rounded-lg p-4 shadow-lg">
-                  <div className="h-48 bg-gray-300 rounded mb-4"></div>
-                  <div className="h-6 bg-gray-300 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-300 rounded"></div>
-                </div>
-            ))}
-          </div>
+      <div className="container mx-auto py-10 px-6">
+        <SectionHeader
+          title="Yükleniyor..."
+          description="Materyaller yükleniyor, lütfen bekleyin."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={index}
+              className="animate-pulse bg-gray-200 rounded-lg p-4 shadow-lg"
+            >
+              <div className="h-48 bg-gray-300 rounded mb-4"></div>
+              <div className="h-6 bg-gray-300 rounded mb-2"></div>
+              <div className="h-4 bg-gray-300 rounded"></div>
+            </div>
+          ))}
         </div>
+      </div>
     );
   }
 
@@ -90,88 +107,99 @@ const MonthPage = () => {
   const { documents, videos, links } = materials;
 
   return (
-      <div className="container mx-auto py-10 px-6">
-        <SectionHeader
-            title={gradeTitle}
-            description={`Bu sayfa ${monthSlug} ayına ait tüm materyalleri içermektedir.`}
-        />
+    <div className="container mx-auto py-10 px-6">
+      <SectionHeader
+        title={gradeTitle}
+        description={`Bu sayfa ${monthSlug} ayına ait tüm materyalleri içermektedir.`}
+      />
 
-        {/* PDF Dokümanları */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-          <div className="md:col-span-2">
-            <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-green-500 pb-2">
-              PDF Dokümanları
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {documents.map((doc, index) => (
-                  <div
-                      key={index}
-                      className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
-                  >
-                    <div className="bg-gray-100 h-48 flex items-center justify-center">
-                      <embed src={doc.url} type="application/pdf" className="w-full h-full" title={doc.name} />
-                    </div>
-                    <div className="p-4 text-center">
-                      <h3 className="text-lg font-bold text-gray-700 px-4">{doc.name}</h3>
-                      <a
-                          href={doc.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                      >
-                        Görüntüle / İndir
-                      </a>
-                    </div>
-                  </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Ek Linkler */}
-          <div className="md:col-span-1">
-            <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-yellow-500 pb-2">
-              Ek Linkler
-            </h2>
-            <ul className="space-y-3">
-              {links.map((link, index) => (
-                  <li
-                      key={index}
-                      className="bg-gray-50 p-4 rounded-lg shadow-md border hover:shadow-lg transition"
-                  >
-                    <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-blue-600 hover:underline font-medium"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Videolar */}
-        <div className="mt-12">
-          <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-blue-500 pb-2">Videolar</h2>
+      {/* PDF Dokümanları */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+        <div className="md:col-span-2">
+          <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-green-500 pb-2">
+            PDF Dokümanları
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {videos.map((video, index) => (
-                <div key={index} className="rounded-lg shadow-md overflow-hidden">
-                  <iframe
-                      src={`https://www.youtube.com/embed/${new URL(video.url).searchParams.get("v")}`}
-                      title={video.title}
-                      frameBorder="0"
-                      allow="autoplay; encrypted-media"
-                      allowFullScreen
-                      className="w-full h-48 md:h-56 rounded-md"
-                  ></iframe>
-                  <h3 className="text-md font-bold text-gray-800 mt-2 text-center">{video.title}</h3>
+            {documents.map((doc, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
+              >
+                <div className="bg-gray-100 h-48 flex items-center justify-center">
+                  <embed
+                    src={doc.url}
+                    type="application/pdf"
+                    className="w-full h-full"
+                    title={doc.name}
+                  />
                 </div>
+                <div className="p-4 text-center">
+                  <h3 className="text-lg font-bold text-gray-700 px-4">
+                    {doc.name}
+                  </h3>
+                  <a
+                    href={doc.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                  >
+                    Görüntüle / İndir
+                  </a>
+                </div>
+              </div>
             ))}
           </div>
         </div>
+
+        {/* Ek Linkler */}
+        <div className="md:col-span-1">
+          <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-yellow-500 pb-2">
+            Ek Linkler
+          </h2>
+          <ul className="space-y-3">
+            {links.map((link, index) => (
+              <li
+                key={index}
+                className="bg-gray-50 p-4 rounded-lg shadow-md border hover:shadow-lg transition"
+              >
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-blue-600 hover:underline font-medium"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
+
+      {/* Videolar */}
+      <div className="mt-12">
+        <h2 className="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-blue-500 pb-2">
+          Videolar
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {videos.map((video, index) => (
+            <div key={index} className="rounded-lg shadow-md overflow-hidden">
+              <iframe
+                src={`https://www.youtube.com/embed/${new URL(video.url).searchParams.get('v')}`}
+                title={video.title}
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                className="w-full h-48 md:h-56 rounded-md"
+              ></iframe>
+              <h3 className="text-md font-bold text-gray-800 mt-2 text-center">
+                {video.title}
+              </h3>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
