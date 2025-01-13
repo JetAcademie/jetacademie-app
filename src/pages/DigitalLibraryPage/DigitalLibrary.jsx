@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import api from '../../api/axios';
 import AddButton from '../../components/AddButton.jsx';
 import AddCategoryModal from '../../components/AddCategoryModal.jsx';
 import EditCategoryModal from '../../components/EditCategoryModal.jsx';
@@ -20,9 +20,7 @@ const DigitalLibrary = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:8080/api/categories'
-        );
+        const response = await api.get('/categories');
         const mainCategories = response.data
           .filter((category) => category.parentCategoryId === null)
           .map((category) => ({
@@ -57,7 +55,7 @@ const DigitalLibrary = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/api/categories/${category.id}`);
+      await api.delete(`/categories/${category.id}`);
       setCategories((prev) => prev.filter((cat) => cat.id !== category.id));
     } catch (err) {
       console.error('Kategori silinirken hata oluştu:', err);
@@ -66,10 +64,7 @@ const DigitalLibrary = () => {
 
   const handleAddCategory = async (newCategory) => {
     try {
-      const response = await axios.post(
-        'http://localhost:8080/api/categories',
-        newCategory
-      );
+      const response = await api.post('/categories', newCategory);
       setCategories((prevCategories) => [
         ...prevCategories,
         {
@@ -92,8 +87,8 @@ const DigitalLibrary = () => {
 
   const handleEditCategory = async (updatedCategory) => {
     try {
-      const response = await axios.put(
-        `http://localhost:8080/api/categories/${updatedCategory.id}`,
+      const response = await api.put(
+        `/categories/${updatedCategory.id}`,
         updatedCategory
       );
 

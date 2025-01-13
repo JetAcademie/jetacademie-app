@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import api from '../../api/axios';
 import SectionHeader from '../../components/SectionHeader';
 import { slugify } from '../../components/utils.js';
 
@@ -14,9 +14,7 @@ const ClassPage = () => {
   useEffect(() => {
     const fetchMonths = async () => {
       try {
-        const gradesResponse = await axios.get(
-          'http://localhost:8080/api/grades'
-        );
+        const gradesResponse = await api.get('/grades');
         const grade = gradesResponse.data.find(
           (g) => slugify(g.gradeName) === gradeSlug
         );
@@ -27,8 +25,8 @@ const ClassPage = () => {
 
         setGradeTitle(grade.gradeName);
 
-        const monthsResponse = await axios.get(
-          `http://localhost:8080/api/months?gradeId=${grade.gradeId}`
+        const monthsResponse = await api.get(
+          `/months?gradeId=${grade.gradeId}`
         );
         setMonths(monthsResponse.data);
         setLoading(false);

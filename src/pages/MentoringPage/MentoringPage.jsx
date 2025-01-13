@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import api from '../../api/axios';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import TopicCard from '../../components/TopicCard.jsx';
 import { slugify } from '../../components/utils.js';
@@ -12,7 +12,7 @@ const Mentoring = () => {
   useEffect(() => {
     const fetchGrades = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/grades');
+        const response = await api.get('/grades');
         const transformedGrades = response.data.map((grade) => ({
           title: grade.gradeName || 'Bilinmeyen Sınıf',
           imageUrl: grade.thumbnailUrl || 'https://via.placeholder.com/150', // Varsayılan resim

@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import api from '../../api/axios';
 import BookCard from '../../components/BookCard.jsx';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import { slugify } from '../../components/utils.js';
@@ -15,9 +15,7 @@ const CategoryPage = () => {
     const fetchSubcategories = async () => {
       try {
         // Tüm kategorileri getir
-        const response = await axios.get(
-          'http://localhost:8080/api/categories'
-        );
+        const response = await api.get('/categories');
 
         // categorySlug ile kategoriyi bul
         const currentCategory = response.data.find(
