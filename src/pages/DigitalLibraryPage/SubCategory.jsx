@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import api from '../../api/axios';
 import BookCard from '../../components/BookCard.jsx';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import { slugify } from '../../components/utils.js';
@@ -16,12 +16,10 @@ const SubcategoryPage = () => {
     const fetchItems = async () => {
       try {
         // Tüm kategorileri getir
-        const response = await axios.get(
-          'http://localhost:8080/api/categories'
-        );
+        const categoriesResponse = await api.get('/categories');
 
         // categorySlug ile ana kategoriyi bul
-        const category = response.data.find(
+        const category = categoriesResponse.data.find(
           (cat) => slugify(cat.categoryName) === categorySlug
         );
 
@@ -30,7 +28,7 @@ const SubcategoryPage = () => {
         }
 
         // subcategorySlug ile alt kategoriyi bul
-        const subcategory = response.data.find(
+        const subcategory = categoriesResponse.data.find(
           (sub) =>
             slugify(sub.categoryName) === subcategorySlug &&
             sub.parentCategoryId === category.categoryId
@@ -43,8 +41,8 @@ const SubcategoryPage = () => {
         setSubcategoryName(subcategory.categoryName);
 
         // Alt kategoriye ait itemleri getir
-        const itemsResponse = await axios.get(
-          `http://localhost:8080/api/items?subcategoryId=${subcategory.categoryId}`
+        const itemsResponse = await api.get(
+          `/items?subcategoryId=${subcategory.categoryId}`
         );
         setItems(itemsResponse.data);
         setLoading(false);

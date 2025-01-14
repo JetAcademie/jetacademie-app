@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import api from '../../api/axios';
 import SectionHeader from '../../components/SectionHeader';
 import { slugify } from '../../components/utils';
 
@@ -38,9 +38,7 @@ const MonthPage = () => {
           throw new Error(`Geçersiz ay slug: ${monthSlug}`);
         }
 
-        const gradesResponse = await axios.get(
-          'http://localhost:8080/api/grades'
-        );
+        const gradesResponse = await api.get('/grades');
         const grade = gradesResponse.data.find(
           (g) => slugify(g.gradeName) === gradeSlug
         );
@@ -51,8 +49,8 @@ const MonthPage = () => {
 
         setGradeTitle(grade.gradeName);
 
-        const materialsResponse = await axios.get(
-          `http://localhost:8080/api/materials?gradeId=${grade.gradeId}&monthId=${monthMapping[monthSlug]}`
+        const materialsResponse = await api.get(
+          `/materials?gradeId=${grade.gradeId}&monthId=${monthMapping[monthSlug]}`
         );
 
         const groupedMaterials = { documents: [], videos: [], links: [] };
