@@ -11,7 +11,7 @@ const BookCard = ({ title, imageUrl, link, onDelete, onEdit }) => {
 
   return (
     <div className="flex flex-col items-center bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 hover:shadow-xl relative">
-      {/* Üst Çizgi */}
+      {/* Dinamik Üst Çizgi */}
       <div
         className="w-full h-2"
         style={{
@@ -44,22 +44,27 @@ const BookCard = ({ title, imageUrl, link, onDelete, onEdit }) => {
       {/* Admin İkonları */}
       {isAdmin && (
         <div className="absolute bottom-2 right-2 flex space-x-2">
+          {/* Düzenle Butonu */}
           <button
             onClick={onEdit}
-            className="text-blue-600 hover:text-blue-800 mb-4"
+            className="text-blue-600 hover:text-blue-800"
+            title="Düzenle"
           >
             <AiOutlineEdit size={20} />
           </button>
+
+          {/* Silme Butonu */}
           <button
             onClick={onDelete}
-            className="text-red-600 hover:text-red-800 mb-4"
+            className="text-red-600 hover:text-red-800"
+            title="Sil"
           >
             <AiOutlineDelete size={20} />
           </button>
         </div>
       )}
 
-      {/* Alt Çizgi */}
+      {/* Dinamik Alt Çizgi */}
       <div
         className="w-full h-2"
         style={{
