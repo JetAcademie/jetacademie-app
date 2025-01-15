@@ -1,9 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
-  const [categoryName, setCategoryName] = useState(category.title || '');
-  const [thumbnailUrl, setThumbnailUrl] = useState(category.imageUrl || '');
+  const [categoryName, setCategoryName] = useState('');
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
+
+  // Prop değiştiğinde state'i güncelle
+  useEffect(() => {
+    if (category) {
+      setCategoryName(category.title || '');
+      setThumbnailUrl(category.imageUrl || '');
+    }
+  }, [category]);
 
   const handleSave = () => {
     const updatedCategory = {
