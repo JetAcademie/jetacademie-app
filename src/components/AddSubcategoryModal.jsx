@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const AddSubCategoryModal = ({ isOpen, onClose, onAddCategory }) => {
-  const [categoryName, setCategoryName] = useState('');
+const AddSubcategoryModal = ({ isOpen, onClose, onAdd }) => {
+  const [name, setName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
-  const handleSubmit = () => {
-    const newCategory = { categoryName, thumbnailUrl, parentCategoryId: null };
-    onAddCategory(newCategory);
-    setCategoryName('');
+  const handleAdd = () => {
+    if (name.trim() === '' || thumbnailUrl.trim() === '') return;
+    const newSubcategory = { categoryName: name, thumbnailUrl };
+    onAdd(newSubcategory);
+    setName('');
     setThumbnailUrl('');
-    onClose();
+    onClose(); // Modalı kapat
   };
 
   if (!isOpen) return null;
@@ -18,7 +19,7 @@ const AddSubCategoryModal = ({ isOpen, onClose, onAddCategory }) => {
   return (
     <div className="modal modal-open">
       <div className="modal-box bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 text-white relative">
-        {/* Close Icon */}
+        {/* Kapatma İkonu */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-white hover:text-gray-300"
@@ -39,15 +40,15 @@ const AddSubCategoryModal = ({ isOpen, onClose, onAddCategory }) => {
           </svg>
         </button>
 
-        <h3 className="font-bold text-lg mb-4">Yeni Kategori Ekle</h3>
+        <h3 className="font-bold text-lg mb-4">Yeni Alt Kategori Ekle</h3>
         <form className="space-y-4">
           <div>
-            <label className="block mb-1">Kategori İsmi</label>
+            <label className="block mb-1">Alt Kategori Adı</label>
             <input
               type="text"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
-              placeholder="Kategori adı giriniz"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Alt kategori adı giriniz"
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
@@ -63,7 +64,7 @@ const AddSubCategoryModal = ({ isOpen, onClose, onAddCategory }) => {
           </div>
           <button
             type="button"
-            onClick={handleSubmit}
+            onClick={handleAdd}
             className="btn w-full bg-blue-800 hover:bg-blue-900 text-white"
           >
             Ekle
@@ -74,10 +75,10 @@ const AddSubCategoryModal = ({ isOpen, onClose, onAddCategory }) => {
   );
 };
 
-AddSubCategoryModal.propTypes = {
+AddSubcategoryModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onAddCategory: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
 
-export default AddSubCategoryModal;
+export default AddSubcategoryModal;
