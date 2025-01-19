@@ -1,13 +1,13 @@
-import { useEffect, useState, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../api/axios';
-import BookCard from '../../components/BookCard.jsx';
-import SectionHeader from '../../components/SectionHeader.jsx';
 import AddButton from '../../components/AddButton.jsx';
 import AddItemModal from '../../components/AddItemModal.jsx';
+import BookCard from '../../components/BookCard.jsx';
 import EditItemModal from '../../components/EditItemModal.jsx';
-import AdminContext from '../../context/AdminContext.jsx';
+import SectionHeader from '../../components/SectionHeader.jsx';
 import { slugify } from '../../components/utils.js';
+import AdminContext from '../../context/AdminContext.jsx';
 
 const SubcategoryPage = () => {
   const { categorySlug, subcategorySlug } = useParams();
@@ -134,7 +134,7 @@ const SubcategoryPage = () => {
       />
 
       {isAdmin && (
-        <div className="absolute top-0 right-0 flex gap-4 mt-60">
+        <div className="flex justify-end h-12 my-2">
           <AddButton onClick={() => setIsAddModalOpen(true)} />
         </div>
       )}

@@ -118,7 +118,7 @@ const DigitalLibrary = () => {
 
       <div className="relative">
         {isAdmin && (
-          <div className="absolute top-0 right-0 flex gap-4">
+          <div className="flex justify-end h-12 my-2">
             <AddButton onClick={() => setIsAddModalOpen(true)} />
           </div>
         )}
