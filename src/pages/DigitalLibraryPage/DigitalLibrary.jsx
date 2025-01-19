@@ -117,13 +117,9 @@ const DigitalLibrary = () => {
       />
 
       <div className="relative">
-        {isAdmin && (
-          <div className="flex justify-end h-12 my-2">
-            <AddButton onClick={() => setIsAddModalOpen(true)} />
-          </div>
-        )}
+        {isAdmin && <AddButton onClick={() => setIsAddModalOpen(true)} />}
 
-        <section className="container mx-auto py-10 px-6">
+        <section className="container mx-auto  px-6">
           <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
             Kategorilerimiz
           </h2>

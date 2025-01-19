@@ -111,14 +111,10 @@ const CategoryPage = () => {
         description="Alt kategorileri yönetin veya keşfedin."
       />
 
-      {isAdmin && (
-        <div className="flex justify-end h-12 my-2">
-          <AddButton onClick={() => setIsAddModalOpen(true)} />
-        </div>
-      )}
+      {isAdmin && <AddButton onClick={() => setIsAddModalOpen(true)} />}
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-1">
           {[...Array(6)].map((_, index) => (
             <div
               key={index}
