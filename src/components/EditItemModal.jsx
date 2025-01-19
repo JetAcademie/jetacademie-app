@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
 const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
+  console.log('EditItemModal -> item', item);
+
   const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
-  const [fileUrl, setFileUrl] = useState('');
 
   useEffect(() => {
-    if (item) {
-      setItemName(item.itemName || '');
-      setThumbnailUrl(item.thumbnailUrl || '');
-      setFileUrl(item.fileUrl || '');
+    if (item.title) {
+      setItemName(item.title || '');
+      setThumbnailUrl(item.imageUrl || '');
     }
   }, [item]);
 
   const handleSave = () => {
-    if (!itemName.trim() || !thumbnailUrl.trim() || !fileUrl.trim()) return;
-    const updatedItem = { ...item, itemName, thumbnailUrl, fileUrl };
+    if (!itemName.trim() || !thumbnailUrl.trim()) return;
+    const updatedItem = { ...item, itemName, thumbnailUrl };
     onSave(updatedItem);
     onClose();
   };
@@ -65,15 +65,7 @@ const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
-          <div>
-            <label className="block mb-1">Dosya URL</label>
-            <input
-              type="text"
-              value={fileUrl}
-              onChange={(e) => setFileUrl(e.target.value)}
-              className="input input-bordered w-full bg-white text-gray-800"
-            />
-          </div>
+
           <button
             type="button"
             onClick={handleSave}

@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import api from '../../api/axios';
 import AddButton from '../../components/AddButton.jsx';
-import AddSubCategoryModal from '../../components/AddCategoryModal.jsx';
-import EditCategoryModal from '../../components/EditCategoryModal.jsx';
+import AddItemModal from '../../components/AddItemModal.jsx';
+import EditItemModal from '../../components/EditItemModal.jsx';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import TopicCard from '../../components/TopicCard.jsx';
 import { slugify } from '../../components/utils.js';
@@ -154,20 +154,21 @@ const DigitalLibrary = () => {
       </div>
 
       {isAdmin && (
-        <AddSubCategoryModal
-          isOpen={isAddModalOpen}
-          onClose={() => setIsAddModalOpen(false)}
-          onAddCategory={handleAddCategory}
-        />
-      )}
-
-      {isAdmin && selectedCategory && (
-        <EditCategoryModal
-          isOpen={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
-          category={selectedCategory}
-          onSave={handleEditCategory}
-        />
+        <>
+          <AddItemModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+            onAdd={handleAddCategory}
+          />
+          {selectedCategory && (
+            <EditItemModal
+              isOpen={isEditModalOpen}
+              onClose={() => setIsEditModalOpen(false)}
+              item={selectedCategory}
+              onSave={handleEditCategory}
+            />
+          )}
+        </>
       )}
     </div>
   );

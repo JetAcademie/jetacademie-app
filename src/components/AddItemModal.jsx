@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 const AddItemModal = ({ isOpen, onClose, onAdd }) => {
   const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
-  const [file, setFile] = useState(null);
 
   const handleAdd = () => {
-    if (!file || !itemName || !thumbnailUrl) {
+    if (!itemName || !thumbnailUrl) {
       alert('Lütfen tüm alanları doldurun ve bir dosya seçin.');
       return;
     }
@@ -15,7 +14,6 @@ const AddItemModal = ({ isOpen, onClose, onAdd }) => {
     const formData = new FormData();
     formData.append('itemName', itemName);
     formData.append('thumbnailUrl', thumbnailUrl);
-    formData.append('file', file);
 
     onAdd(formData);
     resetForm();
@@ -24,7 +22,6 @@ const AddItemModal = ({ isOpen, onClose, onAdd }) => {
   const resetForm = () => {
     setItemName('');
     setThumbnailUrl('');
-    setFile(null);
     onClose();
   };
 
@@ -76,14 +73,7 @@ const AddItemModal = ({ isOpen, onClose, onAdd }) => {
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
-          <div>
-            <label className="block mb-1">Dosya Yükle</label>
-            <input
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-              className="input input-bordered w-full bg-white text-gray-800"
-            />
-          </div>
+
           <button
             type="button"
             onClick={handleAdd}

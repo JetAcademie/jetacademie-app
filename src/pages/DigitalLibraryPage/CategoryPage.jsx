@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AddButton from '../../components/AddButton.jsx';
-import AddSubCategoryModal from '../../components/AddCategoryModal.jsx';
+import AddItemModal from '../../components/AddItemModal.jsx';
 import BookCard from '../../components/BookCard.jsx';
-import EditSubcategoryModal from '../../components/EditSubcategoryModal.jsx';
+import EditItemModal from '../../components/EditItemModal.jsx';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import { slugify } from '../../components/utils.js';
 import AdminContext from '../../context/AdminContext.jsx';
@@ -145,16 +145,16 @@ const CategoryPage = () => {
 
       {isAdmin && (
         <>
-          <AddSubCategoryModal
+          <AddItemModal
             isOpen={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
-            onAddCategory={handleAddSubcategory}
+            onAdd={handleAddSubcategory}
           />
           {selectedSubcategory && (
-            <EditSubcategoryModal
+            <EditItemModal
               isOpen={isEditModalOpen}
               onClose={() => setIsEditModalOpen(false)}
-              subcategory={selectedSubcategory}
+              item={selectedSubcategory}
               onSave={handleEditSubcategory}
             />
           )}
