@@ -1,25 +1,20 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
+const EditSubcategoryModal = ({ isOpen, onClose, subcategory, onSave }) => {
   const [categoryName, setCategoryName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
-  // Prop değiştiğinde state'i güncelle
   useEffect(() => {
-    if (category) {
-      setCategoryName(category.title || '');
-      setThumbnailUrl(category.imageUrl || '');
+    if (subcategory) {
+      setCategoryName(subcategory.categoryName || '');
+      setThumbnailUrl(subcategory.thumbnailUrl || '');
     }
-  }, [category]);
+  }, [subcategory]);
 
   const handleSave = () => {
-    const updatedCategory = {
-      id: category.id,
-      categoryName,
-      thumbnailUrl,
-    };
-    onSave(updatedCategory);
+    const updatedSubcategory = { ...subcategory, categoryName, thumbnailUrl };
+    onSave(updatedSubcategory);
   };
 
   if (!isOpen) return null;
@@ -27,7 +22,6 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
   return (
     <div className="modal modal-open">
       <div className="modal-box bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 text-white relative">
-        {/* Close Icon */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-white hover:text-gray-300"
@@ -47,11 +41,10 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
             />
           </svg>
         </button>
-
-        <h3 className="font-bold text-lg mb-4">Kategoriyi Düzenle</h3>
+        <h3 className="font-bold text-lg mb-4">Alt Kategori Düzenle</h3>
         <form className="space-y-4">
           <div>
-            <label className="block mb-1">Kategori Adı</label>
+            <label className="block mb-1">Alt Kategori Adı</label>
             <input
               type="text"
               value={categoryName}
@@ -81,11 +74,11 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
   );
 };
 
-EditCategoryModal.propTypes = {
+EditSubcategoryModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  category: PropTypes.object.isRequired,
+  subcategory: PropTypes.object.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 
-export default EditCategoryModal;
+export default EditSubcategoryModal;

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import api from '../../api/axios';
 import AddButton from '../../components/AddButton.jsx';
-import AddCategoryModal from '../../components/AddCategoryModal.jsx';
+import AddSubCategoryModal from '../../components/AddCategoryModal.jsx';
 import EditCategoryModal from '../../components/EditCategoryModal.jsx';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import TopicCard from '../../components/TopicCard.jsx';
@@ -158,7 +158,7 @@ const DigitalLibrary = () => {
       </div>
 
       {isAdmin && (
-        <AddCategoryModal
+        <AddSubCategoryModal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
           onAddCategory={handleAddCategory}

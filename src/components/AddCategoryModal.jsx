@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const AddCategoryModal = ({ isOpen, onClose, onAddCategory }) => {
+const AddSubCategoryModal = ({ isOpen, onClose, onAddCategory }) => {
   const [categoryName, setCategoryName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
@@ -74,10 +74,10 @@ const AddCategoryModal = ({ isOpen, onClose, onAddCategory }) => {
   );
 };
 
-AddCategoryModal.propTypes = {
+AddSubCategoryModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onAddCategory: PropTypes.func.isRequired,
 };
 
-export default AddCategoryModal;
+export default AddSubCategoryModal;

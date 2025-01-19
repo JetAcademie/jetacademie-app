@@ -1,25 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
-  const [categoryName, setCategoryName] = useState('');
+const AddItemModal = ({ isOpen, onClose, onAdd }) => {
+  const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
+  const [file, setFile] = useState(null);
 
-  // Prop değiştiğinde state'i güncelle
-  useEffect(() => {
-    if (category) {
-      setCategoryName(category.title || '');
-      setThumbnailUrl(category.imageUrl || '');
+  const handleAdd = () => {
+    if (!file || !itemName || !thumbnailUrl) {
+      alert('Lütfen tüm alanları doldurun ve bir dosya seçin.');
+      return;
     }
-  }, [category]);
 
-  const handleSave = () => {
-    const updatedCategory = {
-      id: category.id,
-      categoryName,
-      thumbnailUrl,
-    };
-    onSave(updatedCategory);
+    const formData = new FormData();
+    formData.append('itemName', itemName);
+    formData.append('thumbnailUrl', thumbnailUrl);
+    formData.append('file', file);
+
+    onAdd(formData);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setItemName('');
+    setThumbnailUrl('');
+    setFile(null);
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -48,32 +54,42 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
           </svg>
         </button>
 
-        <h3 className="font-bold text-lg mb-4">Kategoriyi Düzenle</h3>
+        <h3 className="font-bold text-lg mb-4">Yeni Öğe Ekle</h3>
         <form className="space-y-4">
           <div>
-            <label className="block mb-1">Kategori Adı</label>
+            <label className="block mb-1">Öğe Adı</label>
             <input
               type="text"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+              placeholder="Öğe adı giriniz"
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
           <div>
-            <label className="block mb-1">Görsel URL</label>
+            <label className="block mb-1">Thumbnail URL</label>
             <input
               type="text"
               value={thumbnailUrl}
               onChange={(e) => setThumbnailUrl(e.target.value)}
+              placeholder="Thumbnail URL'sini giriniz"
+              className="input input-bordered w-full bg-white text-gray-800"
+            />
+          </div>
+          <div>
+            <label className="block mb-1">Dosya Yükle</label>
+            <input
+              type="file"
+              onChange={(e) => setFile(e.target.files[0])}
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
           <button
             type="button"
-            onClick={handleSave}
+            onClick={handleAdd}
             className="btn w-full bg-blue-800 hover:bg-blue-900 text-white"
           >
-            Kaydet
+            Ekle
           </button>
         </form>
       </div>
@@ -81,11 +97,10 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
   );
 };
 
-EditCategoryModal.propTypes = {
+AddItemModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  category: PropTypes.object.isRequired,
-  onSave: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
 
-export default EditCategoryModal;
+export default AddItemModal;

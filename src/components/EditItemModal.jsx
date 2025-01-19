@@ -1,25 +1,24 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
-  const [categoryName, setCategoryName] = useState('');
+const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
+  const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
+  const [fileUrl, setFileUrl] = useState('');
 
-  // Prop değiştiğinde state'i güncelle
   useEffect(() => {
-    if (category) {
-      setCategoryName(category.title || '');
-      setThumbnailUrl(category.imageUrl || '');
+    if (item) {
+      setItemName(item.itemName || '');
+      setThumbnailUrl(item.thumbnailUrl || '');
+      setFileUrl(item.fileUrl || '');
     }
-  }, [category]);
+  }, [item]);
 
   const handleSave = () => {
-    const updatedCategory = {
-      id: category.id,
-      categoryName,
-      thumbnailUrl,
-    };
-    onSave(updatedCategory);
+    if (!itemName.trim() || !thumbnailUrl.trim() || !fileUrl.trim()) return;
+    const updatedItem = { ...item, itemName, thumbnailUrl, fileUrl };
+    onSave(updatedItem);
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -27,7 +26,6 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
   return (
     <div className="modal modal-open">
       <div className="modal-box bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 text-white relative">
-        {/* Close Icon */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-white hover:text-gray-300"
@@ -47,15 +45,14 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
             />
           </svg>
         </button>
-
-        <h3 className="font-bold text-lg mb-4">Kategoriyi Düzenle</h3>
+        <h3 className="font-bold text-lg mb-4">Öğeyi Düzenle</h3>
         <form className="space-y-4">
           <div>
-            <label className="block mb-1">Kategori Adı</label>
+            <label className="block mb-1">Öğe Adı</label>
             <input
               type="text"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
@@ -65,6 +62,15 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
               type="text"
               value={thumbnailUrl}
               onChange={(e) => setThumbnailUrl(e.target.value)}
+              className="input input-bordered w-full bg-white text-gray-800"
+            />
+          </div>
+          <div>
+            <label className="block mb-1">Dosya URL</label>
+            <input
+              type="text"
+              value={fileUrl}
+              onChange={(e) => setFileUrl(e.target.value)}
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
@@ -81,11 +87,11 @@ const EditCategoryModal = ({ isOpen, onClose, category, onSave }) => {
   );
 };
 
-EditCategoryModal.propTypes = {
+EditItemModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  category: PropTypes.object.isRequired,
+  item: PropTypes.object,
   onSave: PropTypes.func.isRequired,
 };
 
-export default EditCategoryModal;
+export default EditItemModal;
