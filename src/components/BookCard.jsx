@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { getRandomColors } from './utils';
-import { Link } from 'react-router-dom';
 import { useContext } from 'react';
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 import AdminContext from '../context/AdminContext.jsx';
-import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
+import { getRandomColors } from './utils';
 
 const BookCard = ({ title, imageUrl, link, onDelete, onEdit }) => {
   const colors = getRandomColors();
@@ -43,7 +43,7 @@ const BookCard = ({ title, imageUrl, link, onDelete, onEdit }) => {
 
       {/* Admin İkonları */}
       {isAdmin && (
-        <div className="absolute bottom-2 right-2 flex space-x-2">
+        <div className="flex justify-end w-full p-2 gap-3">
           {/* Düzenle Butonu */}
           <button
             onClick={onEdit}
