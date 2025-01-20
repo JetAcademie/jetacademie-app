@@ -46,21 +46,27 @@ const DigitalLibrary = () => {
     fetchCategories();
   }, [refecth]);
 
-  const handleDelete = async (category) => {
-    if (
-      !window.confirm(
-        `${category.title} kategorisini silmek istediğinizden emin misiniz?`
-      )
-    ) {
-      return;
+  const handleDelete = (category) => {
+    const answer = window.confirm(
+      `${category.title} kategorisini silmek istediğinizden emin misiniz?`
+    );
+
+    if (!answer) {
+      return false;
     }
 
-    try {
-      await api.delete(`/categories/${category.id}`);
-      setCategories((prev) => prev.filter((cat) => cat.id !== category.id));
-    } catch (err) {
-      console.error('Kategori silinirken hata oluştu:', err);
-    }
+    return api
+      .delete(`/categories/${category.id}`)
+      .then(() => {
+        setRefetch((prev) => !prev);
+        alert('Kategori başarıyla silindi!');
+        return true;
+      })
+      .catch((error) => {
+        console.error('Kategori silinirken hata oluştu:', error);
+        alert('Kategori silinirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
+      });
   };
 
   const handleAddCategory = (newCategory) => {
