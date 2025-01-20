@@ -16,6 +16,7 @@ const DigitalLibrary = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { isAdmin } = useContext(AdminContext);
+  const [refecth, setRefetch] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -43,7 +44,7 @@ const DigitalLibrary = () => {
     };
 
     fetchCategories();
-  }, []);
+  }, [refecth]);
 
   const handleDelete = async (category) => {
     if (
@@ -62,22 +63,19 @@ const DigitalLibrary = () => {
     }
   };
 
-  const handleAddCategory = async (newCategory) => {
-    try {
-      const response = await api.post('/categories', newCategory);
-      setCategories((prevCategories) => [
-        ...prevCategories,
-        {
-          title: response.data.categoryName,
-          imageUrl: response.data.thumbnailUrl,
-          link: `/library/${slugify(response.data.categoryName)}`,
-          id: response.data.categoryId,
-        },
-      ]);
-      setIsAddModalOpen(false);
-    } catch (err) {
-      console.error('Yeni kategori eklenirken hata oluştu:', err);
-    }
+  const handleAddCategory = (newCategory) => {
+    return api
+      .post('/categories', newCategory)
+      .then((response) => {
+        setRefetch((prev) => !prev);
+        alert('Kategori başarıyla eklendi!');
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Yeni kategori eklenirken hata oluştu:', error);
+        alert('Kategori eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
+      });
   };
 
   const handleEdit = (category) => {
@@ -159,6 +157,7 @@ const DigitalLibrary = () => {
             isOpen={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
             onAdd={handleAddCategory}
+            level="category"
           />
           {selectedCategory && (
             <EditItemModal

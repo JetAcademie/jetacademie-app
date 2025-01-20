@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-const AddItemModal = ({ isOpen, onClose, onAdd }) => {
+const Levels = {
+  category: 'category',
+  subcategory: 'subcategory',
+};
+
+const AddItemModal = ({ isOpen, onClose, onAdd, level }) => {
   const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
@@ -11,9 +16,18 @@ const AddItemModal = ({ isOpen, onClose, onAdd }) => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('itemName', itemName);
-    formData.append('thumbnailUrl', thumbnailUrl);
+    let formData = {};
+
+    if (level === Levels.category || level === Levels.subcategory) {
+      formData.categoryName = itemName;
+      formData.thumbnailUrl = thumbnailUrl;
+    }
+    if (level === Levels.category) {
+      formData.parentCategoryId = null;
+    }
+    if (level === Levels.subcategory) {
+      formData.parentCategoryId = 2;
+    }
 
     onAdd(formData);
     resetForm();
@@ -91,6 +105,7 @@ AddItemModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
+  level: PropTypes.string.isRequired,
 };
 
 export default AddItemModal;
