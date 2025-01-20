@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { useContext } from 'react';
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'; // İkonlar için react-icons
+import { Link } from 'react-router-dom';
 import AdminContext from '../context/AdminContext.jsx';
-import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'; // İkonlar için react-icons
 
 const TopicCard = ({ data, onDelete, onEdit }) => {
   const { isAdmin } = useContext(AdminContext);
@@ -17,8 +17,8 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
           {/* Görsel */}
           <Link to={item.link} className="relative overflow-hidden">
             <img
-              src={item.imageUrl}
-              alt={item.title}
+              src={item.thumbnailUrl}
+              alt={item.categoryName}
               className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </Link>
@@ -26,7 +26,7 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
           {/* Başlık ve Açıklama */}
           <div className="p-6 flex flex-col flex-grow">
             <h5 className="text-lg font-bold mb-3 text-gray-800 group-hover:text-blue-500 transition">
-              {item.title}
+              {item.categoryName}
             </h5>
             <div className="mt-auto flex justify-between items-center">
               <Link

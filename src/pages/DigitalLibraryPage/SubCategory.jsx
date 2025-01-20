@@ -47,6 +47,9 @@ const SubcategoryPage = () => {
         const itemsResponse = await api.get(
           `/items?subcategoryId=${subcategory.categoryId}`
         );
+        const newItems = await api.get(`/items`);
+        console.log(newItems, 52);
+
         setItems(itemsResponse.data);
         setLoading(false);
       } catch (err) {
@@ -157,7 +160,7 @@ const SubcategoryPage = () => {
               key={item.itemId}
               title={item.itemName}
               imageUrl={item.thumbnailUrl}
-              link={item.fileUrl}
+              link={item?.fileUrl || item.thumbnailUrl || ''}
               onDelete={() => handleDeleteItem(item)}
               onEdit={() => handleEdit(item)}
             />

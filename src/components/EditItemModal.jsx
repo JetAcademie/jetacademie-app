@@ -2,15 +2,13 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
 const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
-  console.log('EditItemModal -> item', item);
-
   const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   useEffect(() => {
-    if (item.title) {
-      setItemName(item.title || '');
-      setThumbnailUrl(item.imageUrl || '');
+    if (item.categoryName) {
+      setItemName(item.categoryName || '');
+      setThumbnailUrl(item.thumbnailUrl || '');
     }
   }, [item]);
 

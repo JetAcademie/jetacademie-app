@@ -24,8 +24,8 @@ const DigitalLibrary = () => {
         const mainCategories = response.data
           .filter((category) => category.parentCategoryId === null)
           .map((category) => ({
-            title: category.categoryName || 'Bilinmeyen Kategori',
-            imageUrl:
+            categoryName: category.categoryName || 'Bilinmeyen Kategori',
+            thumbnailUrl:
               category.thumbnailUrl || 'https://via.placeholder.com/150',
             link: `/library/${slugify(category.categoryName)}`,
             id: category.categoryId,

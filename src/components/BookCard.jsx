@@ -17,7 +17,7 @@ const BookCard = ({ title, imageUrl, link, onDelete, onEdit }) => {
         style={{
           background: `linear-gradient(to right, ${colors[0]}, ${colors[1]})`,
         }}
-      ></div>
+      />
 
       {/* Görsel */}
       <Link
@@ -35,11 +35,10 @@ const BookCard = ({ title, imageUrl, link, onDelete, onEdit }) => {
       </Link>
 
       {/* Başlık */}
-      <div className="px-4 pb-4 text-center">
-        <h3 className="text-lg font-semibold text-gray-800 truncate">
-          {title}
-        </h3>
-      </div>
+
+      <p className="w-full p-2 text-center text-lg font-semibold text-gray-800 truncate">
+        {title}
+      </p>
 
       {/* Admin İkonları */}
       {isAdmin && (
