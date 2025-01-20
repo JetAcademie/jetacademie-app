@@ -65,7 +65,7 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
 TopicCard.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      imageUrl: PropTypes.string.isRequired,
+      thumbnailUrl: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       link: PropTypes.string.isRequired,
     })
