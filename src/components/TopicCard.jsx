@@ -18,7 +18,7 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
           <Link to={item.link} className="relative overflow-hidden">
             <img
               src={item.thumbnailUrl}
-              alt={item.categoryName}
+              alt={item.title}
               className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </Link>
@@ -26,7 +26,7 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
           {/* Başlık ve Açıklama */}
           <div className="p-6 flex flex-col flex-grow">
             <h5 className="text-lg font-bold mb-3 text-gray-800 group-hover:text-blue-500 transition">
-              {item.categoryName}
+              {item.title}
             </h5>
             <div className="mt-auto flex justify-between items-center">
               <Link
