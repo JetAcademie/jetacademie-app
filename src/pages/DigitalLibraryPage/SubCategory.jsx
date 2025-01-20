@@ -47,8 +47,6 @@ const SubcategoryPage = () => {
         const itemsResponse = await api.get(
           `/items?subcategoryId=${subcategory.categoryId}`
         );
-        const newItems = await api.get(`/items`);
-        console.log(newItems, 52);
 
         setItems(itemsResponse.data);
         setLoading(false);

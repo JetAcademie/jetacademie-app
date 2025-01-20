@@ -24,11 +24,11 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
           </Link>
 
           {/* Başlık ve Açıklama */}
-          <div className="p-6 flex flex-col flex-grow">
+          <div className="p-2 flex flex-col flex-grow w-full">
             <h5 className="text-lg font-bold mb-3 text-gray-800 group-hover:text-blue-500 transition">
               {item.title}
             </h5>
-            <div className="mt-auto flex justify-between items-center">
+            <div className="flex justify-between w-full">
               <Link
                 to={item.link}
                 className="inline-block px-6 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition"

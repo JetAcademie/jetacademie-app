@@ -6,15 +6,15 @@ const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   useEffect(() => {
-    if (item.categoryName) {
-      setItemName(item.categoryName || '');
+    if (item.title) {
+      setItemName(item.title || '');
       setThumbnailUrl(item.thumbnailUrl || '');
     }
   }, [item]);
 
   const handleSave = () => {
     if (!itemName.trim() || !thumbnailUrl.trim()) return;
-    const updatedItem = { ...item, itemName, thumbnailUrl };
+    const updatedItem = { ...item, title: itemName, thumbnailUrl };
     onSave(updatedItem);
     onClose();
   };

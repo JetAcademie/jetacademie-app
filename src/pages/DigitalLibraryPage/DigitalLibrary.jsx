@@ -83,28 +83,28 @@ const DigitalLibrary = () => {
     setIsEditModalOpen(true);
   };
 
-  const handleEditCategory = async (updatedCategory) => {
-    try {
-      const response = await api.put(
-        `/categories/${updatedCategory.id}`,
-        updatedCategory
-      );
+  const handleEditCategory = (updatedItem) => {
+    const updatedCategory = {
+      categoryId: updatedItem.id,
+      categoryName: updatedItem.title,
+      thumbnailUrl: updatedItem.thumbnailUrl,
+      parentCategoryId: null,
+    };
 
-      setCategories((prev) =>
-        prev.map((cat) =>
-          cat.id === response.data.categoryId
-            ? {
-                ...cat,
-                title: response.data.categoryName,
-                imageUrl: response.data.thumbnailUrl,
-              }
-            : cat
-        )
-      );
-      setIsEditModalOpen(false);
-    } catch (err) {
-      console.error('Kategori düzenlenirken hata oluştu:', err);
-    }
+    return api
+      .put(`/categories/${updatedCategory.categoryId}`, updatedCategory)
+      .then((response) => {
+        setRefetch((prev) => !prev);
+        alert('Kategori başarıyla güncellendi!');
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Kategori düzenlenirken hata oluştu:', error);
+        alert(
+          'Kategori güncellenirken bir hata oluştu. Lütfen tekrar deneyin.'
+        );
+        throw error;
+      });
   };
 
   return (
