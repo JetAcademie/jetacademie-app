@@ -15,7 +15,13 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
           className="bg-gradient-to-br from-blue-200 via-blue-300 to-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300 flex flex-col relative"
         >
           {/* Görsel */}
-          <Link to={item.link} className="relative overflow-hidden">
+          <Link
+            state={{
+              itemId: item.id,
+            }}
+            to={item.link}
+            className="relative overflow-hidden"
+          >
             <img
               src={item.thumbnailUrl}
               alt={item.title}

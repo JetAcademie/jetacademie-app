@@ -21,21 +21,17 @@ const DigitalLibrary = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await api.get('/categories');
-        const mainCategories = response.data
-          .filter((category) => category.parentCategoryId === null)
-          .map((category) => ({
-            title: category.categoryName || 'Bilinmeyen Kategori',
-            thumbnailUrl:
-              category.thumbnailUrl || 'https://via.placeholder.com/150',
-            link: `/library/${slugify(category.categoryName)}`,
-            id: category.categoryId,
-          }));
+        const response = await api.get('/categories/main');
+        const mainCategories = response.data.map((category) => ({
+          title: category.categoryName || 'Bilinmeyen Kategori',
+          thumbnailUrl:
+            category.thumbnailUrl || 'https://via.placeholder.com/150',
+          link: `/library/${slugify(category.categoryName)}`,
+          id: category.categoryId,
+        }));
 
-        setTimeout(() => {
-          setCategories(mainCategories);
-          setLoading(false);
-        }, 0.1);
+        setCategories(mainCategories);
+        setLoading(false);
       } catch (err) {
         setError('Veriler alınırken bir hata oluştu.');
         setLoading(false);
@@ -70,8 +66,12 @@ const DigitalLibrary = () => {
   };
 
   const handleAddCategory = (newCategory) => {
+    const toBeAddedCategory = {
+      ...newCategory,
+      parentCategoryId: null,
+    };
     return api
-      .post('/categories', newCategory)
+      .post('/categories', toBeAddedCategory)
       .then((response) => {
         setRefetch((prev) => !prev);
         alert('Kategori başarıyla eklendi!');

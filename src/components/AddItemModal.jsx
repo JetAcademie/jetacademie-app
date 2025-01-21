@@ -22,12 +22,6 @@ const AddItemModal = ({ isOpen, onClose, onAdd, level }) => {
       formData.categoryName = itemName;
       formData.thumbnailUrl = thumbnailUrl;
     }
-    if (level === Levels.category) {
-      formData.parentCategoryId = null;
-    }
-    if (level === Levels.subcategory) {
-      formData.parentCategoryId = 2;
-    }
 
     onAdd(formData);
     resetForm();

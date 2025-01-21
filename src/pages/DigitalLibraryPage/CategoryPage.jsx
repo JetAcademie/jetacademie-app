@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import api from '../../api/axios.js';
 import AddButton from '../../components/AddButton.jsx';
 import AddItemModal from '../../components/AddItemModal.jsx';
 import BookCard from '../../components/BookCard.jsx';
@@ -19,23 +19,27 @@ const CategoryPage = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const { isAdmin } = useContext(AdminContext);
 
+  const location = useLocation();
+  const { itemId } = location && location.state ? location.state : {};
+  // Add at the top of component:
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchSubcategories = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:8080/api/categories'
-        );
-        const currentCategory = response.data.find(
-          (category) => slugify(category.categoryName) === categorySlug
-        );
-
-        if (!currentCategory) {
-          throw new Error('Kategori bulunamadı.');
+        if (!itemId) {
+          navigate('/library');
+          return null;
         }
+        const response = await api.get(`/categories/by-parent/${itemId}`);
+        console.log(response.data);
 
-        const childCategories = response.data.filter(
-          (category) => category.parentCategoryId === currentCategory.categoryId
-        );
+        const childCategories = response.data.map((category) => ({
+          title: category.categoryName,
+          thumbnailUrl: category.thumbnailUrl,
+          link: `/library/${slugify(category.categoryName)}`,
+          id: category.categoryId,
+        }));
 
         setSubcategories(childCategories);
         setLoading(false);
@@ -52,17 +56,15 @@ const CategoryPage = () => {
   const handleDelete = async (subcategory) => {
     if (
       !window.confirm(
-        `${subcategory.categoryName} silmek istediğinizden emin misiniz?`
+        `${subcategory.title} silmek istediğinizden emin misiniz?`
       )
     )
       return;
 
     try {
-      await axios.delete(
-        `http://localhost:8080/api/categories/${subcategory.categoryId}`
-      );
+      await api.delete(`/categories/${subcategory.id}`);
       setSubcategories((prev) =>
-        prev.filter((cat) => cat.categoryId !== subcategory.categoryId)
+        prev.filter((cat) => cat.categoryId !== subcategory.id)
       );
     } catch (err) {
       console.error('Alt kategori silinirken hata oluştu:', err);
@@ -70,11 +72,12 @@ const CategoryPage = () => {
   };
 
   const handleAddSubcategory = async (newSubcategory) => {
+    const toBeAddedSubcategory = {
+      ...newSubcategory,
+      parentCategoryId: itemId,
+    };
     try {
-      const response = await axios.post(
-        'http://localhost:8080/api/categories',
-        newSubcategory
-      );
+      const response = await api.post('/categories', toBeAddedSubcategory);
       setSubcategories((prev) => [...prev, response.data]);
       setIsAddModalOpen(false);
     } catch (err) {
@@ -84,8 +87,8 @@ const CategoryPage = () => {
 
   const handleEditSubcategory = async (updatedSubcategory) => {
     try {
-      const response = await axios.put(
-        `http://localhost:8080/api/categories/${updatedSubcategory.categoryId}`,
+      const response = await api.put(
+        `/categories/${updatedSubcategory.categoryId}`,
         updatedSubcategory
       );
       setSubcategories((prev) =>
@@ -132,10 +135,10 @@ const CategoryPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
           {subcategories.map((subcategory) => (
             <BookCard
-              key={subcategory.categoryId}
-              title={subcategory.categoryName}
+              key={subcategory.id}
+              title={subcategory.title}
               imageUrl={subcategory.thumbnailUrl}
-              link={`/library/${slugify(categorySlug)}/${slugify(subcategory.categoryName)}`}
+              link={`/library/${slugify(categorySlug)}/${slugify(subcategory.title)}`}
               onDelete={() => handleDelete(subcategory)}
               onEdit={() => handleEdit(subcategory)}
             />
