@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
-const Levels = {
-  category: 'category',
-  subcategory: 'subcategory',
-};
+import { CategoryLevels } from '../data/constants';
 
 const AddItemModal = ({ isOpen, onClose, onAdd, level }) => {
   const [itemName, setItemName] = useState('');
@@ -18,7 +14,10 @@ const AddItemModal = ({ isOpen, onClose, onAdd, level }) => {
 
     let formData = {};
 
-    if (level === Levels.category || level === Levels.subcategory) {
+    if (
+      level === CategoryLevels.category ||
+      level === CategoryLevels.subcategory
+    ) {
       formData.categoryName = itemName;
       formData.thumbnailUrl = thumbnailUrl;
     }

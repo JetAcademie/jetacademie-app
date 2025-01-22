@@ -7,6 +7,7 @@ import SectionHeader from '../../components/SectionHeader.jsx';
 import TopicCard from '../../components/TopicCard.jsx';
 import { slugify } from '../../components/utils.js';
 import AdminContext from '../../context/AdminContext.jsx';
+import { CategoryLevels } from '../../data/constants.js';
 
 const DigitalLibrary = () => {
   const [categories, setCategories] = useState([]);
@@ -42,7 +43,7 @@ const DigitalLibrary = () => {
     fetchCategories();
   }, [refecth]);
 
-  const handleDelete = (category) => {
+  const handleDeleteCategoryRequest = (category) => {
     const answer = window.confirm(
       `${category.title} kategorisini silmek istediğinizden emin misiniz?`
     );
@@ -65,7 +66,7 @@ const DigitalLibrary = () => {
       });
   };
 
-  const handleAddCategory = (newCategory) => {
+  const handleAddCategoryRequest = (newCategory) => {
     const toBeAddedCategory = {
       ...newCategory,
       parentCategoryId: null,
@@ -89,7 +90,7 @@ const DigitalLibrary = () => {
     setIsEditModalOpen(true);
   };
 
-  const handleEditCategory = (updatedItem) => {
+  const handleEditCategoryRequest = (updatedItem) => {
     const updatedCategory = {
       categoryId: updatedItem.id,
       categoryName: updatedItem.title,
@@ -148,7 +149,7 @@ const DigitalLibrary = () => {
           ) : (
             <TopicCard
               data={categories}
-              onDelete={handleDelete}
+              onDelete={handleDeleteCategoryRequest}
               onEdit={handleEdit}
             />
           )}
@@ -160,15 +161,15 @@ const DigitalLibrary = () => {
           <AddItemModal
             isOpen={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
-            onAdd={handleAddCategory}
-            level="category"
+            onAdd={handleAddCategoryRequest}
+            level={CategoryLevels.category}
           />
           {selectedCategory && (
             <EditItemModal
               isOpen={isEditModalOpen}
               onClose={() => setIsEditModalOpen(false)}
               item={selectedCategory}
-              onSave={handleEditCategory}
+              onSave={handleEditCategoryRequest}
             />
           )}
         </>

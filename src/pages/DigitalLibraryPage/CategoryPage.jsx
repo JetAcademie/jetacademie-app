@@ -8,6 +8,7 @@ import EditItemModal from '../../components/EditItemModal.jsx';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import { slugify } from '../../components/utils.js';
 import AdminContext from '../../context/AdminContext.jsx';
+import { CategoryLevels } from '../../data/constants.js';
 
 const CategoryPage = () => {
   const { categorySlug } = useParams();
@@ -23,6 +24,7 @@ const CategoryPage = () => {
   const { itemId } = location && location.state ? location.state : {};
   // Add at the top of component:
   const navigate = useNavigate();
+  const [refecth, setRefetch] = useState(false);
 
   useEffect(() => {
     const fetchSubcategories = async () => {
@@ -32,7 +34,6 @@ const CategoryPage = () => {
           return null;
         }
         const response = await api.get(`/categories/by-parent/${itemId}`);
-        console.log(response.data);
 
         const childCategories = response.data.map((category) => ({
           title: category.categoryName,
@@ -51,55 +52,78 @@ const CategoryPage = () => {
     };
 
     fetchSubcategories();
-  }, [categorySlug]);
+  }, [categorySlug, refecth]);
 
-  const handleDelete = async (subcategory) => {
-    if (
-      !window.confirm(
-        `${subcategory.title} silmek istediğinizden emin misiniz?`
-      )
-    )
-      return;
+  const handleDelete = (subcategory) => {
+    const isConfirmed = window.confirm(
+      `${subcategory.title} silmek istediğinizden emin misiniz?`
+    );
 
-    try {
-      await api.delete(`/categories/${subcategory.id}`);
-      setSubcategories((prev) =>
-        prev.filter((cat) => cat.categoryId !== subcategory.id)
-      );
-    } catch (err) {
-      console.error('Alt kategori silinirken hata oluştu:', err);
+    if (!isConfirmed) {
+      return false;
     }
+
+    return api
+      .delete(`/categories/${subcategory.id}`)
+      .then(() => {
+        setRefetch((prev) => !prev);
+        alert('Alt kategori başarıyla silindi!');
+        return true;
+      })
+      .catch((error) => {
+        console.error('Alt kategori silinirken hata oluştu:', error);
+        alert(
+          'Alt kategori silinirken bir hata oluştu. Lütfen tekrar deneyin.'
+        );
+        throw error;
+      });
   };
 
-  const handleAddSubcategory = async (newSubcategory) => {
+  const handleAddSubcategory = (newSubcategory) => {
     const toBeAddedSubcategory = {
       ...newSubcategory,
       parentCategoryId: itemId,
     };
-    try {
-      const response = await api.post('/categories', toBeAddedSubcategory);
-      setSubcategories((prev) => [...prev, response.data]);
-      setIsAddModalOpen(false);
-    } catch (err) {
-      console.error('Alt kategori eklenirken hata oluştu:', err);
-    }
+
+    return api
+      .post('/categories', toBeAddedSubcategory)
+      .then((response) => {
+        setIsAddModalOpen(false);
+        setRefetch((prev) => !prev);
+        alert('Alt kategori başarıyla eklendi!');
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Alt kategori eklenirken hata oluştu:', error);
+        alert(
+          'Alt kategori eklenirken bir hata oluştu. Lütfen tekrar deneyin.'
+        );
+        throw error;
+      });
   };
 
-  const handleEditSubcategory = async (updatedSubcategory) => {
-    try {
-      const response = await api.put(
-        `/categories/${updatedSubcategory.categoryId}`,
-        updatedSubcategory
-      );
-      setSubcategories((prev) =>
-        prev.map((cat) =>
-          cat.categoryId === response.data.categoryId ? response.data : cat
-        )
-      );
-      setIsEditModalOpen(false);
-    } catch (err) {
-      console.error('Alt kategori düzenlenirken hata oluştu:', err);
-    }
+  const handleEditSubcategory = (updatedItem) => {
+    const toBeUpdatedSubcategory = {
+      categoryId: updatedItem.id,
+      categoryName: updatedItem.title,
+      parentCategoryId: itemId,
+    };
+
+    return api
+      .put(`/categories`, toBeUpdatedSubcategory)
+      .then((response) => {
+        setRefetch((prev) => !prev);
+        setIsEditModalOpen(false);
+        alert('Alt kategori başarıyla düzenlendi!');
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Alt kategori düzenlenirken hata oluştu:', error);
+        alert(
+          'Alt kategori düzenlenirken bir hata oluştu. Lütfen tekrar deneyin.'
+        );
+        throw error;
+      });
   };
 
   const handleEdit = (subcategory) => {
@@ -145,6 +169,11 @@ const CategoryPage = () => {
           ))}
         </div>
       )}
+      {subcategories.length === 0 && (
+        <div className="text-center text-gray-500 w-full ">
+          Henüz alt kategori eklenmemiş.
+        </div>
+      )}
 
       {isAdmin && (
         <>
@@ -152,6 +181,7 @@ const CategoryPage = () => {
             isOpen={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
             onAdd={handleAddSubcategory}
+            level={CategoryLevels.subcategory}
           />
           {selectedSubcategory && (
             <EditItemModal
