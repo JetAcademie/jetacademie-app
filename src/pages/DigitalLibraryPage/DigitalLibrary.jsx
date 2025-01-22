@@ -93,12 +93,10 @@ const DigitalLibrary = () => {
     const updatedCategory = {
       categoryId: updatedItem.id,
       categoryName: updatedItem.title,
-      thumbnailUrl: updatedItem.thumbnailUrl,
-      parentCategoryId: null,
     };
 
     return api
-      .put(`/categories/${updatedCategory.categoryId}`, updatedCategory)
+      .put(`/categories`, updatedCategory)
       .then((response) => {
         setRefetch((prev) => !prev);
         alert('Kategori başarıyla güncellendi!');
