@@ -1,15 +1,12 @@
 import axios from 'axios';
 
-const URL = import.meta.env.VITE_API_URL;
-
-console.log('URL:', URL);
+const BASE_URL = '/';
 
 const api = axios.create({
-  baseURL: URL + 'api',
+  baseURL: BASE_URL,
   timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
 });
 
 // Response Interceptor
