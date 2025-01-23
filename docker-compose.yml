@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jetacademie-frontend
+    ports:
+      - '80:80'
+    environment:
+      - VITE_API_URL=http://localhost:8090/
+    depends_on:
+      - backend
+
+  backend:
+    image: ahmetserif/jetacademie-backend-app:latest
+    pull_policy: always
+    container_name: jetacademie-backend
+    ports:
+      - '8090:8080'
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=jetacademie
+      - DB_USERNAME=jetacademie_user
+      - DB_PASSWORD=jetacademie_pass
+      - BACKEND_SERVER_PORT=8080
+    depends_on:
+      - postgres
+    volumes:
+      - backend-data:/var/Kutuphane
+
+  postgres:
+    image: postgres:latest
+    container_name: jetacademie-postgres
+    environment:
+      POSTGRES_USER: jetacademie_user
+      POSTGRES_PASSWORD: jetacademie_pass
+      POSTGRES_DB: jetacademie
+    volumes:
+      - postgres-data:/tmp/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+volumes:
+  backend-data:
+  postgres-data:
