@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 
 const AddButton = ({ className = '', onClick }) => {
   return (
-    <button
-      className={`inline-block px-6 py-2 m-8 mt-20 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition ${className}`}
-      onClick={onClick}
-    >
-      Ekle
-    </button>
+    <div className="flex justify-end h-12 m-2 ">
+      <button
+        className={`px-6 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition ${className}`}
+        onClick={onClick}
+      >
+        Ekle
+      </button>
+    </div>
   );
 };
 

@@ -9,13 +9,16 @@ const Mentoring = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const handleDelete = () => console.log('Delete clicked');
+  const handleEdit = () => console.log('Edit clicked');
+
   useEffect(() => {
     const fetchGrades = async () => {
       try {
         const response = await api.get('/grades');
         const transformedGrades = response.data.map((grade) => ({
           title: grade.gradeName || 'Bilinmeyen Sınıf',
-          imageUrl: grade.thumbnailUrl || 'https://via.placeholder.com/150', // Varsayılan resim
+          thumbnailUrl: grade.thumbnailUrl || 'https://via.placeholder.com/150', // Varsayılan resim
           link: `/mentoring/${slugify(grade.gradeName)}`,
         }));
 
@@ -66,7 +69,11 @@ const Mentoring = () => {
         ) : error ? (
           <div className="text-center text-red-500">{error}</div>
         ) : (
-          <TopicCard data={grades} />
+          <TopicCard
+            data={grades}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
         )}
       </section>
     </div>

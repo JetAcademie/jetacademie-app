@@ -1,29 +1,31 @@
-import { useEffect, useState, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../api/axios';
-import BookCard from '../../components/BookCard.jsx';
-import SectionHeader from '../../components/SectionHeader.jsx';
 import AddButton from '../../components/AddButton.jsx';
 import AddItemModal from '../../components/AddItemModal.jsx';
+import BookCard from '../../components/BookCard.jsx';
 import EditItemModal from '../../components/EditItemModal.jsx';
-import AdminContext from '../../context/AdminContext.jsx';
+import SectionHeader from '../../components/SectionHeader.jsx';
 import { slugify } from '../../components/utils.js';
+import AdminContext from '../../context/AdminContext.jsx';
+import { CategoryLevels } from '../../data/constants.js';
 
 const SubcategoryPage = () => {
   const { categorySlug, subcategorySlug } = useParams();
   const [items, setItems] = useState([]);
-  const [subcategoryName, setSubcategoryName] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const { isAdmin } = useContext(AdminContext);
+  const [category, setCategory] = useState(null);
+  const [refecth, setRefetch] = useState(false);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const categoriesResponse = await api.get('/categories');
+        const categoriesResponse = await api.get('/categories/main');
         const category = categoriesResponse.data.find(
           (cat) => slugify(cat.categoryName) === categorySlug
         );
@@ -31,22 +33,12 @@ const SubcategoryPage = () => {
         if (!category) {
           throw new Error('Ana kategori bulunamadı.');
         }
-
-        const subcategory = categoriesResponse.data.find(
-          (sub) =>
-            slugify(sub.categoryName) === subcategorySlug &&
-            sub.parentCategoryId === category.categoryId
-        );
-
-        if (!subcategory) {
-          throw new Error('Alt kategori bulunamadı.');
-        }
-
-        setSubcategoryName(subcategory.categoryName);
+        setCategory(category);
 
         const itemsResponse = await api.get(
-          `/items?subcategoryId=${subcategory.categoryId}`
+          `/items/by-category/${category.categoryId}`
         );
+
         setItems(itemsResponse.data);
         setLoading(false);
       } catch (err) {
@@ -57,68 +49,83 @@ const SubcategoryPage = () => {
     };
 
     fetchItems();
-  }, [categorySlug, subcategorySlug]);
+  }, [categorySlug, subcategorySlug, refecth]);
 
-  const handleAddItem = async (newItem) => {
-    try {
-      const subcategoryId = items.length ? items[0].subcategoryId : null;
-
-      if (!subcategoryId) throw new Error("Alt kategori ID'si bulunamadı.");
-
-      const formData = new FormData();
-      formData.append('subcategoryId', subcategoryId);
-      formData.append('itemName', newItem.itemName);
-      formData.append('thumbnailUrl', newItem.thumbnailUrl);
-      formData.append('file', newItem.file);
-
-      const response = await api.post('/items', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+  const handleAddItem = (newItem) => {
+    const itemToBeAdded = {
+      thumbnailFile: newItem.thumbnailFile,
+      pdfFile: newItem.pdfFile,
+    };
+    // /items?categoryId=111&itemName=Elif%20ba
+    return api
+      .post(
+        `/items?categoryId=${category.categoryId}&itemName=${newItem.itemName}`,
+        itemToBeAdded,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      )
+      .then((response) => {
+        setIsAddModalOpen(false);
+        alert('Yeni öğe başarıyla eklendi.');
+        setRefetch(!refecth);
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Yeni öğe eklenirken hata oluştu.', error);
+        alert('Öğe eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
       });
-
-      setItems((prevItems) => [...prevItems, response.data]);
-      setIsAddModalOpen(false);
-    } catch (err) {
-      console.error('Yeni öğe eklenirken hata oluştu.', err);
-    }
   };
 
-  const handleEditItem = async (updatedItem) => {
-    try {
-      const formData = new FormData();
-      formData.append('subcategoryId', updatedItem.subcategoryId);
-      formData.append('itemName', updatedItem.itemName);
-      formData.append('thumbnailUrl', updatedItem.thumbnailUrl);
-      if (updatedItem.file) {
-        formData.append('file', updatedItem.file);
-      }
+  const handleEditItem = (updatedItem) => {
+    const formData = new FormData();
+    formData.append('subcategoryId', updatedItem.subcategoryId);
+    formData.append('itemName', updatedItem.itemName);
+    formData.append('thumbnailUrl', updatedItem.thumbnailUrl);
 
-      const response = await api.put(`/items/${updatedItem.itemId}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      setItems((prevItems) =>
-        prevItems.map((item) =>
-          item.itemId === response.data.itemId ? response.data : item
-        )
-      );
-      setIsEditModalOpen(false);
-    } catch (err) {
-      console.error('Öğe düzenlenirken hata oluştu.', err);
+    if (updatedItem.file) {
+      formData.append('file', updatedItem.file);
     }
+
+    return api
+      .put(`/items/${updatedItem.itemId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then((response) => {
+        setRefetch(!refecth);
+        setIsEditModalOpen(false);
+        alert('Öğe başarıyla güncellendi.');
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Öğe düzenlenirken hata oluştu.', error);
+        alert('Öğe düzenlenirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
+      });
   };
 
-  const handleDeleteItem = async (item) => {
-    if (!window.confirm(`${item.itemName} silmek istediğinizden emin misiniz?`))
-      return;
+  const handleDeleteItem = (item) => {
+    const isConfirmed = window.confirm(
+      `${item.itemName} silmek istediğinizden emin misiniz?`
+    );
 
-    try {
-      await api.delete(`/items/${item.itemId}`);
-      setItems((prevItems) =>
-        prevItems.filter((existingItem) => existingItem.itemId !== item.itemId)
-      );
-    } catch (err) {
-      console.error('Öğe silinirken hata oluştu.', err);
+    if (!isConfirmed) {
+      return false;
     }
+
+    return api
+      .delete(`/items/${item.itemId}`)
+      .then(() => {
+        setRefetch(!refecth);
+        alert(`${item.itemName} başarıyla silindi.`);
+        return true;
+      })
+      .catch((error) => {
+        console.error('Öğe silinirken hata oluştu.', error);
+        alert('Öğe silinirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
+      });
   };
 
   const handleEdit = (item) => {
@@ -129,18 +136,14 @@ const SubcategoryPage = () => {
   return (
     <div className="container mx-auto py-10 px-6">
       <SectionHeader
-        title={subcategoryName}
+        title={'Alt Kategori'}
         description="Bu alt kategorideki öğeleri yönetin veya keşfedin."
       />
 
-      {isAdmin && (
-        <div className="absolute top-0 right-0 flex gap-4 mt-60">
-          <AddButton onClick={() => setIsAddModalOpen(true)} />
-        </div>
-      )}
+      {isAdmin && <AddButton onClick={() => setIsAddModalOpen(true)} />}
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-2">
           {[...Array(6)].map((_, index) => (
             <div
               key={index}
@@ -159,11 +162,13 @@ const SubcategoryPage = () => {
           {items.map((item) => (
             <BookCard
               key={item.itemId}
+              id={item.itemId}
               title={item.itemName}
-              imageUrl={item.thumbnailUrl}
-              link={item.fileUrl}
+              imageUrl={item?.thumbnailUrl || item?.thumbnail}
+              link={item?.fileUrl || item.thumbnailUrl || ''}
               onDelete={() => handleDeleteItem(item)}
               onEdit={() => handleEdit(item)}
+              level={CategoryLevels.item}
             />
           ))}
         </div>
@@ -175,6 +180,7 @@ const SubcategoryPage = () => {
             isOpen={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
             onAdd={handleAddItem}
+            level={CategoryLevels.item}
           />
           {selectedItem && (
             <EditItemModal
@@ -182,6 +188,7 @@ const SubcategoryPage = () => {
               onClose={() => setIsEditModalOpen(false)}
               item={selectedItem}
               onSave={handleEditItem}
+              level={CategoryLevels.item}
             />
           )}
         </>

@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import api from '../../api/axios';
 import AddButton from '../../components/AddButton.jsx';
-import AddSubCategoryModal from '../../components/AddCategoryModal.jsx';
-import EditCategoryModal from '../../components/EditCategoryModal.jsx';
+import AddItemModal from '../../components/AddItemModal.jsx';
+import EditItemModal from '../../components/EditItemModal.jsx';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import TopicCard from '../../components/TopicCard.jsx';
 import { slugify } from '../../components/utils.js';
 import AdminContext from '../../context/AdminContext.jsx';
+import { CategoryLevels } from '../../data/constants.js';
 
 const DigitalLibrary = () => {
   const [categories, setCategories] = useState([]);
@@ -16,25 +17,22 @@ const DigitalLibrary = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { isAdmin } = useContext(AdminContext);
+  const [refecth, setRefetch] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await api.get('/categories');
-        const mainCategories = response.data
-          .filter((category) => category.parentCategoryId === null)
-          .map((category) => ({
-            title: category.categoryName || 'Bilinmeyen Kategori',
-            imageUrl:
-              category.thumbnailUrl || 'https://via.placeholder.com/150',
-            link: `/library/${slugify(category.categoryName)}`,
-            id: category.categoryId,
-          }));
+        const response = await api.get('/categories/main');
+        const mainCategories = response.data.map((category) => ({
+          title: category.categoryName || 'Bilinmeyen Kategori',
+          thumbnailUrl:
+            category.thumbnailUrl || 'https://via.placeholder.com/150',
+          link: `/library/${slugify(category.categoryName)}`,
+          id: category.categoryId,
+        }));
 
-        setTimeout(() => {
-          setCategories(mainCategories);
-          setLoading(false);
-        }, 0.1);
+        setCategories(mainCategories);
+        setLoading(false);
       } catch (err) {
         setError('Veriler alınırken bir hata oluştu.');
         setLoading(false);
@@ -43,41 +41,48 @@ const DigitalLibrary = () => {
     };
 
     fetchCategories();
-  }, []);
+  }, [refecth]);
 
-  const handleDelete = async (category) => {
-    if (
-      !window.confirm(
-        `${category.title} kategorisini silmek istediğinizden emin misiniz?`
-      )
-    ) {
-      return;
+  const handleDeleteCategoryRequest = (category) => {
+    const answer = window.confirm(
+      `${category.title} kategorisini silmek istediğinizden emin misiniz?`
+    );
+
+    if (!answer) {
+      return false;
     }
 
-    try {
-      await api.delete(`/categories/${category.id}`);
-      setCategories((prev) => prev.filter((cat) => cat.id !== category.id));
-    } catch (err) {
-      console.error('Kategori silinirken hata oluştu:', err);
-    }
+    return api
+      .delete(`/categories/${category.id}`)
+      .then(() => {
+        setRefetch((prev) => !prev);
+        alert('Kategori başarıyla silindi!');
+        return true;
+      })
+      .catch((error) => {
+        console.error('Kategori silinirken hata oluştu:', error);
+        alert('Kategori silinirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
+      });
   };
 
-  const handleAddCategory = async (newCategory) => {
-    try {
-      const response = await api.post('/categories', newCategory);
-      setCategories((prevCategories) => [
-        ...prevCategories,
-        {
-          title: response.data.categoryName,
-          imageUrl: response.data.thumbnailUrl,
-          link: `/library/${slugify(response.data.categoryName)}`,
-          id: response.data.categoryId,
-        },
-      ]);
-      setIsAddModalOpen(false);
-    } catch (err) {
-      console.error('Yeni kategori eklenirken hata oluştu:', err);
-    }
+  const handleAddCategoryRequest = (newCategory) => {
+    const toBeAddedCategory = {
+      ...newCategory,
+      parentCategoryId: null,
+    };
+    return api
+      .post('/categories', toBeAddedCategory)
+      .then((response) => {
+        setRefetch((prev) => !prev);
+        alert('Kategori başarıyla eklendi!');
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Yeni kategori eklenirken hata oluştu:', error);
+        alert('Kategori eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
+      });
   };
 
   const handleEdit = (category) => {
@@ -85,28 +90,26 @@ const DigitalLibrary = () => {
     setIsEditModalOpen(true);
   };
 
-  const handleEditCategory = async (updatedCategory) => {
-    try {
-      const response = await api.put(
-        `/categories/${updatedCategory.id}`,
-        updatedCategory
-      );
+  const handleEditCategoryRequest = (updatedItem) => {
+    const updatedCategory = {
+      categoryId: updatedItem.id,
+      categoryName: updatedItem.title,
+    };
 
-      setCategories((prev) =>
-        prev.map((cat) =>
-          cat.id === response.data.categoryId
-            ? {
-                ...cat,
-                title: response.data.categoryName,
-                imageUrl: response.data.thumbnailUrl,
-              }
-            : cat
-        )
-      );
-      setIsEditModalOpen(false);
-    } catch (err) {
-      console.error('Kategori düzenlenirken hata oluştu:', err);
-    }
+    return api
+      .put(`/categories`, updatedCategory)
+      .then((response) => {
+        setRefetch((prev) => !prev);
+        alert('Kategori başarıyla güncellendi!');
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Kategori düzenlenirken hata oluştu:', error);
+        alert(
+          'Kategori güncellenirken bir hata oluştu. Lütfen tekrar deneyin.'
+        );
+        throw error;
+      });
   };
 
   return (
@@ -117,13 +120,9 @@ const DigitalLibrary = () => {
       />
 
       <div className="relative">
-        {isAdmin && (
-          <div className="absolute top-0 right-0 flex gap-4">
-            <AddButton onClick={() => setIsAddModalOpen(true)} />
-          </div>
-        )}
+        {isAdmin && <AddButton onClick={() => setIsAddModalOpen(true)} />}
 
-        <section className="container mx-auto py-10 px-6">
+        <section className="container mx-auto  px-6">
           <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
             Kategorilerimiz
           </h2>
@@ -150,7 +149,7 @@ const DigitalLibrary = () => {
           ) : (
             <TopicCard
               data={categories}
-              onDelete={handleDelete}
+              onDelete={handleDeleteCategoryRequest}
               onEdit={handleEdit}
             />
           )}
@@ -158,20 +157,22 @@ const DigitalLibrary = () => {
       </div>
 
       {isAdmin && (
-        <AddSubCategoryModal
-          isOpen={isAddModalOpen}
-          onClose={() => setIsAddModalOpen(false)}
-          onAddCategory={handleAddCategory}
-        />
-      )}
-
-      {isAdmin && selectedCategory && (
-        <EditCategoryModal
-          isOpen={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
-          category={selectedCategory}
-          onSave={handleEditCategory}
-        />
+        <>
+          <AddItemModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+            onAdd={handleAddCategoryRequest}
+            level={CategoryLevels.category}
+          />
+          {selectedCategory && (
+            <EditItemModal
+              isOpen={isEditModalOpen}
+              onClose={() => setIsEditModalOpen(false)}
+              item={selectedCategory}
+              onSave={handleEditCategoryRequest}
+            />
+          )}
+        </>
       )}
     </div>
   );

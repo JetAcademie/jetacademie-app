@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { useContext } from 'react';
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'; // İkonlar için react-icons
+import { Link } from 'react-router-dom';
 import AdminContext from '../context/AdminContext.jsx';
-import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'; // İkonlar için react-icons
 
 const TopicCard = ({ data, onDelete, onEdit }) => {
   const { isAdmin } = useContext(AdminContext);
@@ -15,20 +15,26 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
           className="bg-gradient-to-br from-blue-200 via-blue-300 to-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300 flex flex-col relative"
         >
           {/* Görsel */}
-          <Link to={item.link} className="relative overflow-hidden">
+          <Link
+            state={{
+              itemId: item.id,
+            }}
+            to={item.link}
+            className="relative overflow-hidden"
+          >
             <img
-              src={item.imageUrl}
+              src={item.thumbnailUrl}
               alt={item.title}
               className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </Link>
 
           {/* Başlık ve Açıklama */}
-          <div className="p-6 flex flex-col flex-grow">
+          <div className="p-2 flex flex-col flex-grow w-full">
             <h5 className="text-lg font-bold mb-3 text-gray-800 group-hover:text-blue-500 transition">
               {item.title}
             </h5>
-            <div className="mt-auto flex justify-between items-center">
+            <div className="flex justify-between w-full">
               <Link
                 to={item.link}
                 className="inline-block px-6 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-blue-600 transition"
@@ -65,7 +71,7 @@ const TopicCard = ({ data, onDelete, onEdit }) => {
 TopicCard.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      imageUrl: PropTypes.string.isRequired,
+      thumbnailUrl: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       link: PropTypes.string.isRequired,
     })

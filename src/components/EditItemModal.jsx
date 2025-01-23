@@ -1,22 +1,21 @@
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { CategoryLevels } from '../data/constants';
 
-const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
+const EditItemModal = ({ isOpen, onClose, item, onSave, level }) => {
   const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
-  const [fileUrl, setFileUrl] = useState('');
 
   useEffect(() => {
-    if (item) {
-      setItemName(item.itemName || '');
+    if (item.title || item.itemName) {
+      setItemName(item.title || item.itemName || '');
       setThumbnailUrl(item.thumbnailUrl || '');
-      setFileUrl(item.fileUrl || '');
     }
   }, [item]);
 
   const handleSave = () => {
-    if (!itemName.trim() || !thumbnailUrl.trim() || !fileUrl.trim()) return;
-    const updatedItem = { ...item, itemName, thumbnailUrl, fileUrl };
+    if (!itemName.trim() || !thumbnailUrl.trim()) return;
+    const updatedItem = { ...item, title: itemName, thumbnailUrl };
     onSave(updatedItem);
     onClose();
   };
@@ -56,24 +55,26 @@ const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
-          <div>
-            <label className="block mb-1">Görsel URL</label>
-            <input
-              type="text"
-              value={thumbnailUrl}
-              onChange={(e) => setThumbnailUrl(e.target.value)}
-              className="input input-bordered w-full bg-white text-gray-800"
-            />
-          </div>
-          <div>
-            <label className="block mb-1">Dosya URL</label>
-            <input
-              type="text"
-              value={fileUrl}
-              onChange={(e) => setFileUrl(e.target.value)}
-              className="input input-bordered w-full bg-white text-gray-800"
-            />
-          </div>
+          {level !== CategoryLevels.item ? (
+            <div>
+              <label className="block mb-1">Görsel URL</label>
+              <input
+                type="text"
+                value={thumbnailUrl}
+                onChange={(e) => setThumbnailUrl(e.target.value)}
+                className="input input-bordered w-full bg-white text-gray-800"
+              />
+            </div>
+          ) : (
+            <div>
+              <img
+                src={thumbnailUrl}
+                alt="Thumbnail"
+                className="w-full h-auto"
+              />
+            </div>
+          )}
+
           <button
             type="button"
             onClick={handleSave}
@@ -92,6 +93,7 @@ EditItemModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   item: PropTypes.object,
   onSave: PropTypes.func.isRequired,
+  level: PropTypes.string,
 };
 
 export default EditItemModal;
