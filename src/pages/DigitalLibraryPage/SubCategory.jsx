@@ -8,22 +8,24 @@ import EditItemModal from '../../components/EditItemModal.jsx';
 import SectionHeader from '../../components/SectionHeader.jsx';
 import { slugify } from '../../components/utils.js';
 import AdminContext from '../../context/AdminContext.jsx';
+import { CategoryLevels } from '../../data/constants.js';
 
 const SubcategoryPage = () => {
   const { categorySlug, subcategorySlug } = useParams();
   const [items, setItems] = useState([]);
-  const [subcategoryName, setSubcategoryName] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const { isAdmin } = useContext(AdminContext);
+  const [category, setCategory] = useState(null);
+  const [refecth, setRefetch] = useState(false);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const categoriesResponse = await api.get('/categories');
+        const categoriesResponse = await api.get('/categories/main');
         const category = categoriesResponse.data.find(
           (cat) => slugify(cat.categoryName) === categorySlug
         );
@@ -31,21 +33,10 @@ const SubcategoryPage = () => {
         if (!category) {
           throw new Error('Ana kategori bulunamadı.');
         }
-
-        const subcategory = categoriesResponse.data.find(
-          (sub) =>
-            slugify(sub.categoryName) === subcategorySlug &&
-            sub.parentCategoryId === category.categoryId
-        );
-
-        if (!subcategory) {
-          throw new Error('Alt kategori bulunamadı.');
-        }
-
-        setSubcategoryName(subcategory.categoryName);
+        setCategory(category);
 
         const itemsResponse = await api.get(
-          `/items?subcategoryId=${subcategory.categoryId}`
+          `/items/by-category/${category.categoryId}`
         );
 
         setItems(itemsResponse.data);
@@ -58,29 +49,33 @@ const SubcategoryPage = () => {
     };
 
     fetchItems();
-  }, [categorySlug, subcategorySlug]);
+  }, [categorySlug, subcategorySlug, refecth]);
 
-  const handleAddItem = async (newItem) => {
-    try {
-      const subcategoryId = items.length ? items[0].subcategoryId : null;
-
-      if (!subcategoryId) throw new Error("Alt kategori ID'si bulunamadı.");
-
-      const formData = new FormData();
-      formData.append('subcategoryId', subcategoryId);
-      formData.append('itemName', newItem.itemName);
-      formData.append('thumbnailUrl', newItem.thumbnailUrl);
-      formData.append('file', newItem.file);
-
-      const response = await api.post('/items', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+  const handleAddItem = (newItem) => {
+    const itemToBeAdded = {
+      thumbnailFile: newItem.thumbnailFile,
+      pdfFile: newItem.pdfFile,
+    };
+    // /items?categoryId=111&itemName=Elif%20ba
+    return api
+      .post(
+        `/items?categoryId=${category.categoryId}&itemName=${newItem.itemName}`,
+        itemToBeAdded,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      )
+      .then((response) => {
+        setIsAddModalOpen(false);
+        alert('Yeni öğe başarıyla eklendi.');
+        setRefetch(!refecth);
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Yeni öğe eklenirken hata oluştu.', error);
+        alert('Öğe eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
       });
-
-      setItems((prevItems) => [...prevItems, response.data]);
-      setIsAddModalOpen(false);
-    } catch (err) {
-      console.error('Yeni öğe eklenirken hata oluştu.', err);
-    }
   };
 
   const handleEditItem = async (updatedItem) => {
@@ -130,7 +125,7 @@ const SubcategoryPage = () => {
   return (
     <div className="container mx-auto py-10 px-6">
       <SectionHeader
-        title={subcategoryName}
+        title={'Alt Kategori'}
         description="Bu alt kategorideki öğeleri yönetin veya keşfedin."
       />
 
@@ -156,11 +151,13 @@ const SubcategoryPage = () => {
           {items.map((item) => (
             <BookCard
               key={item.itemId}
+              id={item.itemId}
               title={item.itemName}
-              imageUrl={item.thumbnailUrl}
+              imageUrl={item?.thumbnailUrl || item?.thumbnail}
               link={item?.fileUrl || item.thumbnailUrl || ''}
               onDelete={() => handleDeleteItem(item)}
               onEdit={() => handleEdit(item)}
+              level={CategoryLevels.item}
             />
           ))}
         </div>
@@ -172,6 +169,7 @@ const SubcategoryPage = () => {
             isOpen={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
             onAdd={handleAddItem}
+            level={CategoryLevels.item}
           />
           {selectedItem && (
             <EditItemModal
