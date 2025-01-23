@@ -4,13 +4,19 @@ import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import api from '../api/axios.js';
 import AdminContext from '../context/AdminContext.jsx';
+import { CategoryLevels } from '../data/constants.js';
 import { getRandomColors } from './utils';
 
-const BookCard = ({ title, imageUrl, link, onDelete, onEdit, id }) => {
+const BookCard = ({ title, imageUrl, link, onDelete, onEdit, id, level }) => {
   const colors = getRandomColors();
   const { isAdmin } = useContext(AdminContext);
   let imageUrlBase64 = null;
   const [pdfUrl, setPdfUrl] = useState(null);
+
+  // level is item convert base64 to image
+  if (level === CategoryLevels.item) {
+    imageUrlBase64 = `data:image/jpeg;base64,${imageUrl}`;
+  }
 
   useEffect(() => {
     const handlePdfDownload = async () => {
@@ -35,7 +41,10 @@ const BookCard = ({ title, imageUrl, link, onDelete, onEdit, id }) => {
       }
     };
 
-    handlePdfDownload();
+    // item varsa pdf download yap
+    if (level === CategoryLevels.item) {
+      handlePdfDownload();
+    }
   }, [id]); // it
 
   return (
@@ -48,30 +57,35 @@ const BookCard = ({ title, imageUrl, link, onDelete, onEdit, id }) => {
         }}
       />
 
-      {/* Görsel */}
-      <Link
-        to={link}
-        target={link.startsWith('http') ? '_blank' : '_self'}
-        rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}
-        className="relative overflow-hidden p-4"
-      >
-        <img
-          src={imageUrlBase64 || imageUrl}
-          alt={title}
-          className="w-32 h-32 object-cover rounded-md"
-          onError={(e) => (e.target.src = '')}
-        />
-      </Link>
-
-      {pdfUrl ? (
-        <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
-          PDF Dosyasını Aç
-        </a>
+      {level === CategoryLevels.item ? (
+        <Link
+          to={pdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative overflow-hidden p-4"
+        >
+          <img
+            src={imageUrlBase64}
+            alt={title}
+            className="w-32 h-32 object-cover rounded-md"
+            onError={(e) => (e.target.src = '')}
+          />
+        </Link>
       ) : (
-        <p>PDF yükleniyor...</p>
+        <Link
+          to={link}
+          target={link.startsWith('http') ? '_blank' : '_self'}
+          rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}
+          className="relative overflow-hidden p-4"
+        >
+          <img
+            src={imageUrl}
+            alt={title}
+            className="w-32 h-32 object-cover rounded-md"
+            onError={(e) => (e.target.src = '')}
+          />
+        </Link>
       )}
-
-      {/* Başlık */}
 
       <p className="w-full p-2 text-center text-lg font-semibold text-gray-800 truncate">
         {title}
@@ -118,6 +132,7 @@ BookCard.propTypes = {
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
   id: PropTypes.number,
+  level: PropTypes.string,
 };
 
 export default BookCard;

@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { CategoryLevels } from '../data/constants';
 
-const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
+const EditItemModal = ({ isOpen, onClose, item, onSave, level }) => {
   const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   useEffect(() => {
-    if (item.title) {
-      setItemName(item.title || '');
+    if (item.title || item.itemName) {
+      setItemName(item.title || item.itemName || '');
       setThumbnailUrl(item.thumbnailUrl || '');
     }
   }, [item]);
@@ -54,15 +55,25 @@ const EditItemModal = ({ isOpen, onClose, item, onSave }) => {
               className="input input-bordered w-full bg-white text-gray-800"
             />
           </div>
-          <div>
-            <label className="block mb-1">Görsel URL</label>
-            <input
-              type="text"
-              value={thumbnailUrl}
-              onChange={(e) => setThumbnailUrl(e.target.value)}
-              className="input input-bordered w-full bg-white text-gray-800"
-            />
-          </div>
+          {level !== CategoryLevels.item ? (
+            <div>
+              <label className="block mb-1">Görsel URL</label>
+              <input
+                type="text"
+                value={thumbnailUrl}
+                onChange={(e) => setThumbnailUrl(e.target.value)}
+                className="input input-bordered w-full bg-white text-gray-800"
+              />
+            </div>
+          ) : (
+            <div>
+              <img
+                src={thumbnailUrl}
+                alt="Thumbnail"
+                className="w-full h-auto"
+              />
+            </div>
+          )}
 
           <button
             type="button"
@@ -82,6 +93,7 @@ EditItemModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   item: PropTypes.object,
   onSave: PropTypes.func.isRequired,
+  level: PropTypes.string,
 };
 
 export default EditItemModal;

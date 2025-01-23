@@ -78,43 +78,54 @@ const SubcategoryPage = () => {
       });
   };
 
-  const handleEditItem = async (updatedItem) => {
-    try {
-      const formData = new FormData();
-      formData.append('subcategoryId', updatedItem.subcategoryId);
-      formData.append('itemName', updatedItem.itemName);
-      formData.append('thumbnailUrl', updatedItem.thumbnailUrl);
-      if (updatedItem.file) {
-        formData.append('file', updatedItem.file);
-      }
+  const handleEditItem = (updatedItem) => {
+    const formData = new FormData();
+    formData.append('subcategoryId', updatedItem.subcategoryId);
+    formData.append('itemName', updatedItem.itemName);
+    formData.append('thumbnailUrl', updatedItem.thumbnailUrl);
 
-      const response = await api.put(`/items/${updatedItem.itemId}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      setItems((prevItems) =>
-        prevItems.map((item) =>
-          item.itemId === response.data.itemId ? response.data : item
-        )
-      );
-      setIsEditModalOpen(false);
-    } catch (err) {
-      console.error('Öğe düzenlenirken hata oluştu.', err);
+    if (updatedItem.file) {
+      formData.append('file', updatedItem.file);
     }
+
+    return api
+      .put(`/items/${updatedItem.itemId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then((response) => {
+        setRefetch(!refecth);
+        setIsEditModalOpen(false);
+        alert('Öğe başarıyla güncellendi.');
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Öğe düzenlenirken hata oluştu.', error);
+        alert('Öğe düzenlenirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
+      });
   };
 
-  const handleDeleteItem = async (item) => {
-    if (!window.confirm(`${item.itemName} silmek istediğinizden emin misiniz?`))
-      return;
+  const handleDeleteItem = (item) => {
+    const isConfirmed = window.confirm(
+      `${item.itemName} silmek istediğinizden emin misiniz?`
+    );
 
-    try {
-      await api.delete(`/items/${item.itemId}`);
-      setItems((prevItems) =>
-        prevItems.filter((existingItem) => existingItem.itemId !== item.itemId)
-      );
-    } catch (err) {
-      console.error('Öğe silinirken hata oluştu.', err);
+    if (!isConfirmed) {
+      return false;
     }
+
+    return api
+      .delete(`/items/${item.itemId}`)
+      .then(() => {
+        setRefetch(!refecth);
+        alert(`${item.itemName} başarıyla silindi.`);
+        return true;
+      })
+      .catch((error) => {
+        console.error('Öğe silinirken hata oluştu.', error);
+        alert('Öğe silinirken bir hata oluştu. Lütfen tekrar deneyin.');
+        throw error;
+      });
   };
 
   const handleEdit = (item) => {
@@ -177,6 +188,7 @@ const SubcategoryPage = () => {
               onClose={() => setIsEditModalOpen(false)}
               item={selectedItem}
               onSave={handleEditItem}
+              level={CategoryLevels.item}
             />
           )}
         </>
