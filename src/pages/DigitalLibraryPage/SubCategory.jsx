@@ -56,7 +56,7 @@ const SubcategoryPage = () => {
       thumbnailFile: newItem.thumbnailFile,
       pdfFile: newItem.pdfFile,
     };
-    // /items?categoryId=111&itemName=Elif%20ba
+
     return api
       .post(
         `/items?categoryId=${category.categoryId}&itemName=${newItem.itemName}`,
@@ -79,19 +79,19 @@ const SubcategoryPage = () => {
   };
 
   const handleEditItem = (updatedItem) => {
-    const formData = new FormData();
-    formData.append('subcategoryId', updatedItem.subcategoryId);
-    formData.append('itemName', updatedItem.itemName);
-    formData.append('thumbnailUrl', updatedItem.thumbnailUrl);
-
-    if (updatedItem.file) {
-      formData.append('file', updatedItem.file);
-    }
+    const itemToBeUpdated = {
+      thumbnailFile: updatedItem.thumbnail,
+      pdfFile: updatedItem.itemName,
+    };
 
     return api
-      .put(`/items/${updatedItem.itemId}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+      .put(
+        `/items?itemId=${updatedItem.itemId}&categoryId=${category.categoryId}&itemName=${updatedItem.itemName}`,
+        itemToBeUpdated,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      )
       .then((response) => {
         setRefetch(!refecth);
         setIsEditModalOpen(false);

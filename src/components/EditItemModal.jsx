@@ -1,23 +1,87 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CategoryLevels } from '../data/constants';
 
 const EditItemModal = ({ isOpen, onClose, item, onSave, level }) => {
   const [itemName, setItemName] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
+  const [showImageUpload, setShowImageUpload] = useState(false);
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (item.title || item.itemName) {
       setItemName(item.title || item.itemName || '');
-      setThumbnailUrl(item.thumbnailUrl || '');
+
+      if (level === CategoryLevels.item) {
+        const imageUrlVersion = `data:image/jpeg;base64,${item.thumbnail}`;
+        setThumbnailUrl(imageUrlVersion);
+      } else {
+        setThumbnailUrl(item.thumbnailUrl);
+      }
+
+      setShowImageUpload(false);
     }
   }, [item]);
 
   const handleSave = () => {
-    if (!itemName.trim() || !thumbnailUrl.trim()) return;
-    const updatedItem = { ...item, title: itemName, thumbnailUrl };
+    if (!itemName.trim()) return;
+    const updatedItem = {
+      ...item,
+      itemName,
+      ...(level === CategoryLevels.item && { itemName }),
+      ...(image && { thumbnail: image.binaryArray }),
+      ...(thumbnailUrl && { thumbnailUrl }),
+    };
+
     onSave(updatedItem);
+    // reset fields
+    setItemName('');
+    setThumbnailUrl('');
+    setImage(null);
+    setShowImageUpload(true);
     onClose();
+  };
+
+  const handleImageReset = () => {
+    setThumbnailUrl('');
+    setImage(null);
+    setShowImageUpload(true);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const allowedFormats = ['image/jpeg', 'image/png'];
+      if (!allowedFormats.includes(file.type)) {
+        alert('Sadece JPEG ve PNG formatları desteklenmektedir.');
+        return;
+      }
+
+      // Binary array için
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const arrayBuffer = reader.result;
+        const binaryArray = new Uint8Array(arrayBuffer);
+        const imagesData = {
+          name: file.name,
+          binaryArray: binaryArray,
+        };
+        setImage(imagesData);
+      };
+      reader.readAsArrayBuffer(file);
+
+      // Önizleme için
+      const previewReader = new FileReader();
+      previewReader.onloadend = () => {
+        setThumbnailUrl(previewReader.result);
+        setShowImageUpload(false);
+      };
+      previewReader.readAsDataURL(file);
+    }
   };
 
   if (!isOpen) return null;
@@ -66,12 +130,59 @@ const EditItemModal = ({ isOpen, onClose, item, onSave, level }) => {
               />
             </div>
           ) : (
-            <div>
-              <img
-                src={thumbnailUrl}
-                alt="Thumbnail"
-                className="w-full h-auto"
-              />
+            <div className="space-y-2">
+              {thumbnailUrl && (
+                <div className="relative">
+                  <img
+                    src={thumbnailUrl}
+                    alt="Thumbnail"
+                    className="w-full h-auto rounded-lg"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleImageReset}
+                    className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full"
+                    title="Resmi Sıfırla"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              )}
+              {showImageUpload && (
+                <div className="flex items-center justify-center w-full">
+                  <label className="w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-50">
+                    <svg
+                      className="w-8 h-8 text-blue-500"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                    </svg>
+                    <span className="mt-2 text-base leading-normal text-gray-600">
+                      Yeni Resim Seç
+                    </span>
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      ref={fileInputRef}
+                    />
+                  </label>
+                </div>
+              )}
             </div>
           )}
 
