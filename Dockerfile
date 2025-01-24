@@ -1,34 +1,25 @@
-# Development stage
-FROM node:18 as development
-
+# Stage 1: Build the React app
+FROM node:18 AS build
 WORKDIR /app
 
+# Copy package.json and package-lock.json to the container
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
+# Copy the rest of the application source code
 COPY . .
 
-EXPOSE 80
-
-CMD ["npm", "run", "dev"]
-
-# Build stage
-FROM node:18 as build
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
+# Build the Vite app (outputs to /app/dist by default)
 RUN npm run build
 
-# Production stage
-FROM nginx:1.23-alpine
+# Final stage
+FROM alpine:latest
+WORKDIR /app
 
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy built files
+COPY --from=build /app/dist /app
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Use as a simple build container
+CMD ["sh"]
