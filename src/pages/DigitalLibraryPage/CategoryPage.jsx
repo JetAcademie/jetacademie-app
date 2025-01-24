@@ -107,6 +107,7 @@ const CategoryPage = () => {
       categoryId: updatedItem.id,
       categoryName: updatedItem.title,
       parentCategoryId: itemId,
+      thumbnailUrl: updatedItem.thumbnailUrl,
     };
 
     return api

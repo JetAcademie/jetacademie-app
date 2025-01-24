@@ -94,6 +94,7 @@ const DigitalLibrary = () => {
     const updatedCategory = {
       categoryId: updatedItem.id,
       categoryName: updatedItem.title,
+      thumbnailUrl: updatedItem.thumbnailUrl,
     };
 
     return api
