@@ -12,8 +12,14 @@ const EditItemModal = ({ isOpen, onClose, item, onSave, level }) => {
   useEffect(() => {
     if (item.title || item.itemName) {
       setItemName(item.title || item.itemName || '');
-      const imageUrlVersion = `data:image/jpeg;base64,${item.thumbnail}`;
-      setThumbnailUrl(imageUrlVersion);
+
+      if (level === CategoryLevels.item) {
+        const imageUrlVersion = `data:image/jpeg;base64,${item.thumbnail}`;
+        setThumbnailUrl(imageUrlVersion);
+      } else {
+        setThumbnailUrl(item.thumbnailUrl);
+      }
+
       setShowImageUpload(false);
     }
   }, [item]);
@@ -23,7 +29,9 @@ const EditItemModal = ({ isOpen, onClose, item, onSave, level }) => {
     const updatedItem = {
       ...item,
       itemName,
+      ...(level === CategoryLevels.item && { itemName }),
       ...(image && { thumbnail: image.binaryArray }),
+      ...(thumbnailUrl && { thumbnailUrl }),
     };
 
     onSave(updatedItem);

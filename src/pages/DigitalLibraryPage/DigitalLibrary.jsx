@@ -93,7 +93,7 @@ const DigitalLibrary = () => {
   const handleEditCategoryRequest = (updatedItem) => {
     const updatedCategory = {
       categoryId: updatedItem.id,
-      categoryName: updatedItem.title,
+      categoryName: updatedItem.itemName,
       thumbnailUrl: updatedItem.thumbnailUrl,
     };
 
