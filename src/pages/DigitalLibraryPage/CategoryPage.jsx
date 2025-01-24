@@ -105,7 +105,7 @@ const CategoryPage = () => {
   const handleEditSubcategory = (updatedItem) => {
     const toBeUpdatedSubcategory = {
       categoryId: updatedItem.id,
-      categoryName: updatedItem.title,
+      categoryName: updatedItem.itemName,
       parentCategoryId: itemId,
       thumbnailUrl: updatedItem.thumbnailUrl,
     };
