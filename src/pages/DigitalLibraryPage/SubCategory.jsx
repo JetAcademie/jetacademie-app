@@ -25,7 +25,7 @@ const SubcategoryPage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const categoriesResponse = await api.get('/categories/main');
+        const categoriesResponse = await api.get('/categories');
         const category = categoriesResponse.data.find(
           (cat) => slugify(cat.categoryName) === categorySlug
         );

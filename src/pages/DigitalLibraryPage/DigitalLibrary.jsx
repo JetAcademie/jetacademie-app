@@ -22,7 +22,7 @@ const DigitalLibrary = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await api.get('/categories/main');
+        const response = await api.get('/categories');
         const mainCategories = response.data.map((category) => ({
           title: category.categoryName || 'Bilinmeyen Kategori',
           thumbnailUrl:
